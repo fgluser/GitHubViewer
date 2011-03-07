@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Hello World, StartActivity!</string>
     <string name="app_name">GitHubViewer for Android</string>
+    <string name="search_word">Search Word</string>
+    <string name="search">Search</string>
+    <string name="search_word_is_empty">Search word is empty.</string>
 </resources>
