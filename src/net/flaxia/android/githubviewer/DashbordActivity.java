@@ -1,13 +1,12 @@
 package net.flaxia.android.githubviewer;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 
-public class StartActivity extends Activity {
+public class DashbordActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        startActivity(new Intent(getApplicationContext(), DashbordActivity.class));
+        setContentView(R.layout.activity_dashbord);
     }
 }
