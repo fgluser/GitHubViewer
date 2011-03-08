@@ -25,6 +25,10 @@ public class SearchActivity extends Activity {
         System.out.println(executeSearch(q));
     }
 
+    /**
+     * 検索ボタンが押されたときの処理
+     * @param view
+     */
     public void onSearchButton(View view) {
         String q = ((EditText) findViewById(R.id.q)).getText().toString();
         if (CommonHelper.isEmpty(q)) {

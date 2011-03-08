@@ -22,7 +22,6 @@ public class DashbordActivity extends Activity {
     public void onSearchButton(View view){
         Context context = getApplicationContext();
         String q = ((EditText)findViewById(R.id.q)).getText().toString();
-        //TODO:検索ワードがブランクのみだった場合も弾く
         if(CommonHelper.isEmpty(q)){
             Toast.makeText(context, R.string.search_word_is_empty, Toast.LENGTH_LONG).show();
             return;
