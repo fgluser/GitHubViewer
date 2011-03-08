@@ -23,7 +23,7 @@ public class DashbordActivity extends Activity {
         Context context = getApplicationContext();
         String q = ((EditText)findViewById(R.id.q)).getText().toString();
         //TODO:検索ワードがブランクのみだった場合も弾く
-        if(0 == q.length()){
+        if(CommonHelper.isEmpty(q)){
             Toast.makeText(context, R.string.search_word_is_empty, Toast.LENGTH_LONG).show();
             return;
         }
