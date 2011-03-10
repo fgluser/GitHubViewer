@@ -3,7 +3,6 @@ package net.flaxia.android.githubviewer;
 import java.util.ArrayList;
 
 import org.idlesoft.libraries.ghapi.GitHubAPI;
-import org.idlesoft.libraries.ghapi.APIAbstract.Response;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

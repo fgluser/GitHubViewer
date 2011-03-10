@@ -8,7 +8,7 @@ public class CommonHelper {
      * @return
      */
     public static boolean isEmpty(String string) {
-        if (null == string || 0 == string.length() || !string.matches("\\S*")) {
+        if (null == string || !string.matches(".*\\S+.*")) {
             return true;
         }
         return false;
