@@ -33,14 +33,19 @@ public class SearchActivity extends Activity {
         String q = ((EditText) findViewById(R.id.q)).getText().toString();
         onSearch(q);
     }
-    
-    private void onSearch(String q){
+
+    private void onSearch(String q) {
         if (CommonHelper.isEmpty(q)) {
             Toast.makeText(getApplicationContext(), R.string.search_word_is_empty,
                     Toast.LENGTH_LONG).show();
             return;
         }
         String resultJson = executeSearch(q);
+        if (null != resultJson) {
+            Toast.makeText(getApplicationContext(), R.string.could_not_get_the_results,
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
         parseJson(resultJson);
     }
 
@@ -53,11 +58,7 @@ public class SearchActivity extends Activity {
     private String executeSearch(String q) {
         GitHubAPI github = new GitHubAPI();
         github.goStealth();
-        Response res = github.repo.search(q);
-        if (999 == res.statusCode) {
-            return null;
-        }
-        return res.resp;
+        return github.repo.search(q).resp;
     }
 
     /**
