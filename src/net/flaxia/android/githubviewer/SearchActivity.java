@@ -3,7 +3,6 @@ package net.flaxia.android.githubviewer;
 import java.util.ArrayList;
 
 import org.idlesoft.libraries.ghapi.GitHubAPI;
-import org.idlesoft.libraries.ghapi.APIAbstract.Response;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -58,10 +57,7 @@ public class SearchActivity extends Activity {
     private String executeSearch(String q) {
         GitHubAPI github = new GitHubAPI();
         github.goStealth();
-        Response res = github.repo.search(q);
-        System.out.println(res.url);
-        
-        return res.resp;
+        return github.repo.search(q).resp;
     }
 
     /**
