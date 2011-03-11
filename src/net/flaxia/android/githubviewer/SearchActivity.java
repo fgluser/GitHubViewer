@@ -1,6 +1,7 @@
 package net.flaxia.android.githubviewer;
 
 import org.idlesoft.libraries.ghapi.GitHubAPI;
+import org.idlesoft.libraries.ghapi.APIAbstract.Response;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class SearchActivity extends Activity {
+    private static final String TAG = SearchActivity.class.getSimpleName();
     public static final String Q = "q";
 
     public void onCreate(Bundle savedInstanceState) {
@@ -55,7 +57,9 @@ public class SearchActivity extends Activity {
     private String executeSearch(String q) {
         GitHubAPI github = new GitHubAPI();
         github.goStealth();
-        return github.repo.search(q).resp;
+        Response response = github.repo.search(q);
+        Log.d(TAG, response.url);
+        return response.resp;
     }
 
     /**
