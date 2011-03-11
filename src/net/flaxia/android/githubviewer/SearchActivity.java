@@ -10,6 +10,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 
 public class SearchActivity extends Activity {
@@ -18,7 +19,7 @@ public class SearchActivity extends Activity {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dashbord);
+        setContentView(R.layout.activity_search);
 
         onSearch(getIntent().getExtras().getString(Q));
     }
@@ -45,7 +46,11 @@ public class SearchActivity extends Activity {
                     Toast.LENGTH_SHORT).show();
             return;
         }
-        parseJson(resultJson);
+        ListView listView = (ListView) findViewById(R.id.repositorie);
+        RepositorieAdapter adapter = new RepositorieAdapter(this,
+                android.R.layout.simple_expandable_list_item_2, parseJson(resultJson));
+        listView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 
     /**
