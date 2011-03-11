@@ -40,7 +40,7 @@ public class SearchActivity extends Activity {
             return;
         }
         String resultJson = executeSearch(q);
-        if (null != resultJson) {
+        if (null == resultJson) {
             Toast.makeText(getApplicationContext(), R.string.could_not_get_the_results,
                     Toast.LENGTH_SHORT).show();
             return;
