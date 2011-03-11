@@ -1,7 +1,5 @@
 package net.flaxia.android.githubviewer;
 
-import java.util.ArrayList;
-
 import org.idlesoft.libraries.ghapi.GitHubAPI;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -65,17 +63,18 @@ public class SearchActivity extends Activity {
      * @param json
      * @return
      */
-    private ArrayList<Repositorie> parseJson(String json) {
-        ArrayList<Repositorie> repositories = new ArrayList<Repositorie>();
+    private Repositorie[] parseJson(String json) {
         try {
             JSONArray jsons = (JSONArray) new JSONObject(json).getJSONArray("repositories");
-            for (int i = 0; i < jsons.length(); i++) {
-                repositories.add(new Repositorie(jsons.getJSONObject(i)));
+            int size = jsons.length();
+            Repositorie[] repositories = new Repositorie[size];
+            for (int i = 0; i < size; i++) {
+                repositories[i] = new Repositorie(jsons.getJSONObject(i));
             }
+            return repositories;
         } catch (JSONException e) {
             e.printStackTrace();
             return null;
         }
-        return repositories;
     }
 }
