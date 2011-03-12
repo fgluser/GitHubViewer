@@ -27,12 +27,12 @@ public class BlobsActivity extends Activity {
         mRepositorie = (Repositorie) getIntent().getExtras().getSerializable(REPOSITORIE);
         Response response = executeListBlobs(mRepositorie.get("owner"), mRepositorie.get("name"),
                 "master");
-        Log.d(TAG, response.resp);
+        LogEx.d(TAG, response.resp);
         TreeMap<String, String> treeMap = parseJson(response.resp);
 
         for (Iterator<?> iterator = treeMap.keySet().iterator(); iterator.hasNext();) {
             String key = (String) iterator.next();
-            Log.d(TAG, key + ", "+ treeMap.get(key));
+            LogEx.d(TAG, key + ", "+ treeMap.get(key));
         }
     }
 
@@ -44,7 +44,7 @@ public class BlobsActivity extends Activity {
 
     private TreeMap<String, String> parseJson(String json) {
         TreeMap<String, String> treeMap = new TreeMap<String, String>();
-        Log.d(TAG, json);
+        LogEx.d(TAG, json);
         try {
             JSONObject jsonObject = new JSONObject(json).getJSONObject("blobs");
             for (Iterator<?> iterator = jsonObject.keys(); iterator.hasNext();) {

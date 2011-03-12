@@ -1,6 +1,6 @@
 package net.flaxia.android.githubviewer;
 
-public class Log {
+public class LogEx {
     public static void d(String tag, String msg) {
         if (Configuration.getInstance().isDebuggable) {
             android.util.Log.d(tag, msg);

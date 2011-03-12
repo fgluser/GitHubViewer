@@ -73,10 +73,10 @@ public class SearchActivity extends Activity {
             return;
         }
         Repositorie[] repositories = parseJson(resultJson);
-        Log.d(TAG, "取得したリポジトリ数: " + repositories.length);
+        LogEx.d(TAG, "取得したリポジトリ数: " + repositories.length);
         mListView.setAdapter(new RepositorieAdapter(this, android.R.layout.simple_list_item_2,
                 repositories));
-        Log.d(TAG, mListView.getCount());
+        LogEx.d(TAG, mListView.getCount());
     }
 
     /**
@@ -89,7 +89,7 @@ public class SearchActivity extends Activity {
         GitHubAPI github = new GitHubAPI();
         github.goStealth();
         Response response = github.repo.search(q);
-        Log.d(TAG, response.url);
+        LogEx.d(TAG, response.url);
         return response.resp;
     }
 
