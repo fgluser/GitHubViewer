@@ -55,8 +55,10 @@ public class BlobsActivity extends Activity {
      * 
      * @param parent
      * @param key
-     * @param value ハッシュ値
-     * @param level 階層の深さ
+     * @param value
+     *            ハッシュ値
+     * @param level
+     *            階層の深さ
      */
     private void makeTree(Tree parent, String key, String value, int level) {
         if (-1 == key.indexOf("/")) {
@@ -75,6 +77,7 @@ public class BlobsActivity extends Activity {
 
     /**
      * 実際にAPIを叩く
+     * 
      * @param owner
      * @param name
      * @param treeSha
@@ -83,11 +86,13 @@ public class BlobsActivity extends Activity {
     private Response executeListBlobs(String owner, String name, String treeSha) {
         GitHubAPI ghapi = new GitHubAPI();
         ghapi.goStealth();
+        // TODO: ブランチをmasterに固定しているのは改めたい
         return ghapi.object.list_blobs(owner, name, "master");
     }
 
     /**
-     * JsonをパースしてMapに入れる
+     * JSONをパースしてMapに入れる
+     * 
      * @param json
      * @return
      */
