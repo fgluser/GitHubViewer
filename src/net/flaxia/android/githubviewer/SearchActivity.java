@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -17,11 +18,25 @@ public class SearchActivity extends Activity {
     private static final String TAG = SearchActivity.class.getSimpleName();
     public static final String Q = "q";
 
+    private ListView mListView;
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
+        initListView();
         onSearch(getIntent().getExtras().getString(Q));
+    }
+
+    private void initListView() {
+        mListView = (ListView) findViewById(R.id.repositorie);
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d(TAG, position);
+            }
+        });
     }
 
     /**
@@ -46,11 +61,10 @@ public class SearchActivity extends Activity {
                     Toast.LENGTH_SHORT).show();
             return;
         }
-        ListView listView = (ListView) findViewById(R.id.repositorie);
-        RepositorieAdapter adapter = new RepositorieAdapter(this,
-                android.R.layout.simple_expandable_list_item_2, parseJson(resultJson));
-        listView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+        Repositorie[] repositories = parseJson(resultJson);
+        Log.d(TAG, "取得したリポジトリ数: " + repositories.length);
+        mListView.setAdapter(new RepositorieAdapter(this, android.R.layout.simple_list_item_2, repositories));
+        Log.d(TAG, mListView.getCount());
     }
 
     /**
