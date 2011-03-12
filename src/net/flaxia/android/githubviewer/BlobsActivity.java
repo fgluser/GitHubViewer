@@ -62,7 +62,7 @@ public class BlobsActivity extends Activity {
      */
     private void makeTree(Tree parent, String key, String value, int level) {
         if (-1 == key.indexOf("/")) {
-            parent.putBlob(key, value);
+            parent.addBlob(new KeyValuePair(key, value));
         } else {
             String childKey = key.substring(0, key.indexOf("/") + 1);
             Tree tree = parent.getTree(childKey);

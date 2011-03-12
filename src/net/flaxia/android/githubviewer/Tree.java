@@ -1,31 +1,24 @@
 package net.flaxia.android.githubviewer;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeMap;
 
 public class Tree {
     private TreeMap<String, Tree> mChildTree;
-    private TreeMap<String, String> mChildBlob;
+    private ArrayList<KeyValuePair> mChildBlob;
 
     public Tree() {
         mChildTree = new TreeMap<String, Tree>();
-        mChildBlob = new TreeMap<String, String>();
-    }
-
-    public Iterator<String> getBlobIterator() {
-        return mChildBlob.keySet().iterator();
+        mChildBlob = new ArrayList<KeyValuePair>();
     }
 
     public Iterator<String> getTreeIterator() {
         return mChildTree.keySet().iterator();
     }
 
-    public String getBlob(String key) {
-        return mChildBlob.get(key);
-    }
-
-    public void putBlob(String key, String value) {
-        mChildBlob.put(key, value);
+    public void addBlob(KeyValuePair kvp) {
+        mChildBlob.add(kvp);
     }
 
     public Tree getTree(String key) {
