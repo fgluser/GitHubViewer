@@ -28,4 +28,8 @@ public class Tree {
     public void putTree(String key, Tree value) {
         mChildTree.put(key, value);
     }
+
+    public KeyValuePair[] getBlobArray() {
+        return mChildBlob.toArray(new KeyValuePair[0]);
+    }
 }

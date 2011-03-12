@@ -16,8 +16,8 @@ public class RepositorieAdapter extends ArrayAdapter<Repositorie> {
         mRepositories = repositories;
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
-    
-    public Repositorie getRepositorie(int index){
+
+    public Repositorie getRepositorie(int index) {
         return mRepositories[index];
     }
 
@@ -26,11 +26,8 @@ public class RepositorieAdapter extends ArrayAdapter<Repositorie> {
         View view = (null == convertView) ? mInflater.inflate(android.R.layout.simple_list_item_2,
                 null) : convertView;
         Repositorie repositorie = mRepositories[position];
-        if (null != repositorie) {
-            ((TextView) view.findViewById(android.R.id.text1)).setText(repositorie.get("name"));
-            ((TextView) view.findViewById(android.R.id.text2)).setText(repositorie
-                    .get("description"));
-        }
+        ((TextView) view.findViewById(android.R.id.text1)).setText(repositorie.get("name"));
+        ((TextView) view.findViewById(android.R.id.text2)).setText(repositorie.get("description"));
         return view;
     }
 }
