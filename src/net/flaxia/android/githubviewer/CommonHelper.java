@@ -21,4 +21,12 @@ public class CommonHelper {
         }
         return sb.toString();
     }
+    
+    public static int continuousCount(String str, char c){
+        int level = 0;
+        while (str.charAt(level) == '*') {
+            level++;
+        }
+        return level;
+    }
 }
