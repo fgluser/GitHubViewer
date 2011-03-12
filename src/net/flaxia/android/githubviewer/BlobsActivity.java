@@ -17,19 +17,19 @@ public class BlobsActivity extends Activity {
     public static final String REPOSITORIE = "repositorie";
     private static final String TAG = BlobsActivity.class.getSimpleName();
     private Repositorie mRepositorie;
-    ArrayAdapter<String> adapter;
+    ArrayAdapter<String> mAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_blobs);
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item);
-        adapter.add("/");
+        mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item);
+        mAdapter.add("/");
         setup();
     }
 
     private void setup() {
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mRepositorie = (Repositorie) getIntent().getExtras().getSerializable(REPOSITORIE);
         Response response = executeListBlobs(mRepositorie.get("owner"), mRepositorie.get("name"),
                 "master");
@@ -45,7 +45,7 @@ public class BlobsActivity extends Activity {
         }
 
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
-        spinner.setAdapter(adapter);
+        spinner.setAdapter(mAdapter);
     }
 
     private void makeTree(Tree parent, String key, String value, int level) {
@@ -57,7 +57,7 @@ public class BlobsActivity extends Activity {
             if (null == tree) {
                 tree = new Tree();
                 parent.putTree(childKey, tree);
-                adapter.add(CommonHelper.multiply("*", level) + childKey);
+                mAdapter.add(CommonHelper.multiply("*", level) + childKey);
             }
             makeTree(tree, key.substring(key.indexOf("/") + 1), value, ++level);
         }
