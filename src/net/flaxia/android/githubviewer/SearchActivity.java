@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager.LayoutParams;
@@ -38,7 +39,10 @@ public class SearchActivity extends Activity {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d(TAG, position);
+                Repositorie repositorie = ((RepositorieAdapter) ((ListView) parent).getAdapter())
+                        .getRepositorie(position);
+                startActivity(new Intent(getApplicationContext(), BlobsActivity.class).putExtra(
+                        BlobsActivity.REPOSITORIE, repositorie));
             }
         });
     }

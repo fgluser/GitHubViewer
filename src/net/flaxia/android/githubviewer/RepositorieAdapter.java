@@ -16,6 +16,10 @@ public class RepositorieAdapter extends ArrayAdapter<Repositorie> {
         mRepositories = repositories;
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
+    
+    public Repositorie getRepositorie(int index){
+        return mRepositories[index];
+    }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
