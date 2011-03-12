@@ -12,6 +12,7 @@ public class StartActivity extends Activity {
         super.onCreate(savedInstanceState);
         Configuration.getInstance().isDebuggable = isDebuggable();
         startActivity(new Intent(getApplicationContext(), DashbordActivity.class));
+        finish();
     }
 
     private boolean isDebuggable() {
