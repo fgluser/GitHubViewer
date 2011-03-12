@@ -7,8 +7,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager.LayoutParams;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -22,6 +25,7 @@ public class SearchActivity extends Activity {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setSoftInputMode(LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         setContentView(R.layout.activity_search);
 
         initListView();
@@ -45,6 +49,9 @@ public class SearchActivity extends Activity {
      * @param view
      */
     public void onSearchButton(View view) {
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+
         String q = ((EditText) findViewById(R.id.q)).getText().toString();
         onSearch(q);
     }
@@ -63,7 +70,8 @@ public class SearchActivity extends Activity {
         }
         Repositorie[] repositories = parseJson(resultJson);
         Log.d(TAG, "取得したリポジトリ数: " + repositories.length);
-        mListView.setAdapter(new RepositorieAdapter(this, android.R.layout.simple_list_item_2, repositories));
+        mListView.setAdapter(new RepositorieAdapter(this, android.R.layout.simple_list_item_2,
+                repositories));
         Log.d(TAG, mListView.getCount());
     }
 
