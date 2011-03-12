@@ -17,14 +17,14 @@ public class BlobsActivity extends Activity {
     public static final String REPOSITORIE = "repositorie";
     private static final String TAG = BlobsActivity.class.getSimpleName();
     private Repositorie mRepositorie;
-    ArrayAdapter<String> mAdapter;
+    ArrayAdapter<String> mSpinnerAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_blobs);
-        mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item);
-        mAdapter.add("/");
+        mSpinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item);
+        mSpinnerAdapter.add("/");
         setup();
     }
 
@@ -32,7 +32,7 @@ public class BlobsActivity extends Activity {
      * Activityの初期化
      */
     private void setup() {
-        mAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mRepositorie = (Repositorie) getIntent().getExtras().getSerializable(REPOSITORIE);
         Response response = executeListBlobs(mRepositorie.get("owner"), mRepositorie.get("name"),
                 "master");
@@ -48,7 +48,7 @@ public class BlobsActivity extends Activity {
         }
 
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
-        spinner.setAdapter(mAdapter);
+        spinner.setAdapter(mSpinnerAdapter);
     }
 
     /**
@@ -69,7 +69,7 @@ public class BlobsActivity extends Activity {
             if (null == tree) {
                 tree = new Tree();
                 parent.putTree(childKey, tree);
-                mAdapter.add(CommonHelper.multiply("*", level) + childKey);
+                mSpinnerAdapter.add(CommonHelper.multiply("*", level) + childKey);
             }
             makeTree(tree, key.substring(key.indexOf("/") + 1), value, ++level);
         }
