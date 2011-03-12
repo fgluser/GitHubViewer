@@ -23,15 +23,15 @@ public class BlobsActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_blobs);
-        mSpinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item);
-        mSpinnerAdapter.add("/");
-        setup();
+        initSpinner();
     }
 
     /**
-     * Activityの初期化
+     * Spinnerの初期化
      */
-    private void setup() {
+    private void initSpinner() {
+        mSpinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item);
+        mSpinnerAdapter.add("/");
         mSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mRepositorie = (Repositorie) getIntent().getExtras().getSerializable(REPOSITORIE);
         Response response = executeListBlobs(mRepositorie.get("owner"), mRepositorie.get("name"),
