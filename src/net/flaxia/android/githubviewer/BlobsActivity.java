@@ -28,6 +28,9 @@ public class BlobsActivity extends Activity {
         setup();
     }
 
+    /**
+     * Activityの初期化
+     */
     private void setup() {
         mAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mRepositorie = (Repositorie) getIntent().getExtras().getSerializable(REPOSITORIE);
@@ -48,6 +51,13 @@ public class BlobsActivity extends Activity {
         spinner.setAdapter(mAdapter);
     }
 
+    /**
+     * 
+     * @param parent
+     * @param key
+     * @param value ハッシュ値
+     * @param level 階層の深さ
+     */
     private void makeTree(Tree parent, String key, String value, int level) {
         if (-1 == key.indexOf("/")) {
             parent.putBlob(key, value);
@@ -63,12 +73,24 @@ public class BlobsActivity extends Activity {
         }
     }
 
+    /**
+     * 実際にAPIを叩く
+     * @param owner
+     * @param name
+     * @param treeSha
+     * @return
+     */
     private Response executeListBlobs(String owner, String name, String treeSha) {
         GitHubAPI ghapi = new GitHubAPI();
         ghapi.goStealth();
         return ghapi.object.list_blobs(owner, name, "master");
     }
 
+    /**
+     * JsonをパースしてMapに入れる
+     * @param json
+     * @return
+     */
     private TreeMap<String, String> parseJson(String json) {
         TreeMap<String, String> treeMap = new TreeMap<String, String>();
         try {
