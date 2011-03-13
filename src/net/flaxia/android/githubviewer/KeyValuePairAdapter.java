@@ -12,10 +12,12 @@ import android.widget.TextView;
 public class KeyValuePairAdapter extends ArrayAdapter<KeyValuePair> {
     private ArrayList<KeyValuePair> mKeyValuePairs;
     private LayoutInflater mInflater;
+    private int mLayout;
 
     public KeyValuePairAdapter(Context context, int textViewResourceId,
             ArrayList<KeyValuePair> keyValuePairs) {
         super(context, textViewResourceId, keyValuePairs);
+        mLayout = textViewResourceId;
         mKeyValuePairs = keyValuePairs;
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -26,8 +28,7 @@ public class KeyValuePairAdapter extends ArrayAdapter<KeyValuePair> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View view = (null == convertView) ? mInflater.inflate(android.R.layout.simple_list_item_1,
-                null) : convertView;
+        View view = (null == convertView) ? mInflater.inflate(mLayout, null) : convertView;
         ((TextView) view.findViewById(android.R.id.text1)).setText(mKeyValuePairs.get(position)
                 .getKey());
         return view;

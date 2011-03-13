@@ -8,6 +8,10 @@ public class KeyValuePair {
         setKey(key);
         setValue(value);
     }
+    
+    public KeyValuePair(String key, int value) {
+        this(key, String.valueOf(value));
+    }
 
     public void setKey(String key) {
         mKey = key;
@@ -16,6 +20,10 @@ public class KeyValuePair {
     public void setValue(String value) {
         mValue = value;
     }
+    
+    public void setValue(int value) {
+        setValue(String.valueOf(value));
+    }
 
     public String getKey() {
         return mKey;
@@ -23,5 +31,10 @@ public class KeyValuePair {
 
     public String getValue() {
         return mValue;
+    }
+    
+    @Override
+    public String toString(){
+        return mKey;
     }
 }
