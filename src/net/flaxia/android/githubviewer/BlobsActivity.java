@@ -3,6 +3,9 @@ package net.flaxia.android.githubviewer;
 import java.util.Iterator;
 import java.util.TreeMap;
 
+import net.flaxia.android.githubviewer.util.CommonHelper;
+import net.flaxia.android.githubviewer.util.LogEx;
+
 import org.idlesoft.libraries.ghapi.GitHubAPI;
 import org.idlesoft.libraries.ghapi.APIAbstract.Response;
 import org.json.JSONException;
