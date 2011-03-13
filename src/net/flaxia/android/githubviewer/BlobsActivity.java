@@ -86,14 +86,11 @@ public class BlobsActivity extends Activity {
         if (0 == level) {
             return mTree;
         } else {
-            position--;
             while (level != CommonHelper.continuousCount(key, '*')) {
-                key = mSpinnerAdapter.getItem(position);
-                position--;
+                key = mSpinnerAdapter.getItem(--position);
             }
-            Tree tree = searchTree(level - 1, position);
-            LogEx.d(TAG, "KEY: " + key.replaceFirst(CommonHelper.multiply("\\*", level), ""));
-            return tree.getTree(key.replaceFirst(CommonHelper.multiply("\\*", level), ""));
+            return searchTree(level - 1, position - 1).getTree(
+                    key.replaceFirst(CommonHelper.multiply("\\*", level), ""));
         }
     }
 
