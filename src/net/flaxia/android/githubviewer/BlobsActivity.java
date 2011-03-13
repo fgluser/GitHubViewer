@@ -73,7 +73,7 @@ public class BlobsActivity extends Activity {
                 Tree tree = searchTree(level, position);
                 KeyValuePair[] keyValuePairs = tree.getBlobArray();
                 LogEx.d(TAG, keyValuePairs[0].getKey());
-                mListView.setAdapter(new ListBlobsAdapter(getApplicationContext(),
+                mListView.setAdapter(new KeyValuePairAdapter(getApplicationContext(),
                         android.R.layout.simple_list_item_1, tree.getBlobArray()));
             }
 

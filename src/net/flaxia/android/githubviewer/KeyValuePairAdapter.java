@@ -7,11 +7,11 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class ListBlobsAdapter extends ArrayAdapter<KeyValuePair> {
+public class KeyValuePairAdapter extends ArrayAdapter<KeyValuePair> {
     private KeyValuePair[] mKeyValuePairs;
     private LayoutInflater mInflater;
 
-    public ListBlobsAdapter(Context context, int textViewResourceId, KeyValuePair[] keyValuePairs) {
+    public KeyValuePairAdapter(Context context, int textViewResourceId, KeyValuePair[] keyValuePairs) {
         super(context, textViewResourceId, keyValuePairs);
         mKeyValuePairs = keyValuePairs;
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
