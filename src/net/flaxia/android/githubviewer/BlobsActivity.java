@@ -24,7 +24,7 @@ public class BlobsActivity extends Activity {
     public static final String REPOSITORIE = "repositorie";
     private static final String TAG = BlobsActivity.class.getSimpleName();
     private Repositorie mRepositorie;
-    ArrayAdapter<String> mSpinnerAdapter;
+    private ArrayAdapter<String> mSpinnerAdapter;
     private Tree mTree;
     private ListView mListView;
 
