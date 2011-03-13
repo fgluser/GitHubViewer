@@ -29,7 +29,7 @@ public class Tree {
         mChildTree.put(key, value);
     }
 
-    public KeyValuePair[] getBlobArray() {
-        return mChildBlob.toArray(new KeyValuePair[0]);
+    public ArrayList<KeyValuePair> getBlobList() {
+        return mChildBlob;
     }
 }

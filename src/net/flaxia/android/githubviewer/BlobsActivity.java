@@ -71,10 +71,8 @@ public class BlobsActivity extends Activity {
                 int level = CommonHelper.continuousCount(str, '*');
                 LogEx.d(TAG, "lv :" + level + ", p: " + position);
                 Tree tree = searchTree(level, position);
-                KeyValuePair[] keyValuePairs = tree.getBlobArray();
-                LogEx.d(TAG, keyValuePairs[0].getKey());
                 mListView.setAdapter(new KeyValuePairAdapter(getApplicationContext(),
-                        android.R.layout.simple_list_item_1, tree.getBlobArray()));
+                        android.R.layout.simple_list_item_1, tree.getBlobList()));
             }
 
             @Override
@@ -94,7 +92,7 @@ public class BlobsActivity extends Activity {
                 position--;
             }
             Tree tree = searchTree(level - 1, position);
-            LogEx.d(TAG, "KEY: "+key.replaceFirst(CommonHelper.multiply("\\*", level), ""));
+            LogEx.d(TAG, "KEY: " + key.replaceFirst(CommonHelper.multiply("\\*", level), ""));
             return tree.getTree(key.replaceFirst(CommonHelper.multiply("\\*", level), ""));
         }
     }
