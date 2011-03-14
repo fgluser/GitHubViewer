@@ -28,12 +28,27 @@ public class TreeAdapter extends KeyValuePairAdapter {
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
         View view = super.getDropDownView(position, convertView, parent);
         int level = Integer.parseInt(mKeyValuePairs.get(position).getValue());
-        String html = "";
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < level; i++) {
+            for (int j = position + 1, size = mKeyValuePairs.size(); j < size; j++) {
+                int value = Integer.parseInt(mKeyValuePairs.get(j).getValue());
+                if (value == i) {
+                    sb.append("<img src=\"dir_i\">");
+                    break;
+                }
+                if (value < i) {
+                    sb.append("<img src=\"dir_blank\">");
+                    break;
+                }
+            }
+        }
+
         boolean flag = true;
         for (int i = position + 1, size = mKeyValuePairs.size(); i < size; i++) {
             int value = Integer.parseInt(mKeyValuePairs.get(i).getValue());
             if (value == level) {
-                html = "<img src=\"dir_t\">";
+                sb.append("<img src=\"dir_t\">");
                 flag = false;
                 break;
             } else if (value < level) {
@@ -41,23 +56,10 @@ public class TreeAdapter extends KeyValuePairAdapter {
             }
         }
         if (flag && 0 != level) {
-            html = "<img src=\"dir_l\">";
+            sb.append("<img src=\"dir_l\">");
         }
 
-        for (int i = level - 1; 0 < i; i--) {
-            for (int j = position + 1, size = mKeyValuePairs.size(); j < size; j++) {
-                int value = Integer.parseInt(mKeyValuePairs.get(j).getValue());
-                if (value == i) {
-                    html = "<img src=\"dir_i\">" + html;
-                    break;
-                }
-                if (value < i) {
-                    html = "<img src=\"dir_blank\">" + html;
-                    break;
-                }
-            }
-        }
-        ((TextView) view.findViewById(android.R.id.text1)).setText(Html.fromHtml(html
+        ((TextView) view.findViewById(android.R.id.text1)).setText(Html.fromHtml(sb.toString()
                 + mKeyValuePairs.get(position).getKey(), IconCache.getInstance(), null));
 
         return view;
