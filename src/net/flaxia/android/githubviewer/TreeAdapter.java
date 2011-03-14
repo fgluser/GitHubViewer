@@ -29,10 +29,49 @@ public class TreeAdapter extends KeyValuePairAdapter {
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
         View view = super.getDropDownView(position, convertView, parent);
-        ((TextView) view.findViewById(android.R.id.text1)).setText(Html.fromHtml(CommonHelper
-                .multiply("<img src=\"dir_blank\">", Integer.parseInt(mKeyValuePairs.get(position)
-                        .getValue()))
-                + mKeyValuePairs.get(position).getKey(), IconCache.getInstance(), null));
+        int level = Integer.parseInt(mKeyValuePairs.get(position).getValue());
+        if (level == 0) {
+            ((TextView) view.findViewById(android.R.id.text1)).setText(mKeyValuePairs.get(position)
+                    .getKey());
+        } else {
+            String html = "";
+            boolean flag = false;
+            int i = position + 1;
+            while (i < mKeyValuePairs.size()) {
+                int value = Integer.parseInt(mKeyValuePairs.get(i).getValue());
+                if (value == level) {
+                    html = "<img src=\"dir_t\">";
+                    flag = true;
+                    break;
+                }
+                if (value < level) {
+                    break;
+                }
+                i++;
+            }
+            if (!flag) {
+                html = "<img src=\"dir_l\">";
+            }
+            int downLevel = level - 1;
+            while (0 != downLevel) {
+                int k = position + 1;
+                while (k < mKeyValuePairs.size()) {
+                    int value = Integer.parseInt(mKeyValuePairs.get(k).getValue());
+                    if (value == downLevel) {
+                        html = "<img src=\"dir_i\">" + html;
+                        break;
+                    }
+                    if (value < downLevel) {
+                        html = "<img src=\"dir_blank\">" + html;
+                        break;
+                    }
+                    k++;
+                }
+                downLevel--;
+            }
+            ((TextView) view.findViewById(android.R.id.text1)).setText(Html.fromHtml(html
+                    + mKeyValuePairs.get(position).getKey(), IconCache.getInstance(), null));
+        }
         return view;
     }
 }
