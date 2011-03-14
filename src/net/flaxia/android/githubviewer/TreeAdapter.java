@@ -30,17 +30,24 @@ public class TreeAdapter extends KeyValuePairAdapter {
         int level = Integer.parseInt(mKeyValuePairs.get(position).getValue());
         StringBuilder sb = new StringBuilder();
 
-        for (int i = 0; i < level; i++) {
+
+        for (int i = 1; i < level; i++) {
+            boolean flag = true;
             for (int j = position + 1, size = mKeyValuePairs.size(); j < size; j++) {
                 int value = Integer.parseInt(mKeyValuePairs.get(j).getValue());
                 if (value == i) {
                     sb.append("<img src=\"dir_i\">");
+                    flag = false;
                     break;
                 }
                 if (value < i) {
                     sb.append("<img src=\"dir_blank\">");
+                    flag = false;
                     break;
                 }
+            }
+            if(flag){
+                sb.append("<img src=\"dir_blank\">");
             }
         }
 
