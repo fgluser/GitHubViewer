@@ -2,7 +2,9 @@ package net.flaxia.android.githubviewer;
 
 import java.util.ArrayList;
 
+import net.flaxia.android.githubviewer.util.IconCache;
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,9 +12,9 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 public class KeyValuePairAdapter extends ArrayAdapter<KeyValuePair> {
-    private ArrayList<KeyValuePair> mKeyValuePairs;
-    private LayoutInflater mInflater;
-    private int mLayout;
+    protected ArrayList<KeyValuePair> mKeyValuePairs;
+    protected LayoutInflater mInflater;
+    protected int mLayout;
 
     public KeyValuePairAdapter(Context context, int textViewResourceId,
             ArrayList<KeyValuePair> keyValuePairs) {
@@ -29,8 +31,8 @@ public class KeyValuePairAdapter extends ArrayAdapter<KeyValuePair> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = (null == convertView) ? mInflater.inflate(mLayout, null) : convertView;
-        ((TextView) view.findViewById(android.R.id.text1)).setText(mKeyValuePairs.get(position)
-                .getKey());
+        ((TextView) view.findViewById(android.R.id.text1)).setText(Html.fromHtml(mKeyValuePairs
+                .get(position).getKey(), IconCache.getInstance(), null));
         return view;
     }
 }

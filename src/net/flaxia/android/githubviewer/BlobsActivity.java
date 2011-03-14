@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeMap;
 
-import net.flaxia.android.githubviewer.util.CommonHelper;
 import net.flaxia.android.githubviewer.util.LogEx;
 
 import org.idlesoft.libraries.ghapi.GitHubAPI;
@@ -23,7 +22,7 @@ public class BlobsActivity extends Activity {
     public static final String REPOSITORIE = "repositorie";
     private static final String TAG = BlobsActivity.class.getSimpleName();
     private Repositorie mRepositorie;
-    private KeyValuePairAdapter mSpinnerAdapter;
+    private TreeAdapter mSpinnerAdapter;
     private Tree mTree;
     private ListView mListView;
 
@@ -43,10 +42,10 @@ public class BlobsActivity extends Activity {
      * Spinnerの初期化
      */
     private void initSpinner() {
-        mSpinnerAdapter = new KeyValuePairAdapter(this, android.R.layout.simple_spinner_item,
+        mSpinnerAdapter = new TreeAdapter(this, android.R.layout.simple_spinner_item,
                 new ArrayList<KeyValuePair>());
         mSpinnerAdapter.add(new KeyValuePair("/", 0));
-        mSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         mRepositorie = (Repositorie) getIntent().getExtras().getSerializable(REPOSITORIE);
         Response response = executeListBlobs(mRepositorie.get("owner"), mRepositorie.get("name"),
                 "master");
@@ -68,8 +67,8 @@ public class BlobsActivity extends Activity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Spinner spinner = (Spinner) parent;
-                String str = ((KeyValuePair) spinner.getItemAtPosition(position)).getKey();
-                int level = CommonHelper.continuousCount(str, '*');
+                int level = Integer.parseInt(((KeyValuePair) spinner.getItemAtPosition(position))
+                        .getValue());
                 Tree tree = searchTree(level, position);
                 mListView.setAdapter(new KeyValuePairAdapter(getApplicationContext(),
                         android.R.layout.simple_list_item_1, tree.getBlobList()));
@@ -89,8 +88,7 @@ public class BlobsActivity extends Activity {
             while (level != Integer.parseInt(mSpinnerAdapter.getItem(position).getValue())) {
                 key = mSpinnerAdapter.getItem(--position).getKey();
             }
-            return searchTree(level - 1, position - 1).getTree(
-                    key.replaceFirst(CommonHelper.multiply("\\*", level), ""));
+            return searchTree(level - 1, position - 1).getTree(key);
         }
     }
 
@@ -112,8 +110,7 @@ public class BlobsActivity extends Activity {
             if (null == tree) {
                 tree = new Tree();
                 parent.putTree(childKey, tree);
-                mSpinnerAdapter.add(new KeyValuePair(CommonHelper.multiply("*", level) + childKey,
-                        level));
+                mSpinnerAdapter.add(new KeyValuePair(childKey, level));
             }
             makeTree(tree, key.substring(key.indexOf("/") + 1), value, ++level);
         }
