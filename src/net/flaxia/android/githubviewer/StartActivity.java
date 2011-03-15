@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.res.Resources;
 import android.os.Bundle;
 
 public class StartActivity extends Activity {
@@ -22,10 +23,12 @@ public class StartActivity extends Activity {
      */
     private void initIcons() {
         IconCache iconCache = IconCache.getInstance();
-        iconCache.putDrawable("dir_blank", getResources().getDrawable(R.drawable.dir_blank));
-        iconCache.putDrawable("dir_i", getResources().getDrawable(R.drawable.dir_i));
-        iconCache.putDrawable("dir_l", getResources().getDrawable(R.drawable.dir_l));
-        iconCache.putDrawable("dir_t", getResources().getDrawable(R.drawable.dir_t));
+        Resources resources = getResources();
+        iconCache.putDrawable("dir_blank", resources.getDrawable(R.drawable.dir_blank));
+        iconCache.putDrawable("dir_i", resources.getDrawable(R.drawable.dir_i));
+        iconCache.putDrawable("dir_l", resources.getDrawable(R.drawable.dir_l));
+        iconCache.putDrawable("dir_t", resources.getDrawable(R.drawable.dir_t));
+        iconCache.putDrawable("dir", resources.getDrawable(R.drawable.dir));
     }
 
     /**

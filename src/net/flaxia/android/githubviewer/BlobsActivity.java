@@ -105,7 +105,7 @@ public class BlobsActivity extends Activity {
         if (-1 == key.indexOf("/")) {
             parent.addBlob(new KeyValuePair(key, value));
         } else {
-            String childKey = key.substring(0, key.indexOf("/") + 1);
+            String childKey = key.substring(0, key.indexOf("/"));
             Tree tree = parent.getTree(childKey);
             if (null == tree) {
                 tree = new Tree();

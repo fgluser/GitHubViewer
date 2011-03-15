@@ -1,4 +1,9 @@
 Copyright 2011 Naruse Motoki
-Licensed under the New BSD License.
+Licensed under the GPL.
 
-This software uses the ghapi.
+This software uses the following libraries and icons.
+* ghapi
+    https://github.com/eddieringle/ghapi
+
+* Open Icon Library
+    http://openiconlibrary.sourceforge.net/

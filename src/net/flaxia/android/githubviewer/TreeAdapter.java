@@ -30,7 +30,6 @@ public class TreeAdapter extends KeyValuePairAdapter {
         int level = Integer.parseInt(mKeyValuePairs.get(position).getValue());
         StringBuilder sb = new StringBuilder();
 
-
         for (int i = 1; i < level; i++) {
             boolean flag = true;
             for (int j = position + 1, size = mKeyValuePairs.size(); j < size; j++) {
@@ -65,7 +64,8 @@ public class TreeAdapter extends KeyValuePairAdapter {
         if (flag && 0 != level) {
             sb.append("<img src=\"dir_l\">");
         }
-
+        
+        sb.append("<img src=\"dir\"> ");
         ((TextView) view.findViewById(android.R.id.text1)).setText(Html.fromHtml(sb.toString()
                 + mKeyValuePairs.get(position).getKey(), IconCache.getInstance(), null));
 
