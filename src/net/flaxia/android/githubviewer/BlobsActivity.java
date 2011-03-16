@@ -12,6 +12,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -30,6 +31,7 @@ public class BlobsActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_blobs);
+        mRepositorie = (Repositorie) getIntent().getExtras().getSerializable(REPOSITORIE);
         initListView();
         initSpinner();
     }
@@ -39,8 +41,11 @@ public class BlobsActivity extends Activity {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ListView listView = (ListView) parent;
-                System.out.println(((KeyValuePair) listView.getItemAtPosition(position)).getValue());
+                Intent intent = new Intent(getApplicationContext(), CodeViewActivity.class);
+                intent.putExtra("name", mRepositorie.get("name"));
+                intent.putExtra("owner", mRepositorie.get("owner"));
+                intent.putExtra("sha", ((KeyValuePair) ((ListView) parent).getItemAtPosition(position)).getValue());
+                startActivity(intent);
             }
         });
     }
@@ -53,7 +58,6 @@ public class BlobsActivity extends Activity {
                 new ArrayList<KeyValuePair>());
         mSpinnerAdapter.add(new KeyValuePair("/", 0));
         mSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
-        mRepositorie = (Repositorie) getIntent().getExtras().getSerializable(REPOSITORIE);
         Response response = executeListBlobs(mRepositorie.get("owner"), mRepositorie.get("name"),
                 "master");
         LogEx.d(TAG, response.resp);
