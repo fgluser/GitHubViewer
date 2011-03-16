@@ -36,6 +36,13 @@ public class BlobsActivity extends Activity {
 
     private void initListView() {
         mListView = (ListView) findViewById(R.id.listView);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ListView listView = (ListView) parent;
+                System.out.println(((KeyValuePair) listView.getItemAtPosition(position)).getValue());
+            }
+        });
     }
 
     /**
