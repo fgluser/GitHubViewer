@@ -22,8 +22,9 @@ public class IconCache implements android.text.Html.ImageGetter {
     @Override
     public Drawable getDrawable(String source) {
         Drawable drawable = mDrawableHashMap.get(source);
-        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
-
+        if (null != drawable) {
+            drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+        }
         return drawable;
     }
 

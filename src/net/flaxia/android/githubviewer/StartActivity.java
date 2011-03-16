@@ -29,10 +29,18 @@ public class StartActivity extends Activity {
         iconCache.putDrawable("dir_l", resources.getDrawable(R.drawable.dir_l));
         iconCache.putDrawable("dir_t", resources.getDrawable(R.drawable.dir_t));
         iconCache.putDrawable("dir", resources.getDrawable(R.drawable.dir));
+
+        iconCache.putDrawable("type_java", resources.getDrawable(R.drawable.type_java));
+        iconCache.putDrawable("type_php", resources.getDrawable(R.drawable.type_php));
+        iconCache.putDrawable("type_py", resources.getDrawable(R.drawable.type_py));
+        iconCache.putDrawable("type_txt", resources.getDrawable(R.drawable.type_txt));
+        iconCache.putDrawable("type_unknown", resources.getDrawable(R.drawable.type_unknown));
+        iconCache.putDrawable("type_xml", resources.getDrawable(R.drawable.type_xml));
     }
 
     /**
      * AndroidManifestのデバッグの設定を返す
+     * 
      * @return
      */
     private boolean isDebuggable() {

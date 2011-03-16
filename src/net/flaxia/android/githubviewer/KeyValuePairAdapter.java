@@ -2,9 +2,10 @@ package net.flaxia.android.githubviewer;
 
 import java.util.ArrayList;
 
+import net.flaxia.android.githubviewer.util.CommonHelper;
 import net.flaxia.android.githubviewer.util.IconCache;
 import android.content.Context;
-import android.text.Html;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,8 +32,18 @@ public class KeyValuePairAdapter extends ArrayAdapter<KeyValuePair> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = (null == convertView) ? mInflater.inflate(mLayout, null) : convertView;
-        ((TextView) view.findViewById(android.R.id.text1)).setText(Html.fromHtml(mKeyValuePairs
-                .get(position).getKey(), IconCache.getInstance(), null));
+        String fileName = mKeyValuePairs.get(position).getKey();
+        TextView textView = (TextView) view.findViewById(android.R.id.text1);
+
+        textView.setText(fileName);
+
+        Drawable drawable = IconCache.getInstance().getDrawable(
+                "type_" + CommonHelper.getSuffix(fileName));
+        if(null == drawable){
+            drawable = IconCache.getInstance().getDrawable("type_unknown");
+        }
+        textView.setCompoundDrawables(drawable, null, null, null);
+        
         return view;
     }
 }

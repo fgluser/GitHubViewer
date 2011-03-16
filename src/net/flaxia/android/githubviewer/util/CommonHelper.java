@@ -21,12 +21,28 @@ public class CommonHelper {
         }
         return sb.toString();
     }
-    
-    public static int continuousCount(String str, char c){
+
+    public static int continuousCount(String str, char c) {
         int level = 0;
         while (str.charAt(level) == '*') {
             level++;
         }
         return level;
+    }
+
+    /**
+     * 拡張子を返す
+     * @param fileName
+     * @return
+     */
+    public static String getSuffix(String fileName) {
+        if (null == fileName || 0 == fileName.length())
+            return null;
+        
+        int point = fileName.lastIndexOf(".");
+        if (point != -1) {
+            return fileName.substring(point + 1);
+        }
+        return fileName;
     }
 }
