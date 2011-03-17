@@ -1,5 +1,11 @@
 package net.flaxia.android.githubviewer;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+import net.flaxia.android.githubviewer.util.CommonHelper;
+
 import org.idlesoft.libraries.ghapi.GitHubAPI;
 
 import android.app.Activity;
@@ -12,26 +18,48 @@ public class CodeViewActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_code_view);
-        GitHubAPI ghapi = new GitHubAPI();
-        Bundle extras = getIntent().getExtras();
         WebView webView = (WebView) findViewById(R.id.webview);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebChromeClient(new WebChromeClient());
-        webView.loadDataWithBaseURL("about:blank", head()
-                + ghapi.object.raw(extras.getString("owner"), extras.getString("name"), extras
-                        .getString("sha")).resp + foot(), "text/html", "utf-8", null);
-        System.out.println(webView.toString());
+        GitHubAPI ghapi = new GitHubAPI();
+        Bundle extras = getIntent().getExtras();
+        String source = ghapi.object.raw(extras.getString("owner"), extras.getString("name"),
+                extras.getString("sha")).resp;
+        String html;
+        BufferedReader br = null;
+        StringBuilder sb = new StringBuilder();
+        try {
+            try {
+                br = new BufferedReader(new InputStreamReader(getResources().getAssets().open(
+                        "html")));
+                String str;
+                while ((str = br.readLine()) != null) {
+                    sb.append(str + "\n");
+                }
+            } finally {
+                if (br != null)
+                    br.close();
+            }
+            html = sb.toString();
+        } catch (IOException e) {
+            html = null;
+        }
+        if (null == source || null == html) {
+            html = getResources().getString(R.string.failed_to_retrieve_the_information);
+        } else {
+            String fileName = extras.getString("fileName");
+            html = html.replaceFirst("@title", fileName);
+            String suffix = CommonHelper.getSuffix(fileName);
+            if (null == suffix) {
+                suffix = "plain";
+            }
+            
+            html = html.replaceFirst("@js", CommonHelper.getLanguageName(suffix));
+            html = html.replaceFirst("@lang", suffix);
+            html = html.replaceFirst("@body", source);
+        }
+        webView.loadDataWithBaseURL("about:blank", html, "text/html", "utf-8", null);
     }
+    
 
-    public String head() {
-        return "<script type=\"text/javascript\" src=\"file:///android_asset/scripts/shCore.js\"></script>"
-                + "<script type=\"text/javascript\" src=\"file:///android_asset/scripts/shBrushPython.js\"></script>"
-                + "<link href=\"file:///android_asset/styles/shCore.css\" rel=\"stylesheet\" type=\"text/css\" />"
-                + "<link href=\"file:///android_asset/styles/shThemeDefault.css\" rel=\"stylesheet\" type=\"text/css\" />"
-                + "<pre class=\"brush: python\">";
-    }
-
-    public String foot() {
-        return "</pre><script type=\"text/javascript\">SyntaxHighlighter.all()</script>";
-    }
 }

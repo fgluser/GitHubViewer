@@ -32,17 +32,34 @@ public class CommonHelper {
 
     /**
      * 拡張子を返す
+     * 
      * @param fileName
      * @return
      */
     public static String getSuffix(String fileName) {
         if (null == fileName || 0 == fileName.length())
             return null;
-        
+
         int point = fileName.lastIndexOf(".");
         if (point != -1) {
             return fileName.substring(point + 1);
         }
         return fileName;
+    }
+
+    public static String ucFirst(String str) {
+        return (null == str) ? null : str.substring(0, 1).toUpperCase()
+                + str.substring(1).toLowerCase();
+    }
+    
+    public static String getLanguageName(String suffix){
+        String languageName = "Plain";
+        if(suffix.equals("py")){
+            languageName = "Python";
+        }else if(suffix.equals("java")){
+            languageName = "Java";
+        }
+        
+        return languageName;
     }
 }

@@ -41,10 +41,13 @@ public class BlobsActivity extends Activity {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                KeyValuePair keyValuePair = (KeyValuePair) ((ListView) parent)
+                        .getItemAtPosition(position);
                 Intent intent = new Intent(getApplicationContext(), CodeViewActivity.class);
                 intent.putExtra("name", mRepositorie.get("name"));
                 intent.putExtra("owner", mRepositorie.get("owner"));
-                intent.putExtra("sha", ((KeyValuePair) ((ListView) parent).getItemAtPosition(position)).getValue());
+                intent.putExtra("sha", keyValuePair.getValue());
+                intent.putExtra("fileName", keyValuePair.getKey());
                 startActivity(intent);
             }
         });
