@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="wrap_content" android:layout_width="fill_parent">
-    <EditText android:layout_height="wrap_content"
+    android:layout_height="wrap_content" android:layout_width="fill_parent"
+    android:gravity="center_vertical">
+    <EditText android:layout_height="fill_parent"
         android:layout_width="wrap_content" android:id="@+id/q"
-        android:hint="@string/search_word" android:layout_weight="1" android:singleLine="true"/>
-    <Button android:text="@string/search" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" android:onClick="onSearchButton" />
+        android:hint="@string/search_word" android:layout_weight="1"
+        android:singleLine="true" />
+    <ImageButton android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:onClick="onSearchButton"
+        android:src="@drawable/search" android:layout_marginLeft="5px"
+        android:layout_marginRight="5px" />
 </LinearLayout>
