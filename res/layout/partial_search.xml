@@ -3,7 +3,7 @@
     android:layout_height="wrap_content" android:layout_width="fill_parent">
     <EditText android:layout_height="wrap_content"
         android:layout_width="wrap_content" android:id="@+id/q"
-        android:hint="@string/search_word" android:layout_weight="1" />
+        android:hint="@string/search_word" android:layout_weight="1" android:singleLine="true"/>
     <Button android:text="@string/search" android:layout_width="wrap_content"
         android:layout_height="wrap_content" android:onClick="onSearchButton" />
 </LinearLayout>
