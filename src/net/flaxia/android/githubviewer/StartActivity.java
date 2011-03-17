@@ -31,9 +31,18 @@ public class StartActivity extends Activity {
         iconCache.putDrawable("dir_t", resources.getDrawable(R.drawable.dir_t));
         iconCache.putDrawable("dir", resources.getDrawable(R.drawable.dir));
 
+        iconCache.putDrawable("type_c", resources.getDrawable(R.drawable.type_c));
+        iconCache.putDrawable("type_cpp", resources.getDrawable(R.drawable.type_cpp));
+        iconCache.putDrawable("type_css", resources.getDrawable(R.drawable.type_css));
+        iconCache.putDrawable("type_h", resources.getDrawable(R.drawable.type_h));
+        iconCache.putDrawable("type_htm", resources.getDrawable(R.drawable.type_htm));
+        iconCache.putDrawable("type_html", resources.getDrawable(R.drawable.type_html));
         iconCache.putDrawable("type_java", resources.getDrawable(R.drawable.type_java));
+        iconCache.putDrawable("type_js", resources.getDrawable(R.drawable.type_js));
         iconCache.putDrawable("type_php", resources.getDrawable(R.drawable.type_php));
+        iconCache.putDrawable("type_pl", resources.getDrawable(R.drawable.type_pl));
         iconCache.putDrawable("type_py", resources.getDrawable(R.drawable.type_py));
+        iconCache.putDrawable("type_rb", resources.getDrawable(R.drawable.type_rb));
         iconCache.putDrawable("type_txt", resources.getDrawable(R.drawable.type_txt));
         iconCache.putDrawable("type_unknown", resources.getDrawable(R.drawable.type_unknown));
         iconCache.putDrawable("type_xml", resources.getDrawable(R.drawable.type_xml));
