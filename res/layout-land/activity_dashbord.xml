@@ -6,35 +6,9 @@
     <LinearLayout android:orientation="horizontal"
         android:layout_width="fill_parent" android:layout_height="fill_parent"
         android:gravity="center_vertical">
-        <LinearLayout android:orientation="horizontal"
-            android:layout_width="fill_parent" android:layout_height="wrap_content"
-            android:layout_weight="1" android:gravity="center">
-            <Button android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableTop="@drawable/bookmark" android:text="@string/bookmark" />
-        </LinearLayout>
-        <LinearLayout android:orientation="horizontal"
-            android:layout_width="fill_parent" android:layout_height="wrap_content"
-            android:gravity="center" android:layout_weight="1">
-            <Button android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableTop="@drawable/local_drive"
-                android:text="@string/local_drive" />
-        </LinearLayout>
-        <LinearLayout android:orientation="horizontal"
-            android:layout_width="fill_parent" android:layout_height="wrap_content"
-            android:layout_weight="1" android:gravity="center">
-            <Button android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableTop="@drawable/configure" android:text="@string/configure" />
-        </LinearLayout>
-        <LinearLayout android:orientation="horizontal"
-            android:layout_width="fill_parent" android:layout_height="wrap_content"
-            android:gravity="center" android:layout_weight="1">
-            <Button android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableTop="@drawable/information"
-                android:text="@string/information" android:onClick="onInformationButton" />
-        </LinearLayout>
+        <include layout="@layout/partial_bookmark" />
+        <include layout="@layout/partial_local_drive" />
+        <include layout="@layout/partial_configure" />
+        <include layout="@layout/partial_information" />
     </LinearLayout>
 </LinearLayout>
