@@ -32,4 +32,8 @@ public class DashbordActivity extends Activity {
         intent.putExtra(SearchActivity.Q, q);
         startActivity(intent);
     }
+
+    public void onInformationButton(View view) {
+        startActivity(new Intent(getApplicationContext(), InformationActivity.class));
+    }
 }

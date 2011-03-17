@@ -38,7 +38,7 @@
             <Button android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableTop="@drawable/information"
-                android:text="@string/information" />
+                android:text="@string/information" android:onClick="onInformationButton" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
