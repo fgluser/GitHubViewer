@@ -5,7 +5,7 @@
     <include layout="@layout/partial_search" />
     <LinearLayout android:orientation="horizontal"
         android:layout_width="fill_parent" android:layout_height="wrap_content"
-        android:paddingTop="30dip">
+        android:layout_weight="1" android:gravity="center_vertical">
         <LinearLayout android:orientation="horizontal"
             android:layout_width="fill_parent" android:layout_height="wrap_content"
             android:layout_weight="1" android:gravity="center">
@@ -24,7 +24,7 @@
     </LinearLayout>
     <LinearLayout android:orientation="horizontal"
         android:layout_width="fill_parent" android:layout_height="wrap_content"
-        android:paddingTop="20dip">
+        android:layout_weight="1">
         <LinearLayout android:orientation="horizontal"
             android:layout_width="fill_parent" android:layout_height="wrap_content"
             android:layout_weight="1" android:gravity="center">
