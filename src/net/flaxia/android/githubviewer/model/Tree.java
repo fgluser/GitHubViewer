@@ -1,8 +1,9 @@
-package net.flaxia.android.githubviewer;
+package net.flaxia.android.githubviewer.model;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeMap;
+
 
 public class Tree {
     private TreeMap<String, Tree> mChildTree;

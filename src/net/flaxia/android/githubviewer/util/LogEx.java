@@ -1,6 +1,5 @@
 package net.flaxia.android.githubviewer.util;
 
-import net.flaxia.android.githubviewer.Configuration;
 
 public class LogEx {
     public static void d(String tag, String msg) {

@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeMap;
 
+import net.flaxia.android.githubviewer.adapter.KeyValuePairAdapter;
+import net.flaxia.android.githubviewer.adapter.TreeAdapter;
+import net.flaxia.android.githubviewer.model.KeyValuePair;
+import net.flaxia.android.githubviewer.model.Repositorie;
+import net.flaxia.android.githubviewer.model.Tree;
 import net.flaxia.android.githubviewer.util.LogEx;
 
 import org.idlesoft.libraries.ghapi.GitHubAPI;

@@ -1,5 +1,7 @@
 package net.flaxia.android.githubviewer;
 
+import net.flaxia.android.githubviewer.adapter.RepositorieAdapter;
+import net.flaxia.android.githubviewer.model.Repositorie;
 import net.flaxia.android.githubviewer.util.CommonHelper;
 import net.flaxia.android.githubviewer.util.LogEx;
 

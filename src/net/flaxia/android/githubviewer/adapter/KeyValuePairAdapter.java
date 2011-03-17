@@ -1,7 +1,8 @@
-package net.flaxia.android.githubviewer;
+package net.flaxia.android.githubviewer.adapter;
 
 import java.util.ArrayList;
 
+import net.flaxia.android.githubviewer.model.KeyValuePair;
 import net.flaxia.android.githubviewer.util.CommonHelper;
 import net.flaxia.android.githubviewer.util.IconCache;
 import android.content.Context;

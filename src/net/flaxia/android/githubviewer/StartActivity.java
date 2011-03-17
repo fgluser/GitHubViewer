@@ -1,5 +1,6 @@
 package net.flaxia.android.githubviewer;
 
+import net.flaxia.android.githubviewer.util.Configuration;
 import net.flaxia.android.githubviewer.util.IconCache;
 import android.app.Activity;
 import android.content.Intent;

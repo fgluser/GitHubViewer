@@ -1,4 +1,4 @@
-package net.flaxia.android.githubviewer;
+package net.flaxia.android.githubviewer.model;
 
 import java.io.Serializable;
 import java.util.HashMap;

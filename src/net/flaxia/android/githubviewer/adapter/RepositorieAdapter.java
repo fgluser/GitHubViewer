@@ -1,5 +1,6 @@
-package net.flaxia.android.githubviewer;
+package net.flaxia.android.githubviewer.adapter;
 
+import net.flaxia.android.githubviewer.model.Repositorie;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
