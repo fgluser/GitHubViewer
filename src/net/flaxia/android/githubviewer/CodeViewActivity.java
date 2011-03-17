@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import net.flaxia.android.githubviewer.util.CommonHelper;
+
 import org.idlesoft.libraries.ghapi.GitHubAPI;
 
 import android.app.Activity;
@@ -47,7 +49,7 @@ public class CodeViewActivity extends Activity {
             html = getResources().getString(R.string.failed_to_retrieve_the_information);
         } else {
             html = html.replaceFirst("@title", extras.getString("fileName"));
-            html = html.replaceFirst("@source", source);
+            html = html.replaceFirst("@source", CommonHelper.escapeSign(source));
         }
         webView.loadDataWithBaseURL("about:blank", html, "text/html", "utf-8", null);
     }

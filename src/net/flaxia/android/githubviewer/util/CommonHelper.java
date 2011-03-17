@@ -30,4 +30,8 @@ public class CommonHelper {
         }
         return fileName;
     }
+    
+    public static String escapeSign(String source){
+        return source.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+    }
 }
