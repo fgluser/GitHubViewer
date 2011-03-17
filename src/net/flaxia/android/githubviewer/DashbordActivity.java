@@ -15,15 +15,16 @@ public class DashbordActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashbord);
     }
-    
+
     /**
      * 検索ボタンを押したときの処理
+     * 
      * @param view
      */
-    public void onSearchButton(View view){
+    public void onSearchButton(View view) {
         Context context = getApplicationContext();
-        String q = ((EditText)findViewById(R.id.q)).getText().toString();
-        if(CommonHelper.isEmpty(q)){
+        String q = ((EditText) findViewById(R.id.q)).getText().toString();
+        if (CommonHelper.isEmpty(q)) {
             Toast.makeText(context, R.string.search_word_is_empty, Toast.LENGTH_LONG).show();
             return;
         }
