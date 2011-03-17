@@ -4,8 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import net.flaxia.android.githubviewer.util.CommonHelper;
-
 import org.idlesoft.libraries.ghapi.GitHubAPI;
 
 import android.app.Activity;
@@ -21,6 +19,7 @@ public class CodeViewActivity extends Activity {
         WebView webView = (WebView) findViewById(R.id.webview);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebChromeClient(new WebChromeClient());
+        webView.getSettings().setBuiltInZoomControls(true);
         GitHubAPI ghapi = new GitHubAPI();
         Bundle extras = getIntent().getExtras();
         String source = ghapi.object.raw(extras.getString("owner"), extras.getString("name"),
@@ -47,19 +46,9 @@ public class CodeViewActivity extends Activity {
         if (null == source || null == html) {
             html = getResources().getString(R.string.failed_to_retrieve_the_information);
         } else {
-            String fileName = extras.getString("fileName");
-            html = html.replaceFirst("@title", fileName);
-            String suffix = CommonHelper.getSuffix(fileName);
-            if (null == suffix) {
-                suffix = "plain";
-            }
-            
-            html = html.replaceFirst("@js", CommonHelper.getBrushName(suffix));
-            html = html.replaceFirst("@lang", CommonHelper.getLanguageName(suffix));
-            html = html.replaceFirst("@body", source);
+            html = html.replaceFirst("@title", extras.getString("fileName"));
+            html = html.replaceFirst("@source", source);
         }
         webView.loadDataWithBaseURL("about:blank", html, "text/html", "utf-8", null);
     }
-    
-
 }
