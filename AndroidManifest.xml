@@ -16,6 +16,7 @@
             android:label="@string/app_name" />
         <activity android:name=".SearchActivity" android:label="@string/app_name" />
         <activity android:name=".BlobsActivity" android:label="@string/app_name" />
-        <activity android:name=".CodeViewActivity" android:label="@string/app_name" />
+        <activity android:name=".CodeViewActivity"
+            android:label="@string/app_name" android:theme="@android:style/Theme.Black.NoTitleBar" />
     </application>
 </manifest>
