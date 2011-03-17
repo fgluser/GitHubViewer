@@ -54,8 +54,8 @@ public class CodeViewActivity extends Activity {
                 suffix = "plain";
             }
             
-            html = html.replaceFirst("@js", CommonHelper.getLanguageName(suffix));
-            html = html.replaceFirst("@lang", suffix);
+            html = html.replaceFirst("@js", CommonHelper.getBrushName(suffix));
+            html = html.replaceFirst("@lang", CommonHelper.getLanguageName(suffix));
             html = html.replaceFirst("@body", source);
         }
         webView.loadDataWithBaseURL("about:blank", html, "text/html", "utf-8", null);

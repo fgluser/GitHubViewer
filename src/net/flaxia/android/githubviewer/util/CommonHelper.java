@@ -51,15 +51,26 @@ public class CommonHelper {
         return (null == str) ? null : str.substring(0, 1).toUpperCase()
                 + str.substring(1).toLowerCase();
     }
-    
-    public static String getLanguageName(String suffix){
-        String languageName = "Plain";
-        if(suffix.equals("py")){
-            languageName = "Python";
-        }else if(suffix.equals("java")){
-            languageName = "Java";
+
+    public static String getLanguageName(String suffix) {
+        String languageName = "plain";
+        if (suffix.equals("py")) {
+            languageName = "python";
+        } else if (suffix.equals("java")) {
+            languageName = "java";
         }
-        
+
         return languageName;
+    }
+
+    public static String getBrushName(String suffix) {
+        String brushName = "Plain";
+        if (suffix.equals("py")) {
+            brushName = "Python";
+        } else if (suffix.equals("java")) {
+            brushName = "Java";
+        }
+
+        return brushName;
     }
 }
