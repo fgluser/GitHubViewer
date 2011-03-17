@@ -2,8 +2,11 @@
 <resources>
     <string name="app_name">GitHubViewer for Android</string>
     <string name="search_word">Search Word</string>
-    <string name="search">Search</string>
     <string name="search_word_is_empty">Search word is empty.</string>
     <string name="could_not_get_the_results">Could not get the results.</string>
     <string name="failed_to_retrieve_the_information">Failed to retrieve the information.</string>
+    <string name="bookmark">Bookmark</string>
+    <string name="configure">Configure</string>
+    <string name="information">Information</string>
+    <string name="local_drive">Local Drive</string>
 </resources>
