@@ -31,8 +31,10 @@ public class SearchActivity extends BaseAsyncActivity {
         super.onCreate(savedInstanceState);
         getWindow().setSoftInputMode(LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         setContentView(R.layout.activity_search);
+        String q = getIntent().getExtras().getString(Q);
+        ((EditText) findViewById(R.id.q)).setText(q);
         initListView();
-        doAsyncTask(getIntent().getExtras().getString(Q));
+        doAsyncTask(q);
     }
 
     private void initListView() {
