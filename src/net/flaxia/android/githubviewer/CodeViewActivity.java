@@ -74,13 +74,13 @@ public class CodeViewActivity extends Activity {
             try {
                 br = new BufferedReader(new InputStreamReader(getResources().getAssets().open(
                         "html")));
-                String str;
-                while ((str = br.readLine()) != null) {
+                for (String str = br.readLine(); null != str; str = br.readLine()) {
                     sb.append(str + "\n");
                 }
             } finally {
-                if (br != null)
+                if (null != br) {
                     br.close();
+                }
             }
             html = sb.toString();
         } catch (IOException e) {
