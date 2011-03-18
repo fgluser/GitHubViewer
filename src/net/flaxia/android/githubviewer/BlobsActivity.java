@@ -16,34 +16,38 @@ import org.idlesoft.libraries.ghapi.APIAbstract.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
-public class BlobsActivity extends Activity {
+public class BlobsActivity extends BaseAsyncActivity {
     public static final String REPOSITORIE = "repositorie";
     private static final String TAG = BlobsActivity.class.getSimpleName();
     private Repositorie mRepositorie;
     private TreeAdapter mSpinnerAdapter;
     private Tree mTree;
     private ListView mListView;
-    protected Handler mHandler;
-    protected LoadingDialog mLoadingDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_blobs);
-        mHandler = new Handler();
-        mLoadingDialog = new LoadingDialog(this);
         mRepositorie = (Repositorie) getIntent().getExtras().getSerializable(REPOSITORIE);
+        initSpinnerAdapter();
+        doAsyncTask(mRepositorie.get("owner"), mRepositorie.get("name"), "master");
         initListView();
         initSpinner();
+    }
+
+    private void initSpinnerAdapter() {
+        mSpinnerAdapter = new TreeAdapter(BlobsActivity.this, android.R.layout.simple_spinner_item,
+                new ArrayList<KeyValuePair>());
+        mSpinnerAdapter.add(new KeyValuePair("/", 0));
+        mSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
     }
 
     private void initListView() {
@@ -63,42 +67,43 @@ public class BlobsActivity extends Activity {
         });
     }
 
-    private void task() {
-        new Thread(new Runnable() {
-            public void run() {
-                mSpinnerAdapter = new TreeAdapter(BlobsActivity.this,
-                        android.R.layout.simple_spinner_item, new ArrayList<KeyValuePair>());
-                mSpinnerAdapter.add(new KeyValuePair("/", 0));
-                mSpinnerAdapter
-                        .setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
-                Response response = executeListBlobs(mRepositorie.get("owner"), mRepositorie
-                        .get("name"), "master");
-                LogEx.d(TAG, response.resp);
-                TreeMap<String, String> treeMap = parseJson(response.resp);
+    protected void executeAsyncTask(final String... parameters) {
+        Response response = executeListBlobs(parameters[0], parameters[1], parameters[2]);
+        LogEx.d(TAG, response.resp);
+        TreeMap<String, String> treeMap = parseJson(response.resp);
 
-                mTree = new Tree();
-
-                for (Iterator<?> iterator = treeMap.keySet().iterator(); iterator.hasNext();) {
-                    String key = (String) iterator.next();
-                    LogEx.d(TAG, key + ", " + treeMap.get(key));
-                    makeTree(mTree, key, treeMap.get(key), 1);
+        if (null == treeMap) {
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    mLoadingDialog.dismiss();
+                    Toast.makeText(getApplicationContext(), R.string.could_not_get_the_results,
+                            Toast.LENGTH_SHORT).show();
                 }
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        mLoadingDialog.dismiss();
-                        ((Spinner) findViewById(R.id.spinner)).setAdapter(mSpinnerAdapter);
-                    }
-                });
+            });
+            return;
+        }
+
+        mTree = new Tree();
+        for (Iterator<?> iterator = treeMap.keySet().iterator(); iterator.hasNext();) {
+            String key = (String) iterator.next();
+            LogEx.d(TAG, key + ", " + treeMap.get(key));
+            makeTree(mTree, key, treeMap.get(key), 1);
+        }
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                mLoadingDialog.dismiss();
+                ((Spinner) findViewById(R.id.spinner)).setAdapter(mSpinnerAdapter);
             }
-        }).start();
+        });
+
     }
 
     /**
      * Spinnerの初期化
      */
     private void initSpinner() {
-        task();
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
         spinner.setPrompt("Tree List");
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -166,7 +171,7 @@ public class BlobsActivity extends Activity {
         GitHubAPI ghapi = new GitHubAPI();
         ghapi.goStealth();
         // TODO: ブランチをmasterに固定しているのは改めたい
-        return ghapi.object.list_blobs(owner, name, "master");
+        return ghapi.object.list_blobs(owner, name, treeSha);
     }
 
     /**
@@ -185,6 +190,7 @@ public class BlobsActivity extends Activity {
             }
         } catch (JSONException e) {
             e.printStackTrace();
+            return null;
         }
         return treeMap;
     }

@@ -2,7 +2,6 @@ package net.flaxia.android.githubviewer;
 
 import net.flaxia.android.githubviewer.adapter.RepositorieAdapter;
 import net.flaxia.android.githubviewer.model.Repositorie;
-import net.flaxia.android.githubviewer.util.CommonHelper;
 import net.flaxia.android.githubviewer.util.LogEx;
 
 import org.idlesoft.libraries.ghapi.GitHubAPI;
@@ -11,11 +10,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.view.WindowManager.LayoutParams;
 import android.view.inputmethod.InputMethodManager;
@@ -24,22 +21,18 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class SearchActivity extends Activity {
+public class SearchActivity extends BaseAsyncActivity {
     private static final String TAG = SearchActivity.class.getSimpleName();
     public static final String Q = "q";
 
-    protected Handler mHandler;
-    protected LoadingDialog mLoadingDialog;
     private ListView mListView;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setSoftInputMode(LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         setContentView(R.layout.activity_search);
-        mHandler = new Handler();
-        mLoadingDialog = new LoadingDialog(this);
         initListView();
-        onSearch(getIntent().getExtras().getString(Q));
+        doAsyncTask(getIntent().getExtras().getString(Q));
     }
 
     private void initListView() {
@@ -66,64 +59,34 @@ public class SearchActivity extends Activity {
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
 
         String q = ((EditText) findViewById(R.id.q)).getText().toString();
-        onSearch(q);
+        doAsyncTask(q);
     }
 
-    private void onSearch(final String q) {
-        if (CommonHelper.isEmpty(q)) {
-            Toast.makeText(getApplicationContext(), R.string.search_word_is_empty,
-                    Toast.LENGTH_LONG).show();
-            mLoadingDialog.dismiss();
-            return;
-        }
-        new Thread(new Runnable() {
-            public void run() {
-                String resultJson = executeSearch(q);
-                if (null == resultJson) {
-                    mHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(getApplicationContext(),
-                                    R.string.could_not_get_the_results, Toast.LENGTH_SHORT).show();
-                            mLoadingDialog.dismiss();
-                        }
-                    });
-                    return;
+    @Override
+    protected void executeAsyncTask(String... parameters) {
+        String resultJson = executeSearch(parameters[0]);
+        final Repositorie[] repositories = (null == resultJson) ? null : parseJson(resultJson);
+        Runnable runnable;
+        if (null == repositories) {
+            runnable = new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getApplicationContext(), R.string.could_not_get_the_results,
+                            Toast.LENGTH_SHORT).show();
+                    dismissDialog();
                 }
-                final Repositorie[] repositories = parseJson(resultJson);
-                if (null == repositories) {
-                    mHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(getApplicationContext(),
-                                    R.string.could_not_get_the_results, Toast.LENGTH_SHORT).show();
-                            mLoadingDialog.dismiss();
-                        }
-                    });
-                    return;
+            };
+        } else {
+            runnable = new Runnable() {
+                @Override
+                public void run() {
+                    dismissDialog();
+                    mListView.setAdapter(new RepositorieAdapter(SearchActivity.this,
+                            android.R.layout.simple_list_item_2, repositories));
                 }
-                LogEx.d(TAG, "取得したリポジトリ数: " + repositories.length);
-                LogEx.d(TAG, mListView.getCount());
-
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (mLoadingDialog.isShowing()) {
-                            mLoadingDialog.dismiss();
-                        }
-                        mListView.setAdapter(new RepositorieAdapter(SearchActivity.this,
-                                android.R.layout.simple_list_item_2, repositories));
-                    }
-                });
-            }
-        }).start();
-    }
-    
-    public void onStop(){
-        super.onStop();
-        if(null != mLoadingDialog && mLoadingDialog.isShowing()){
-            mLoadingDialog.dismiss();
+            };
         }
+        mHandler.post(runnable);
     }
 
     /**
