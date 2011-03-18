@@ -19,6 +19,7 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -31,11 +32,15 @@ public class BlobsActivity extends Activity {
     private TreeAdapter mSpinnerAdapter;
     private Tree mTree;
     private ListView mListView;
+    protected Handler mHandler;
+    protected LoadingDialog mLoadingDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_blobs);
+        mHandler = new Handler();
+        mLoadingDialog = new LoadingDialog(this);
         mRepositorie = (Repositorie) getIntent().getExtras().getSerializable(REPOSITORIE);
         initListView();
         initSpinner();
@@ -58,30 +63,44 @@ public class BlobsActivity extends Activity {
         });
     }
 
+    private void task() {
+        new Thread(new Runnable() {
+            public void run() {
+                mSpinnerAdapter = new TreeAdapter(BlobsActivity.this,
+                        android.R.layout.simple_spinner_item, new ArrayList<KeyValuePair>());
+                mSpinnerAdapter.add(new KeyValuePair("/", 0));
+                mSpinnerAdapter
+                        .setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+                Response response = executeListBlobs(mRepositorie.get("owner"), mRepositorie
+                        .get("name"), "master");
+                LogEx.d(TAG, response.resp);
+                TreeMap<String, String> treeMap = parseJson(response.resp);
+
+                mTree = new Tree();
+
+                for (Iterator<?> iterator = treeMap.keySet().iterator(); iterator.hasNext();) {
+                    String key = (String) iterator.next();
+                    LogEx.d(TAG, key + ", " + treeMap.get(key));
+                    makeTree(mTree, key, treeMap.get(key), 1);
+                }
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mLoadingDialog.dismiss();
+                        ((Spinner) findViewById(R.id.spinner)).setAdapter(mSpinnerAdapter);
+                    }
+                });
+            }
+        }).start();
+    }
+
     /**
      * Spinnerの初期化
      */
     private void initSpinner() {
-        mSpinnerAdapter = new TreeAdapter(this, android.R.layout.simple_spinner_item,
-                new ArrayList<KeyValuePair>());
-        mSpinnerAdapter.add(new KeyValuePair("/", 0));
-        mSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
-        Response response = executeListBlobs(mRepositorie.get("owner"), mRepositorie.get("name"),
-                "master");
-        LogEx.d(TAG, response.resp);
-        TreeMap<String, String> treeMap = parseJson(response.resp);
-
-        mTree = new Tree();
-
-        for (Iterator<?> iterator = treeMap.keySet().iterator(); iterator.hasNext();) {
-            String key = (String) iterator.next();
-            LogEx.d(TAG, key + ", " + treeMap.get(key));
-            makeTree(mTree, key, treeMap.get(key), 1);
-        }
-
+        task();
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
         spinner.setPrompt("Tree List");
-        spinner.setAdapter(mSpinnerAdapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

@@ -15,6 +15,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.WindowManager.LayoutParams;
 import android.view.inputmethod.InputMethodManager;
@@ -27,13 +28,16 @@ public class SearchActivity extends Activity {
     private static final String TAG = SearchActivity.class.getSimpleName();
     public static final String Q = "q";
 
+    protected Handler mHandler;
+    protected LoadingDialog mLoadingDialog;
     private ListView mListView;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setSoftInputMode(LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         setContentView(R.layout.activity_search);
-
+        mHandler = new Handler();
+        mLoadingDialog = new LoadingDialog(this);
         initListView();
         onSearch(getIntent().getExtras().getString(Q));
     }
@@ -65,23 +69,61 @@ public class SearchActivity extends Activity {
         onSearch(q);
     }
 
-    private void onSearch(String q) {
+    private void onSearch(final String q) {
         if (CommonHelper.isEmpty(q)) {
             Toast.makeText(getApplicationContext(), R.string.search_word_is_empty,
                     Toast.LENGTH_LONG).show();
+            mLoadingDialog.dismiss();
             return;
         }
-        String resultJson = executeSearch(q);
-        if (null == resultJson) {
-            Toast.makeText(getApplicationContext(), R.string.could_not_get_the_results,
-                    Toast.LENGTH_SHORT).show();
-            return;
+        new Thread(new Runnable() {
+            public void run() {
+                String resultJson = executeSearch(q);
+                if (null == resultJson) {
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(),
+                                    R.string.could_not_get_the_results, Toast.LENGTH_SHORT).show();
+                            mLoadingDialog.dismiss();
+                        }
+                    });
+                    return;
+                }
+                final Repositorie[] repositories = parseJson(resultJson);
+                if (null == repositories) {
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(),
+                                    R.string.could_not_get_the_results, Toast.LENGTH_SHORT).show();
+                            mLoadingDialog.dismiss();
+                        }
+                    });
+                    return;
+                }
+                LogEx.d(TAG, "取得したリポジトリ数: " + repositories.length);
+                LogEx.d(TAG, mListView.getCount());
+
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (mLoadingDialog.isShowing()) {
+                            mLoadingDialog.dismiss();
+                        }
+                        mListView.setAdapter(new RepositorieAdapter(SearchActivity.this,
+                                android.R.layout.simple_list_item_2, repositories));
+                    }
+                });
+            }
+        }).start();
+    }
+    
+    public void onStop(){
+        super.onStop();
+        if(null != mLoadingDialog && mLoadingDialog.isShowing()){
+            mLoadingDialog.dismiss();
         }
-        Repositorie[] repositories = parseJson(resultJson);
-        LogEx.d(TAG, "取得したリポジトリ数: " + repositories.length);
-        mListView.setAdapter(new RepositorieAdapter(this, android.R.layout.simple_list_item_2,
-                repositories));
-        LogEx.d(TAG, mListView.getCount());
     }
 
     /**

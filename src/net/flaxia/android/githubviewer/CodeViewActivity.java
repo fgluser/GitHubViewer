@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 import net.flaxia.android.githubviewer.util.CommonHelper;
+import net.flaxia.android.githubviewer.util.LogEx;
 
 import org.idlesoft.libraries.ghapi.GitHubAPI;
 
@@ -17,6 +18,8 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 public class CodeViewActivity extends Activity {
+    private static final String TAG = CodeViewActivity.class.getSimpleName();
+    
     protected Handler mHandler;
     protected WebView mWebView;
     protected LoadingDialog mLoadingDialog;
@@ -95,6 +98,7 @@ public class CodeViewActivity extends Activity {
         } else {
             html = html.replaceFirst("@title", extras.getString("fileName"));
             html = html.replaceFirst("@source", CommonHelper.escapeSign(source));
+            LogEx.d(TAG, source);
         }
 
         return html;
