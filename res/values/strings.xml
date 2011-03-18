@@ -10,4 +10,6 @@
     <string name="configure">Configure</string>
     <string name="information">Information</string>
     <string name="local_drive">Local Drive</string>
+    <string name="now_loading">Now Loading</string>
+    <string name="rendering">Rendering</string>
 </resources>

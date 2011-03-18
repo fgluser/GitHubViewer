@@ -36,7 +36,7 @@ public class CodeViewActivity extends BaseAsyncActivity {
         mWebView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                mRenderingDialog = new LoadingDialog(CodeViewActivity.this);
+                mRenderingDialog = new LoadingDialog(CodeViewActivity.this, R.string.rendering);
                 super.onPageStarted(view, url, favicon);
             }
 
