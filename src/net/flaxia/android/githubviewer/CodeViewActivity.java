@@ -17,14 +17,15 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 public class CodeViewActivity extends Activity {
-    Handler handler = new Handler();
-    WebView mWebView;
-    LoadingDialog mLoadingDialog;
+    protected Handler mHandler;
+    protected WebView mWebView;
+    protected LoadingDialog mLoadingDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_code_view);
+        mHandler = new Handler();
         mLoadingDialog = new LoadingDialog(this);
         mWebView = (WebView) findViewById(R.id.webview);
         mWebView.getSettings().setJavaScriptEnabled(true);
@@ -46,11 +47,15 @@ public class CodeViewActivity extends Activity {
         task();
     }
 
+    
+    /**
+     * 別スレッドでの処理
+     */
     public void task() {
         new Thread(new Runnable() {
             public void run() {
                 final String html = createHtml();
-                handler.post(new Runnable() {
+                mHandler.post(new Runnable() {
                     @Override
                     public void run() {
                         mLoadingDialog.dismiss();
@@ -64,13 +69,12 @@ public class CodeViewActivity extends Activity {
 
     public String createHtml() {
         String html;
-        GitHubAPI ghapi = new GitHubAPI();
         Bundle extras = getIntent().getExtras();
-        String source = ghapi.object.raw(extras.getString("owner"), extras.getString("name"),
-                extras.getString("sha")).resp;
-        BufferedReader br = null;
+        String source = new GitHubAPI().object.raw(extras.getString("owner"), extras
+                .getString("name"), extras.getString("sha")).resp;
         StringBuilder sb = new StringBuilder();
         try {
+            BufferedReader br = null;
             try {
                 br = new BufferedReader(new InputStreamReader(getResources().getAssets().open(
                         "html")));
