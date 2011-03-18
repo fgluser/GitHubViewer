@@ -15,7 +15,7 @@ public class StartActivity extends Activity {
         super.onCreate(savedInstanceState);
         Configuration.getInstance().isDebuggable = isDebuggable();
         initIcons();
-        startActivity(new Intent(getApplicationContext(), DashbordActivity.class));
+        startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
         finish();
     }
 
