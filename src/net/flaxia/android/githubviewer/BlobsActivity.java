@@ -67,20 +67,28 @@ public class BlobsActivity extends BaseAsyncActivity {
         });
     }
 
+    private void faild(final int message) {
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                mLoadingDialog.dismiss();
+                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                BlobsActivity.this.finish();
+            }
+        });
+    }
+
     protected void executeAsyncTask(final String... parameters) {
         Response response = executeListBlobs(parameters[0], parameters[1], parameters[2]);
+        if (null == response) {
+            faild(R.string.out_of_memory_error);
+            return;
+        }
         LogEx.d(TAG, response.resp);
         TreeMap<String, String> treeMap = parseJson(response.resp);
 
         if (null == treeMap) {
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    mLoadingDialog.dismiss();
-                    Toast.makeText(getApplicationContext(), R.string.could_not_get_the_results,
-                            Toast.LENGTH_SHORT).show();
-                }
-            });
+            faild(R.string.could_not_get_the_results);
             return;
         }
 
@@ -171,7 +179,11 @@ public class BlobsActivity extends BaseAsyncActivity {
         GitHubAPI ghapi = new GitHubAPI();
         ghapi.goStealth();
         // TODO: ブランチをmasterに固定しているのは改めたい
-        return ghapi.object.list_blobs(owner, name, treeSha);
+        try {
+            return ghapi.object.list_blobs(owner, name, treeSha);
+        } catch (OutOfMemoryError e) {
+            return null;
+        }
     }
 
     /**

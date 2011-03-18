@@ -5,6 +5,7 @@
     <string name="search_word_is_empty">Search word is empty.</string>
     <string name="could_not_get_the_results">Could not get the results.</string>
     <string name="failed_to_retrieve_the_information">Failed to retrieve the information.</string>
+    <string name="out_of_memory_error">Out of memory error.</string>
     <string name="bookmark">Bookmark</string>
     <string name="configure">Configure</string>
     <string name="information">Information</string>
