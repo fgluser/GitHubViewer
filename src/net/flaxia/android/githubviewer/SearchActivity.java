@@ -49,6 +49,17 @@ public class SearchActivity extends BaseAsyncActivity {
                         BlobsActivity.REPOSITORIE, repositorie));
             }
         });
+
+        mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Repositorie repositorie = ((RepositorieAdapter) ((ListView) parent).getAdapter())
+                        .getRepositorie(position);
+                startActivity(new Intent(getApplicationContext(), RepositorieInfoActivity.class)
+                        .putExtra(BlobsActivity.REPOSITORIE, repositorie));
+                return false;
+            }
+        });
     }
 
     /**
