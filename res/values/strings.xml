@@ -12,4 +12,7 @@
     <string name="local_drive">Local Drive</string>
     <string name="now_loading">Now Loading</string>
     <string name="rendering">Rendering</string>
+    <string name="repositorie_name">Repositorie Name</string>
+    <string name="owner">Owner</string>
+    <string name="homepage">Homepage</string>
 </resources>

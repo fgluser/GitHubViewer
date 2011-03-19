@@ -25,7 +25,6 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 public class BlobsActivity extends BaseAsyncActivity {
-    public static final String REPOSITORIE = "repositorie";
     private static final String TAG = BlobsActivity.class.getSimpleName();
     private Repositorie mRepositorie;
     private TreeAdapter mSpinnerAdapter;
@@ -36,7 +35,7 @@ public class BlobsActivity extends BaseAsyncActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_blobs);
-        mRepositorie = (Repositorie) getIntent().getExtras().getSerializable(REPOSITORIE);
+        mRepositorie = (Repositorie) getIntent().getExtras().getSerializable(Extra.REPOSITORIE);
         String owner = mRepositorie.get("owner");
         String name = mRepositorie.get("name");
         setTitle(owner + " / " + name);

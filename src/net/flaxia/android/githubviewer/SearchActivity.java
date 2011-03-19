@@ -47,7 +47,7 @@ public class SearchActivity extends BaseAsyncActivity {
                 Repositorie repositorie = ((RepositorieAdapter) ((ListView) parent).getAdapter())
                         .getRepositorie(position);
                 startActivity(new Intent(getApplicationContext(), BlobsActivity.class).putExtra(
-                        BlobsActivity.REPOSITORIE, repositorie));
+                        Extra.REPOSITORIE, repositorie));
             }
         });
 
@@ -57,7 +57,7 @@ public class SearchActivity extends BaseAsyncActivity {
                 Repositorie repositorie = ((RepositorieAdapter) ((ListView) parent).getAdapter())
                         .getRepositorie(position);
                 startActivity(new Intent(getApplicationContext(), RepositorieInfoActivity.class)
-                        .putExtra(BlobsActivity.REPOSITORIE, repositorie));
+                        .putExtra(Extra.REPOSITORIE, repositorie));
                 return false;
             }
         });
