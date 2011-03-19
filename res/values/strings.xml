@@ -15,4 +15,6 @@
     <string name="owner_name">Owner / Name</string>
     <string name="description">Description</string>
     <string name="homepage">Homepage</string>
+    <string name="select_branche">Select Branche</string>
+    <string name="select_tag">Select Tag</string>
 </resources>
