@@ -23,7 +23,6 @@ import android.widget.Toast;
 
 public class SearchActivity extends BaseAsyncActivity {
     private static final String TAG = SearchActivity.class.getSimpleName();
-    public static final String Q = "q";
 
     private ListView mListView;
 
@@ -32,7 +31,7 @@ public class SearchActivity extends BaseAsyncActivity {
         super.onCreate(savedInstanceState);
         getWindow().setSoftInputMode(LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         setContentView(R.layout.activity_search);
-        String q = getIntent().getExtras().getString(Q);
+        String q = getIntent().getExtras().getString(Extra.Q);
         ((EditText) findViewById(R.id.q)).setText(q);
         initListView();
         doAsyncTask(q);

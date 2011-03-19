@@ -36,8 +36,8 @@ public class BlobsActivity extends BaseAsyncActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_blobs);
         mRepositorie = (Repositorie) getIntent().getExtras().getSerializable(Extra.REPOSITORIE);
-        String owner = mRepositorie.get("owner");
-        String name = mRepositorie.get("name");
+        String owner = mRepositorie.get(Repositorie.OWNER);
+        String name = mRepositorie.get(Repositorie.NAME);
         setTitle(owner + " / " + name);
         initSpinnerAdapter();
         doAsyncTask(owner, name, "master");
@@ -60,8 +60,8 @@ public class BlobsActivity extends BaseAsyncActivity {
                 KeyValuePair keyValuePair = (KeyValuePair) ((ListView) parent)
                         .getItemAtPosition(position);
                 Intent intent = new Intent(getApplicationContext(), CodeViewActivity.class);
-                intent.putExtra("name", mRepositorie.get("name"));
-                intent.putExtra("owner", mRepositorie.get("owner"));
+                intent.putExtra("name", mRepositorie.get(Repositorie.NAME));
+                intent.putExtra("owner", mRepositorie.get(Repositorie.OWNER));
                 intent.putExtra("sha", keyValuePair.getValue());
                 intent.putExtra("fileName", keyValuePair.getKey());
                 startActivity(intent);

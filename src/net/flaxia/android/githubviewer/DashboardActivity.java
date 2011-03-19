@@ -29,7 +29,7 @@ public class DashboardActivity extends Activity {
             return;
         }
         Intent intent = new Intent(context, SearchActivity.class);
-        intent.putExtra(SearchActivity.Q, q);
+        intent.putExtra(Extra.Q, q);
         startActivity(intent);
     }
 
