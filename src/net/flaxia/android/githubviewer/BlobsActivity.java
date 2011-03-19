@@ -37,8 +37,11 @@ public class BlobsActivity extends BaseAsyncActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_blobs);
         mRepositorie = (Repositorie) getIntent().getExtras().getSerializable(REPOSITORIE);
+        String owner = mRepositorie.get("owner");
+        String name = mRepositorie.get("name");
+        setTitle(owner + " / " + name);
         initSpinnerAdapter();
-        doAsyncTask(mRepositorie.get("owner"), mRepositorie.get("name"), "master");
+        doAsyncTask(owner, name, "master");
         initListView();
         initSpinner();
     }
