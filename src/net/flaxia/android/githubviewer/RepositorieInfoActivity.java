@@ -7,4 +7,8 @@ public class RepositorieInfoActivity extends BaseAsyncActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
+
+    @Override
+    protected void executeAsyncTask(String... parameters) {
+    }
 }

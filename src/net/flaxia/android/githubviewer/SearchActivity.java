@@ -27,6 +27,7 @@ public class SearchActivity extends BaseAsyncActivity {
 
     private ListView mListView;
 
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setSoftInputMode(LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);

@@ -7,6 +7,7 @@ public abstract class BaseAsyncActivity extends Activity {
     protected LoadingDialog mLoadingDialog;
     protected Handler mHandler;
 
+    @Override
     protected void onResume() {
         super.onResume();
         mHandler = new Handler();
@@ -24,15 +25,7 @@ public abstract class BaseAsyncActivity extends Activity {
         }).start();
     }
 
-    protected void executeAsyncTask(final String... parameters) {
-        // // 非同期で行う処理
-        // mHandler.post(new Runnable() {
-        // @Override
-        // public void run() {
-        // // UIに影響する処理
-        // }
-        // });
-    }
+    abstract protected void executeAsyncTask(final String... parameters);
 
     protected void asyncReady() {
         mLoadingDialog = new LoadingDialog(this);

@@ -81,6 +81,7 @@ public class BlobsActivity extends BaseAsyncActivity {
         });
     }
 
+    @Override
     protected void executeAsyncTask(final String... parameters) {
         Response response = executeListBlobs(parameters[0], parameters[1], parameters[2]);
         if (null == response) {
