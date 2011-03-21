@@ -30,6 +30,9 @@ public class RepositorieInfoActivity extends BaseAsyncActivity {
         doAsyncTask(repositorie.get(Repositorie.OWNER), repositorie.get(Repositorie.NAME));
     }
 
+    /**
+     * スピナーの初期化
+     */
     private void initSpinners() {
         mBranchesSpinner = (Spinner) findViewById(R.id.branches);
         mBranchesSpinner.setPrompt(getText(R.string.would_you_like_to_which));
@@ -37,6 +40,9 @@ public class RepositorieInfoActivity extends BaseAsyncActivity {
         mTagsSpinner.setPrompt(getText(R.string.would_you_like_to_which));
     }
 
+    /**
+     * 初期化処理
+     */
     private void initInformation() {
         Repositorie repositorie = (Repositorie) getIntent().getExtras().getSerializable(
                 Extra.REPOSITORIE);
@@ -49,6 +55,7 @@ public class RepositorieInfoActivity extends BaseAsyncActivity {
     }
 
     /**
+     * ブランチのアダプタを作成する
      * @param branches
      */
     private void makeBranchesAdapter(final KeyValuePair[] branches) {
@@ -79,6 +86,7 @@ public class RepositorieInfoActivity extends BaseAsyncActivity {
     }
 
     /**
+     * タグのアダプターを作成する
      * @param tags
      */
     private void makeTagsAdapter(final KeyValuePair[] tags) {
@@ -124,6 +132,12 @@ public class RepositorieInfoActivity extends BaseAsyncActivity {
         });
     }
 
+    /**
+     * タグ一覧取得のAPIを実行する
+     * @param owner
+     * @param name
+     * @return
+     */
     private KeyValuePair[] executeGetTags(String owner, String name) {
         GitHubAPI ghapi = new GitHubAPI();
         ghapi.goStealth();
@@ -139,6 +153,12 @@ public class RepositorieInfoActivity extends BaseAsyncActivity {
         }
     }
 
+    /**
+     * ブランチ一覧取得のAPIを実行する
+     * @param owner
+     * @param name
+     * @return
+     */
     private KeyValuePair[] executeGetBranches(String owner, String name) {
         GitHubAPI ghapi = new GitHubAPI();
         ghapi.goStealth();
@@ -154,6 +174,11 @@ public class RepositorieInfoActivity extends BaseAsyncActivity {
         }
     }
 
+    /**
+     * JSONをKeyValuePairの配列にする
+     * @param jsonObject
+     * @return
+     */
     private KeyValuePair[] jsonToKeyValuePairs(JSONObject jsonObject) {
         int size = jsonObject.length();
         KeyValuePair[] keyValuePairs = new KeyValuePair[size];
@@ -161,7 +186,6 @@ public class RepositorieInfoActivity extends BaseAsyncActivity {
         for (Iterator<?> iterator = jsonObject.keys(); iterator.hasNext();) {
             String key = (String) iterator.next();
             try {
-                System.out.println("key: " + key);
                 keyValuePairs[i] = new KeyValuePair(key, jsonObject.getString(key));
                 i++;
             } catch (JSONException e) {
