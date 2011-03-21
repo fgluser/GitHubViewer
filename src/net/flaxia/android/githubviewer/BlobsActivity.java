@@ -116,7 +116,7 @@ public class BlobsActivity extends BaseAsyncActivity {
      */
     private void initSpinner() {
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
-        spinner.setPrompt("Tree List");
+        spinner.setPrompt(getText(R.string.tree_list));
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

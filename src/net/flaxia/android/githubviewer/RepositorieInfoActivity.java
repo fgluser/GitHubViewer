@@ -32,7 +32,9 @@ public class RepositorieInfoActivity extends BaseAsyncActivity {
 
     private void initSpinners() {
         mBranchesSpinner = (Spinner) findViewById(R.id.branches);
+        mBranchesSpinner.setPrompt(getText(R.string.would_you_like_to_which));
         mTagsSpinner = (Spinner) findViewById(R.id.tags);
+        mTagsSpinner.setPrompt(getText(R.string.would_you_like_to_which));
     }
 
     private void initInformation() {
@@ -47,7 +49,6 @@ public class RepositorieInfoActivity extends BaseAsyncActivity {
     }
 
     /**
-     * TODO
      * @param branches
      */
     private void makeBranchesAdapter(final KeyValuePair[] branches) {
@@ -64,22 +65,20 @@ public class RepositorieInfoActivity extends BaseAsyncActivity {
             runnable = new Runnable() {
                 @Override
                 public void run() {
-                    BranchesTagsAdapter branchesTagsAdapter = new BranchesTagsAdapter(
-                            RepositorieInfoActivity.this, android.R.layout.simple_spinner_item,
-                            new KeyValuePair[] { (new KeyValuePair(RepositorieInfoActivity.this
-                                    .getString(R.string.select_branche), "")) });
+                    BranchesTagsAdapter branchesAdapter = new BranchesTagsAdapter(
+                            RepositorieInfoActivity.this, android.R.layout.simple_spinner_item);
+                    branchesAdapter.add(new KeyValuePair(getString(R.string.branches), null));
                     for (KeyValuePair branche : branches) {
-                        // branchesTagsAdapter.add(branche);
+                        branchesAdapter.add(branche);
                     }
-                    mBranchesSpinner.setAdapter(branchesTagsAdapter);
+                    mBranchesSpinner.setAdapter(branchesAdapter);
                 }
             };
             mHandler.post(runnable);
         }
     }
-    
+
     /**
-     *TODO
      * @param tags
      */
     private void makeTagsAdapter(final KeyValuePair[] tags) {
@@ -90,27 +89,25 @@ public class RepositorieInfoActivity extends BaseAsyncActivity {
                 public void run() {
                     Toast.makeText(getApplicationContext(), R.string.could_not_get_the_results,
                             Toast.LENGTH_SHORT).show();
-                    dismissDialog();
                 }
             };
         } else {
             runnable = new Runnable() {
                 @Override
                 public void run() {
-                    dismissDialog();
-                    BranchesTagsAdapter branchesTagsAdapter = new BranchesTagsAdapter(
-                            RepositorieInfoActivity.this, android.R.layout.simple_spinner_item,
-                            new KeyValuePair[] { (new KeyValuePair(RepositorieInfoActivity.this
-                                    .getString(R.string.select_tag), "")) });
+                    BranchesTagsAdapter tagsAdapter = new BranchesTagsAdapter(
+                            RepositorieInfoActivity.this, android.R.layout.simple_spinner_item);
+                    tagsAdapter.add(new KeyValuePair(getText(R.string.tags).toString(), null));
                     for (KeyValuePair tag : tags) {
-                        // branchesTagsAdapter.add(tag);
+                        tagsAdapter.add(tag);
                     }
-                    mTagsSpinner.setAdapter(branchesTagsAdapter);
+                    mTagsSpinner.setAdapter(tagsAdapter);
                 }
             };
         }
         mHandler.post(runnable);
     }
+
     @Override
     protected void executeAsyncTask(String... parameters) {
         final KeyValuePair[] tags = executeGetTags(parameters[0], parameters[1]);
@@ -118,6 +115,13 @@ public class RepositorieInfoActivity extends BaseAsyncActivity {
 
         makeBranchesAdapter(branches);
         makeTagsAdapter(tags);
+
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                dismissDialog();
+            }
+        });
     }
 
     private KeyValuePair[] executeGetTags(String owner, String name) {
@@ -157,7 +161,9 @@ public class RepositorieInfoActivity extends BaseAsyncActivity {
         for (Iterator<?> iterator = jsonObject.keys(); iterator.hasNext();) {
             String key = (String) iterator.next();
             try {
+                System.out.println("key: " + key);
                 keyValuePairs[i] = new KeyValuePair(key, jsonObject.getString(key));
+                i++;
             } catch (JSONException e) {
                 e.printStackTrace();
                 continue;
