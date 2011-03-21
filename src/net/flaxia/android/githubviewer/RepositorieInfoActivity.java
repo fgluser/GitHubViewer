@@ -46,10 +46,11 @@ public class RepositorieInfoActivity extends BaseAsyncActivity {
                 .get(Repositorie.DESCRIPTION));
     }
 
-    @Override
-    protected void executeAsyncTask(String... parameters) {
-        final KeyValuePair[] tags = executeGetTags(parameters[0], parameters[1]);
-        final KeyValuePair[] branches = executeGetBranches(parameters[0], parameters[1]);
+    /**
+     * TODO
+     * @param branches
+     */
+    private void makeBranchesAdapter(final KeyValuePair[] branches) {
         Runnable runnable;
         if (null == branches) {
             runnable = new Runnable() {
@@ -73,9 +74,16 @@ public class RepositorieInfoActivity extends BaseAsyncActivity {
                     mBranchesSpinner.setAdapter(branchesTagsAdapter);
                 }
             };
+            mHandler.post(runnable);
         }
-        mHandler.post(runnable);
-
+    }
+    
+    /**
+     *TODO
+     * @param tags
+     */
+    private void makeTagsAdapter(final KeyValuePair[] tags) {
+        Runnable runnable;
         if (null == tags) {
             runnable = new Runnable() {
                 @Override
@@ -102,6 +110,14 @@ public class RepositorieInfoActivity extends BaseAsyncActivity {
             };
         }
         mHandler.post(runnable);
+    }
+    @Override
+    protected void executeAsyncTask(String... parameters) {
+        final KeyValuePair[] tags = executeGetTags(parameters[0], parameters[1]);
+        final KeyValuePair[] branches = executeGetBranches(parameters[0], parameters[1]);
+
+        makeBranchesAdapter(branches);
+        makeTagsAdapter(tags);
     }
 
     private KeyValuePair[] executeGetTags(String owner, String name) {
