@@ -7,7 +7,7 @@ import java.util.TreeMap;
 import net.flaxia.android.githubviewer.adapter.KeyValuePairAdapter;
 import net.flaxia.android.githubviewer.adapter.TreeAdapter;
 import net.flaxia.android.githubviewer.model.KeyValuePair;
-import net.flaxia.android.githubviewer.model.Repositorie;
+import net.flaxia.android.githubviewer.model.Refs;
 import net.flaxia.android.githubviewer.model.Tree;
 import net.flaxia.android.githubviewer.util.LogEx;
 
@@ -26,7 +26,6 @@ import android.widget.Toast;
 
 public class BlobsActivity extends BaseAsyncActivity {
     private static final String TAG = BlobsActivity.class.getSimpleName();
-    private Repositorie mRepositorie;
     private TreeAdapter mSpinnerAdapter;
     private Tree mTree;
     private ListView mListView;
@@ -35,12 +34,13 @@ public class BlobsActivity extends BaseAsyncActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_blobs);
-        mRepositorie = (Repositorie) getIntent().getExtras().getSerializable(Extra.REPOSITORIE);
-        String owner = mRepositorie.get(Repositorie.OWNER);
-        String name = mRepositorie.get(Repositorie.NAME);
+        Refs refs = (Refs) getIntent().getExtras().getSerializable(Extra.REFS);
+        String owner = refs.getOwner();
+        String name = refs.getName();
+        String hash = (null == refs.getHash()) ? "master" : refs.getHash();
         setTitle(owner + " / " + name);
         initSpinnerAdapter();
-        doAsyncTask(owner, name, "master");
+        doAsyncTask(owner, name, hash);
         initListView();
         initSpinner();
     }
@@ -59,9 +59,12 @@ public class BlobsActivity extends BaseAsyncActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 KeyValuePair keyValuePair = (KeyValuePair) ((ListView) parent)
                         .getItemAtPosition(position);
+                Refs refs = (Refs) getIntent().getExtras().getSerializable(Extra.REPOSITORIE);
+                String owner = refs.getOwner();
+                String name = refs.getName();
                 Intent intent = new Intent(getApplicationContext(), CodeViewActivity.class);
-                intent.putExtra("name", mRepositorie.get(Repositorie.NAME));
-                intent.putExtra("owner", mRepositorie.get(Repositorie.OWNER));
+                intent.putExtra("name", name);
+                intent.putExtra("owner", owner);
                 intent.putExtra("sha", keyValuePair.getValue());
                 intent.putExtra("fileName", keyValuePair.getKey());
                 startActivity(intent);
@@ -181,7 +184,6 @@ public class BlobsActivity extends BaseAsyncActivity {
     private Response executeListBlobs(String owner, String name, String treeSha) {
         GitHubAPI ghapi = new GitHubAPI();
         ghapi.goStealth();
-        // TODO: ブランチをmasterに固定しているのは改めたい
         try {
             return ghapi.object.list_blobs(owner, name, treeSha);
         } catch (OutOfMemoryError e) {

@@ -1,6 +1,7 @@
 package net.flaxia.android.githubviewer;
 
 import net.flaxia.android.githubviewer.adapter.RepositorieAdapter;
+import net.flaxia.android.githubviewer.model.Refs;
 import net.flaxia.android.githubviewer.model.Repositorie;
 import net.flaxia.android.githubviewer.util.LogEx;
 
@@ -45,8 +46,10 @@ public class SearchActivity extends BaseAsyncActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Repositorie repositorie = ((RepositorieAdapter) ((ListView) parent).getAdapter())
                         .getRepositorie(position);
+                Refs refs = new Refs(repositorie.get(Repositorie.OWNER), repositorie
+                        .get(Repositorie.NAME), "master", "master");
                 startActivity(new Intent(getApplicationContext(), BlobsActivity.class).putExtra(
-                        Extra.REPOSITORIE, repositorie));
+                        Extra.REFS, refs));
             }
         });
 

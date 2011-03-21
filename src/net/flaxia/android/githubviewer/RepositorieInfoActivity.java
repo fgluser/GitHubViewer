@@ -4,13 +4,17 @@ import java.util.Iterator;
 
 import net.flaxia.android.githubviewer.adapter.BranchesTagsAdapter;
 import net.flaxia.android.githubviewer.model.KeyValuePair;
+import net.flaxia.android.githubviewer.model.Refs;
 import net.flaxia.android.githubviewer.model.Repositorie;
 
 import org.idlesoft.libraries.ghapi.GitHubAPI;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,8 +40,37 @@ public class RepositorieInfoActivity extends BaseAsyncActivity {
     private void initSpinners() {
         mBranchesSpinner = (Spinner) findViewById(R.id.branches);
         mBranchesSpinner.setPrompt(getText(R.string.would_you_like_to_which));
+        mBranchesSpinner.setOnItemSelectedListener(createOnItemSelectedListener());
+
         mTagsSpinner = (Spinner) findViewById(R.id.tags);
         mTagsSpinner.setPrompt(getText(R.string.would_you_like_to_which));
+        mTagsSpinner.setOnItemSelectedListener(createOnItemSelectedListener());
+    }
+
+    private AdapterView.OnItemSelectedListener createOnItemSelectedListener() {
+        AdapterView.OnItemSelectedListener listener = new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (0 == position) {
+                    return;
+                }
+                Repositorie repositorie = (Repositorie) getIntent().getExtras().getSerializable(
+                        Extra.REPOSITORIE);
+                KeyValuePair keyValuePair = (KeyValuePair) ((Spinner) parent).getAdapter().getItem(
+                        position);
+                Intent intent = new Intent(getApplicationContext(), BlobsActivity.class);
+                Refs refs = new Refs(repositorie.get(Repositorie.OWNER), repositorie
+                        .get(Repositorie.NAME), keyValuePair.getKey(), keyValuePair.getValue());
+                intent.putExtra(Extra.REFS, refs);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+            }
+        };
+
+        return listener;
     }
 
     /**
@@ -56,6 +89,7 @@ public class RepositorieInfoActivity extends BaseAsyncActivity {
 
     /**
      * ブランチのアダプタを作成する
+     * 
      * @param branches
      */
     private void makeBranchesAdapter(final KeyValuePair[] branches) {
@@ -87,6 +121,7 @@ public class RepositorieInfoActivity extends BaseAsyncActivity {
 
     /**
      * タグのアダプターを作成する
+     * 
      * @param tags
      */
     private void makeTagsAdapter(final KeyValuePair[] tags) {
@@ -134,6 +169,7 @@ public class RepositorieInfoActivity extends BaseAsyncActivity {
 
     /**
      * タグ一覧取得のAPIを実行する
+     * 
      * @param owner
      * @param name
      * @return
@@ -155,6 +191,7 @@ public class RepositorieInfoActivity extends BaseAsyncActivity {
 
     /**
      * ブランチ一覧取得のAPIを実行する
+     * 
      * @param owner
      * @param name
      * @return
@@ -176,6 +213,7 @@ public class RepositorieInfoActivity extends BaseAsyncActivity {
 
     /**
      * JSONをKeyValuePairの配列にする
+     * 
      * @param jsonObject
      * @return
      */
