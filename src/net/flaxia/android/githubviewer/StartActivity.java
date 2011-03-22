@@ -1,5 +1,6 @@
 package net.flaxia.android.githubviewer;
 
+import net.flaxia.android.githubviewer.util.BookmarkSQliteOpenHelper;
 import net.flaxia.android.githubviewer.util.Configuration;
 import net.flaxia.android.githubviewer.util.IconCache;
 import android.app.Activity;
@@ -13,7 +14,14 @@ public class StartActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_start);
+    }
+    
+    @Override
+    protected void onResume(){
+        super.onResume();
         Configuration.getInstance().isDebuggable = isDebuggable();
+        new BookmarkSQliteOpenHelper(getApplicationContext()).getReadableDatabase().close();
         initIcons();
         startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
         finish();

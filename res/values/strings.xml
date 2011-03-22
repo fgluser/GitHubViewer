@@ -19,4 +19,5 @@
     <string name="tags">Tags</string>
     <string name="would_you_like_to_which">Would you like to which?</string>
     <string name="tree_list">Tree List</string>
+    <string name="initializing">Initializing</string>
 </resources>
