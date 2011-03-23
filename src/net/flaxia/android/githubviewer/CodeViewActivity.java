@@ -46,6 +46,7 @@ public class CodeViewActivity extends BaseAsyncActivity {
                 if (null != mRenderingDialog && mRenderingDialog.isShowing()) {
                     mRenderingDialog.dismiss();
                 }
+                mWebView.clearCache(true);
             }
         });
     }
