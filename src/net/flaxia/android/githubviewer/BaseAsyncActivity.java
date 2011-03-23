@@ -14,7 +14,7 @@ public abstract class BaseAsyncActivity extends Activity {
     }
 
     /**
-     * 非同期で通信を行う
+     * 別スレッドで通信を行う
      */
     protected void doAsyncTask(final String... parameters) {
         asyncReady();
@@ -25,18 +25,32 @@ public abstract class BaseAsyncActivity extends Activity {
         }).start();
     }
 
+    /**
+     * 実際に別スレッドで行う処理を書く
+     * 
+     * @param parameters
+     */
     abstract protected void executeAsyncTask(final String... parameters);
 
+    /**
+     * 別スレッドで処理を行う前処理
+     */
     protected void asyncReady() {
         mLoadingDialog = new LoadingDialog(this);
     }
 
+    /**
+     * 画面回転対策
+     */
     @Override
     protected void onStop() {
         super.onStop();
         dismissDialog();
     }
 
+    /**
+     * ダイアログが有効化を確認してから閉じる
+     */
     protected void dismissDialog() {
         if (null != mLoadingDialog && mLoadingDialog.isShowing()) {
             mLoadingDialog.dismiss();

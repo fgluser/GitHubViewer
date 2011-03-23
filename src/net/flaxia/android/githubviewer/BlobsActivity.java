@@ -45,6 +45,9 @@ public class BlobsActivity extends BaseAsyncActivity {
         initSpinner();
     }
 
+    /**
+     * スピナーアダプターの初期化
+     */
     private void initSpinnerAdapter() {
         mSpinnerAdapter = new TreeAdapter(BlobsActivity.this, android.R.layout.simple_spinner_item,
                 new ArrayList<KeyValuePair>());
@@ -52,6 +55,9 @@ public class BlobsActivity extends BaseAsyncActivity {
         mSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
     }
 
+    /**
+     * リストビューの初期化
+     */
     private void initListView() {
         mListView = (ListView) findViewById(R.id.listView);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -72,6 +78,11 @@ public class BlobsActivity extends BaseAsyncActivity {
         });
     }
 
+    /**
+     * 処理に失敗した場合のトースト表示
+     * 
+     * @param message
+     */
     private void faild(final int message) {
         mHandler.post(new Runnable() {
             @Override
@@ -137,6 +148,13 @@ public class BlobsActivity extends BaseAsyncActivity {
         });
     }
 
+    /**
+     * 目的のツリーを走査する
+     * 
+     * @param level
+     * @param position
+     * @return
+     */
     private Tree searchTree(int level, int position) {
         String key = mSpinnerAdapter.getItem(position).getKey();
         if (0 == level) {
@@ -150,6 +168,7 @@ public class BlobsActivity extends BaseAsyncActivity {
     }
 
     /**
+     * ツリーを作る
      * 
      * @param parent
      * @param key
