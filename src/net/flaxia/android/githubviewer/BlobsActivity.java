@@ -59,7 +59,7 @@ public class BlobsActivity extends BaseAsyncActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 KeyValuePair keyValuePair = (KeyValuePair) ((ListView) parent)
                         .getItemAtPosition(position);
-                Refs refs = (Refs) getIntent().getExtras().getSerializable(Extra.REPOSITORIE);
+                Refs refs = (Refs) getIntent().getExtras().getSerializable(Extra.REFS);
                 String owner = refs.getOwner();
                 String name = refs.getName();
                 Intent intent = new Intent(getApplicationContext(), CodeViewActivity.class);
