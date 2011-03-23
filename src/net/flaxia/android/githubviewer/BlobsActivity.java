@@ -18,6 +18,7 @@ import org.json.JSONObject;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -230,4 +231,12 @@ public class BlobsActivity extends BaseAsyncActivity {
         }
         return treeMap;
     }
+
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_MENU) {
+            new BookmarkDialog(this).show();
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
 }

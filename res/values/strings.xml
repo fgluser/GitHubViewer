@@ -20,4 +20,8 @@
     <string name="would_you_like_to_which">Would you like to which?</string>
     <string name="tree_list">Tree List</string>
     <string name="initializing">Initializing</string>
+    <string-array name="bookmark_dialog">
+        <item>Add Bookmark</item>
+        <item>Bookmark now</item>
+    </string-array>
 </resources>
