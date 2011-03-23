@@ -14,7 +14,6 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 public class KeyValuePairAdapter extends ArrayAdapter<KeyValuePair> {
-    protected ArrayList<KeyValuePair> mKeyValuePairs;
     protected LayoutInflater mInflater;
     protected int mLayout;
 
@@ -22,18 +21,13 @@ public class KeyValuePairAdapter extends ArrayAdapter<KeyValuePair> {
             ArrayList<KeyValuePair> keyValuePairs) {
         super(context, textViewResourceId, keyValuePairs);
         mLayout = textViewResourceId;
-        mKeyValuePairs = keyValuePairs;
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    }
-
-    public String getValue(int index) {
-        return mKeyValuePairs.get(index).getValue();
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = (null == convertView) ? mInflater.inflate(mLayout, null) : convertView;
-        String fileName = mKeyValuePairs.get(position).getKey();
+        String fileName = getItem(position).getKey();
         TextView textView = (TextView) view.findViewById(android.R.id.text1);
 
         textView.setText(fileName);

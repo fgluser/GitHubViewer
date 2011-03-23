@@ -45,7 +45,7 @@ public class SearchActivity extends BaseAsyncActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Repositorie repositorie = ((RepositorieAdapter) ((ListView) parent).getAdapter())
-                        .getRepositorie(position);
+                        .getItem(position);
                 Refs refs = new Refs(repositorie.get(Repositorie.OWNER), repositorie
                         .get(Repositorie.NAME), "master", "master");
                 startActivity(new Intent(getApplicationContext(), BlobsActivity.class).putExtra(
@@ -57,7 +57,7 @@ public class SearchActivity extends BaseAsyncActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 Repositorie repositorie = ((RepositorieAdapter) ((ListView) parent).getAdapter())
-                        .getRepositorie(position);
+                        .getItem(position);
                 startActivity(new Intent(getApplicationContext(), RepositorieInfoActivity.class)
                         .putExtra(Extra.REPOSITORIE, repositorie));
                 return false;
