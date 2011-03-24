@@ -1,7 +1,11 @@
 package net.flaxia.android.githubviewer.util;
 
+import java.util.ArrayList;
+
+import net.flaxia.android.githubviewer.model.Bookmark;
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -75,6 +79,25 @@ public class BookmarkSQliteOpenHelper extends SQLiteOpenHelper {
             db.endTransaction();
         }
         return result;
+    }
+
+    public Bookmark[] select() {
+        ArrayList<Bookmark> bookmarks = new ArrayList<Bookmark>();
+        String[] selects = { COLUMN_ID, COLUMN_OWNER, COLUMN_NAME, COLUMN_TREE, COLUMN_HASH,
+                COLUMN_NOTE };
+        SQLiteDatabase db = getReadableDatabase();
+        try {
+            Cursor cursor = db.query(TABLE_BOOKMARK, selects, null, null, null, null, null);
+            while (cursor.moveToNext()) {
+                Bookmark bookmark = new Bookmark(cursor.getLong(0), cursor.getString(1), cursor
+                        .getString(2), cursor.getString(3), cursor.getString(4));
+                bookmarks.add(bookmark);
+            }
+        } finally {
+            db.close();
+        }
+
+        return bookmarks.toArray(new Bookmark[0]);
     }
 
     private ContentValues createContentValues(String owner, String name, String tree, String hash,

@@ -11,7 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class EditBookmarkActivity extends Activity {
-    public static final int ADD = -1;
+    public static final int ADD = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
