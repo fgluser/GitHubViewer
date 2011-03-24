@@ -1,5 +1,7 @@
 package net.flaxia.android.githubviewer.util;
 
+import java.util.Calendar;
+
 public class CommonHelper {
     /**
      * stringが空か調べる
@@ -30,8 +32,16 @@ public class CommonHelper {
         }
         return fileName;
     }
-    
-    public static String escapeSign(String source){
+
+    public static String escapeSign(String source) {
         return source.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+    }
+
+    public static String getNow() {
+        final Calendar calendar = Calendar.getInstance();
+        return calendar.get(Calendar.YEAR) + "/" + calendar.get(Calendar.MONTH) + 1 + "/"
+                + calendar.get(Calendar.DAY_OF_MONTH) + "/" + " "
+                + calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE) + ":"
+                + calendar.get(Calendar.SECOND);
     }
 }

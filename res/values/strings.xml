@@ -24,4 +24,6 @@
         <item>Add Bookmark</item>
         <item>Bookmark now</item>
     </string-array>
+    <string name="added_to_your_bookmarks">Added to your bookmarks.</string>
+    <string name="failed_to_add_a_bookmark">Failed to add a bookmark.</string>
 </resources>
