@@ -8,7 +8,7 @@
             android:layout_width="wrap_content" android:layout_height="wrap_content" />
         <TextView android:id="@+id/owner" android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:layout_weight="1"
-            android:gravity="right" />
+            android:gravity="right" android:textSize="25dip" />
     </LinearLayout>
     <include layout="@layout/partial_separator" />
     <LinearLayout android:layout_height="wrap_content"
@@ -17,7 +17,7 @@
             android:layout_width="wrap_content" android:layout_height="wrap_content" />
         <TextView android:id="@+id/name" android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:layout_weight="1"
-            android:gravity="right" />
+            android:gravity="right" android:textSize="25dip" />
     </LinearLayout>
     <include layout="@layout/partial_separator" />
     <LinearLayout android:layout_height="wrap_content"
@@ -26,19 +26,21 @@
             android:layout_width="wrap_content" android:layout_height="wrap_content" />
         <TextView android:id="@+id/tree" android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:layout_weight="1"
-            android:gravity="right" />
+            android:gravity="right" android:textSize="25dip" />
     </LinearLayout>
     <include layout="@layout/partial_separator" />
     <TextView android:text="@string/note" android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <EditText android:layout_height="wrap_content" android:id="@+id/note"
-        android:layout_width="fill_parent" android:layout_weight="1" />
+        android:layout_width="fill_parent" android:layout_weight="1" android:gravity="top"/>
     <include layout="@layout/partial_separator" />
     <LinearLayout android:layout_height="wrap_content"
         android:layout_width="fill_parent">
-        <Button android:text="@string/add" android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:layout_weight="1" />
-        <Button android:text="@string/cancel" android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:layout_weight="1" />
+        <Button android:text="@string/ok" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:layout_weight="1"
+            android:onClick="onOkButton" />
+        <Button android:text="@string/cancel"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_weight="1" android:onClick="onCancelButton" />
     </LinearLayout>
 </LinearLayout>

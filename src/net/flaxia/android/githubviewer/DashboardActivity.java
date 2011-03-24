@@ -1,6 +1,7 @@
 package net.flaxia.android.githubviewer;
 
 import net.flaxia.android.githubviewer.util.CommonHelper;
+import net.flaxia.android.githubviewer.util.Extra;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;

@@ -25,11 +25,12 @@
         <item>Bookmark now</item>
     </string-array>
     <string name="added_to_your_bookmarks">Added to your bookmarks.</string>
-    <string name="failed_to_add_a_bookmark">Failed to add a bookmark.</string>
+    <string name="failed_to_edit_a_bookmark">Failed to edit a bookmark.</string>
     <string name="name">Name</string>
     <string name="owner">Owner</string>
     <string name="tree">Tree</string>
     <string name="note">Note</string>
-    <string name="add">Add</string>
+    <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
+    <string name="succeed_to_edit_a_bookmark">Succeed to edit a bookmark.</string>
 </resources>

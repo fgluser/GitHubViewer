@@ -3,6 +3,7 @@ package net.flaxia.android.githubviewer;
 import net.flaxia.android.githubviewer.adapter.RepositorieAdapter;
 import net.flaxia.android.githubviewer.model.Refs;
 import net.flaxia.android.githubviewer.model.Repositorie;
+import net.flaxia.android.githubviewer.util.Extra;
 import net.flaxia.android.githubviewer.util.LogEx;
 
 import org.idlesoft.libraries.ghapi.GitHubAPI;

@@ -9,6 +9,7 @@ import net.flaxia.android.githubviewer.adapter.TreeAdapter;
 import net.flaxia.android.githubviewer.model.KeyValuePair;
 import net.flaxia.android.githubviewer.model.Refs;
 import net.flaxia.android.githubviewer.model.Tree;
+import net.flaxia.android.githubviewer.util.Extra;
 import net.flaxia.android.githubviewer.util.LogEx;
 
 import org.idlesoft.libraries.ghapi.GitHubAPI;

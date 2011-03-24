@@ -6,6 +6,7 @@ import net.flaxia.android.githubviewer.adapter.BranchesTagsAdapter;
 import net.flaxia.android.githubviewer.model.KeyValuePair;
 import net.flaxia.android.githubviewer.model.Refs;
 import net.flaxia.android.githubviewer.model.Repositorie;
+import net.flaxia.android.githubviewer.util.Extra;
 
 import org.idlesoft.libraries.ghapi.GitHubAPI;
 import org.json.JSONException;
