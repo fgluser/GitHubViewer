@@ -13,7 +13,7 @@ public class BookmarkSQliteOpenHelper extends SQLiteOpenHelper {
     private static final String COLUMN_NAME = "name";
     private static final String COLUMN_TREE = "tree";
     private static final String COLUMN_HASH = "hash";
-    private static final String COLUMN_MEMO = "memo";
+    private static final String COLUMN_NOTE = "note";
     
     public static final long FAIL = -1;
 
@@ -26,7 +26,7 @@ public class BookmarkSQliteOpenHelper extends SQLiteOpenHelper {
         String sql = "CREATE TABLE IF NOT EXISTS" + TABLE_BOOKMARK
                 + " (_id INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_OWNER + " TEXT NOT NULL, "
                 + COLUMN_NAME + " TEXT NOT NULL, " + COLUMN_TREE + " TEXT NOT NULL, " + COLUMN_HASH
-                + " TEXT NOT NULL, " + COLUMN_MEMO + " TEXT)";
+                + " TEXT NOT NULL, " + COLUMN_NOTE + " TEXT)";
         db.execSQL(sql);
     }
 
@@ -50,7 +50,7 @@ public class BookmarkSQliteOpenHelper extends SQLiteOpenHelper {
         contentValues.put(COLUMN_NAME, name);
         contentValues.put(COLUMN_TREE, tree);
         contentValues.put(COLUMN_HASH, hash);
-        contentValues.put(COLUMN_MEMO, memo);
+        contentValues.put(COLUMN_NOTE, memo);
 
         SQLiteDatabase db = getWritableDatabase();
         try {
