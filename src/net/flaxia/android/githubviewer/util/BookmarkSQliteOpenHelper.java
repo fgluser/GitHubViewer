@@ -90,7 +90,8 @@ public class BookmarkSQliteOpenHelper extends SQLiteOpenHelper {
             Cursor cursor = db.query(TABLE_BOOKMARK, selects, null, null, null, null, null);
             while (cursor.moveToNext()) {
                 Bookmark bookmark = new Bookmark(cursor.getLong(0), cursor.getString(1), cursor
-                        .getString(2), cursor.getString(3), cursor.getString(4));
+                        .getString(2), cursor.getString(3), cursor.getString(4), cursor
+                        .getString(5));
                 bookmarks.add(bookmark);
             }
         } finally {

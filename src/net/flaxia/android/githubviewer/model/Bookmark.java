@@ -8,16 +8,17 @@ public class Bookmark {
     private String mHash;
     private String mNote;
 
-    public Bookmark(long id, String owner, String name, String hash, String note) {
+    public Bookmark(long id, String owner, String name, String tree, String hash, String note) {
         mId = id;
         mOwner = owner;
         mName = name;
+        mTree = tree;
         mHash = hash;
-        mName = note;
+        mNote = note;
     }
 
-    public Bookmark(String owner, String name, String hash, String note) {
-        this(0, owner, name, hash, note);
+    public Bookmark(String owner, String name, String tree, String hash, String note) {
+        this(0, owner, name, tree, hash, note);
     }
 
     public long getId() {
