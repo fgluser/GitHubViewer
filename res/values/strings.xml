@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">GitHubViewer for Android</string>
+    <string name="app_name">GitHub Viewer</string>
     <string name="search_word">Search Word</string>
     <string name="search_word_is_empty">Search word is empty.</string>
     <string name="could_not_get_the_results">Could not get the results.</string>
