@@ -235,8 +235,10 @@ public class BlobsActivity extends BaseAsyncActivity {
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_MENU) {
-            new BlobsMenuDialog(this, (Refs) getIntent().getExtras().getSerializable(Extra.REFS))
-                    .show();
+            BlobsMenuDialog blobsMenuDialog = new BlobsMenuDialog(this, (Refs) getIntent()
+                    .getExtras().getSerializable(Extra.REFS));
+            blobsMenuDialog.setOwnerActivity(this);
+            blobsMenuDialog.show();
         }
         return super.onKeyDown(keyCode, event);
     }

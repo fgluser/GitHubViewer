@@ -3,6 +3,7 @@ package net.flaxia.android.githubviewer;
 import java.io.File;
 
 import net.flaxia.android.githubviewer.DirectoryListDialog.onDirectoryListDialogListener;
+import net.flaxia.android.githubviewer.util.Configuration;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Environment;
@@ -20,7 +21,7 @@ public class DirectorySelectDialogPreference extends DialogPreference implements
     @Override
     protected void onBindView(View view) {
         SharedPreferences pref = getSharedPreferences();
-        String summry = Environment.getExternalStorageDirectory().getAbsolutePath();
+        String summry = Configuration.DEFAULT_SAVE_PATH;
         if (null != pref) {
             summry = pref.getString(getKey(), summry);
         }

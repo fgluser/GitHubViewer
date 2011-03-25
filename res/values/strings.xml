@@ -23,6 +23,7 @@
     <string-array name="blobs_menu_dialog">
         <item>Add Bookmark</item>
         <item>Bookmark now</item>
+        <item>Download</item>
     </string-array>
     <string name="added_to_your_bookmarks">Added to your bookmarks.</string>
     <string name="failed_to_edit_a_bookmark">Failed to edit a bookmark.</string>
@@ -39,4 +40,6 @@
         <item>Delete</item>
     </string-array>
     <string name="directory_location_to_store">Directory location to store</string>
+    <string name="could_not_find_file_to_download">Could not find file to download.</string>
+    <string name="unzipping">Unzipping</string>
 </resources>
