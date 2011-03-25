@@ -1,30 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent" android:layout_height="fill_parent"
-    android:orientation="vertical">
-    <TextView android:text="GitHubViewer Ver 1.0"
-        android:layout_width="wrap_content" android:layout_height="wrap_content" />
-    <include layout="@layout/partial_separator" />
-    <TextView android:text="開発: 成瀬基樹" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <include layout="@layout/partial_separator" />
-    <TextView android:text="Twitter @lgfuser https://twitter.com/#!/lgfuser"
-        android:layout_width="wrap_content" android:layout_height="wrap_content" android:autoLink="web"/>
-    <include layout="@layout/partial_separator" />
-    <TextView
-        android:text="本ソフトウェアでは，以下のライブラリ，アイコンを一部改変，またはそのまま利用しています．\n
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent" android:layout_height="fill_parent">
+    <LinearLayout android:layout_width="fill_parent"
+        android:layout_height="fill_parent" android:orientation="vertical">
+        <TextView android:text="GitHubViewer Ver 1.0"
+            android:layout_width="wrap_content" android:layout_height="wrap_content" />
+        <include layout="@layout/partial_separator" />
+        <TextView android:text="開発: 成瀬基樹" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <include layout="@layout/partial_separator" />
+        <TextView android:text="Twitter @lgfuser https://twitter.com/#!/lgfuser"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:autoLink="web" />
+        <include layout="@layout/partial_separator" />
+        <TextView
+            android:text="本ソフトウェアでは，以下のライブラリ，アイコンを一部改変，またはそのまま利用しています．\n
 * ghapi\n
 https://github.com/eddieringle/ghapi\n
 * Open Icon Library\n
 http://openiconlibrary.sourceforge.net/\n
 * google-code-prettify\n
 http://code.google.com/p/google-code-prettify/"
-        android:layout_width="wrap_content" android:layout_height="wrap_content" />
-    <include layout="@layout/partial_separator" />
-    <TextView
-        android:text="成瀬基樹は，貴方，その他第三者が本ソフトウェアに関連して，直接的，あるいは間接的に被ったいかなる損害に対しても，賠償などの一切の責任を負わず，かつ，貴方はこれに対して成瀬基樹を免責するものとします．"
-        android:layout_width="wrap_content" android:layout_height="wrap_content" />
-    <include layout="@layout/partial_separator" />
-    <TextView android:text="Copyrights 2011 成瀬基樹"
-        android:layout_width="wrap_content" android:layout_height="wrap_content" />
-</LinearLayout>
+            android:layout_width="wrap_content" android:layout_height="wrap_content" />
+        <include layout="@layout/partial_separator" />
+        <TextView
+            android:text="成瀬基樹は，貴方，その他第三者が本ソフトウェアに関連して，直接的，あるいは間接的に被ったいかなる損害に対しても，賠償などの一切の責任を負わず，かつ，貴方はこれに対して成瀬基樹を免責するものとします．"
+            android:layout_width="wrap_content" android:layout_height="wrap_content" />
+        <include layout="@layout/partial_separator" />
+        <TextView android:text="Copyrights 2011 成瀬基樹"
+            android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    </LinearLayout>
+</ScrollView>
