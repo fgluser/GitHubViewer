@@ -13,13 +13,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class BookmarkDialog extends Dialog {
+public class BlobsMenuDialog extends Dialog {
     Refs mRefs;
 
-    public BookmarkDialog(Context context, Refs refs) {
+    public BlobsMenuDialog(Context context, Refs refs) {
         super(context);
         mRefs = refs;
-        setContentView(R.layout.dialog_bookmark);
+        setContentView(R.layout.dialog_bookmark_menu);
         setTitle("Menu");
         initAdapter();
     }
@@ -52,7 +52,7 @@ public class BookmarkDialog extends Dialog {
                     boookmarkNow();
                     break;
                 }
-                BookmarkDialog.this.dismiss();
+                BlobsMenuDialog.this.dismiss();
             }
         });
     }
