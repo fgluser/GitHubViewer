@@ -41,4 +41,8 @@ public class DashboardActivity extends Activity {
     public void onBookmarkButton(View view) {
         startActivity(new Intent(getApplicationContext(), BookmarkActivity.class));
     }
+
+    public void onConfigureButton(View view) {
+        startActivity(new Intent(getApplicationContext(), ConfigureActivity.class));
+    }
 }
