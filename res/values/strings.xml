@@ -33,4 +33,9 @@
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="succeed_to_edit_a_bookmark">Succeed to edit a bookmark.</string>
+        <string-array name="bookmark_menu_dialog">
+        <item>Open</item>
+        <item>Edit</item>
+        <item>Delete</item>
+    </string-array>
 </resources>

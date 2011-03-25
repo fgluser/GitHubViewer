@@ -57,6 +57,8 @@ public class BookmarkActivity extends ListActivity {
         getListView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Bookmark bookmark = (Bookmark) ((ListView) parent).getItemAtPosition(position);
+                new BookmarkMenuDialog(BookmarkActivity.this, bookmark).show();
                 return false;
             }
         });

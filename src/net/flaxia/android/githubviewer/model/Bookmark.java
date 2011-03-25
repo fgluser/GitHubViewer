@@ -1,6 +1,9 @@
 package net.flaxia.android.githubviewer.model;
 
-public class Bookmark {
+import java.io.Serializable;
+
+public class Bookmark implements Serializable {
+    private static final long serialVersionUID = 1426970635477281420L;
     private long mId;
     private String mOwner;
     private String mName;

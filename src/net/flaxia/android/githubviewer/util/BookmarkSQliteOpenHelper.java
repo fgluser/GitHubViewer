@@ -101,6 +101,21 @@ public class BookmarkSQliteOpenHelper extends SQLiteOpenHelper {
         return bookmarks.toArray(new Bookmark[0]);
     }
 
+    public int delete(long id) {
+        int result = 0;
+        SQLiteDatabase db = getWritableDatabase();
+        try {
+            db.beginTransaction();
+            result = db.delete(TABLE_BOOKMARK, COLUMN_ID + " = " + id, null);
+            db.setTransactionSuccessful();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            db.endTransaction();
+        }
+        return result;
+    }
+
     private ContentValues createContentValues(String owner, String name, String tree, String hash,
             String note) {
         ContentValues contentValues = new ContentValues();

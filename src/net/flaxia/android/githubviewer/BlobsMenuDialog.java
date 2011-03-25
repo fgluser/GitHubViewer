@@ -1,5 +1,6 @@
 package net.flaxia.android.githubviewer;
 
+import net.flaxia.android.githubviewer.model.Bookmark;
 import net.flaxia.android.githubviewer.model.Refs;
 import net.flaxia.android.githubviewer.util.BookmarkSQliteOpenHelper;
 import net.flaxia.android.githubviewer.util.CommonHelper;
@@ -37,11 +38,11 @@ public class BlobsMenuDialog extends Dialog {
                 switch (position) {
                 case 0: // Add Bookmark
                     try {
+                        Bookmark bookmark = new Bookmark(mRefs.getOwner(), mRefs.getName(), mRefs
+                                .getKey(), mRefs.getHash(), "");
                         Context context = getContext();
-                        Intent intent = new Intent(context, EditBookmarkActivity.class);
-                        intent.putExtra(BookmarkSQliteOpenHelper.COLUMN_ID,
-                                EditBookmarkActivity.ADD);
-                        intent.putExtra(Extra.REFS, mRefs);
+                        Intent intent = new Intent(context, BookmarkEditActivity.class);
+                        intent.putExtra(Extra.BOOKMARK, bookmark);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(intent);
                     } catch (Exception e) {

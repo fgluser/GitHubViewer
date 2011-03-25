@@ -23,7 +23,7 @@
             android:label="@string/app_name" />
         <activity android:name=".RepositorieInfoActivity"
             android:label="@string/app_name" />
-        <activity android:name=".EditBookmarkActivity"
+        <activity android:name="BookmarkEditActivity"
             android:label="@string/app_name" />
         <activity android:name=".BookmarkActivity"
             android:label="@string/app_name" />

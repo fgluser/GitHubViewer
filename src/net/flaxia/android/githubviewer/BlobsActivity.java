@@ -240,5 +240,4 @@ public class BlobsActivity extends BaseAsyncActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
-
 }
