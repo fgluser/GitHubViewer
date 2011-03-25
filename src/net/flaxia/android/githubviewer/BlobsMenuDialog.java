@@ -19,14 +19,14 @@ public class BlobsMenuDialog extends Dialog {
     public BlobsMenuDialog(Context context, Refs refs) {
         super(context);
         mRefs = refs;
-        setContentView(R.layout.dialog_bookmark_menu);
+        setContentView(R.layout.dialog_blobs_menu);
         setTitle("Menu");
         initAdapter();
     }
 
     private void initAdapter() {
         Context context = getContext();
-        String[] items = context.getResources().getStringArray(R.array.bookmark_menu_dialog);
+        String[] items = context.getResources().getStringArray(R.array.blobs_menu_dialog);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,
                 android.R.layout.simple_list_item_1, items);
         ListView listView = (ListView) findViewById(R.id.listView);
