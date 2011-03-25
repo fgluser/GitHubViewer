@@ -1,10 +1,12 @@
 package net.flaxia.android.githubviewer;
 
 import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 import net.flaxia.android.githubviewer.util.CommonHelper;
+import net.flaxia.android.githubviewer.util.Extra;
 import net.flaxia.android.githubviewer.util.LogEx;
 
 import org.idlesoft.libraries.ghapi.GitHubAPI;
@@ -66,8 +68,25 @@ public class CodeViewActivity extends BaseAsyncActivity {
     public String createHtml() {
         String html;
         Bundle extras = getIntent().getExtras();
-        String source = new GitHubAPI().object.raw(extras.getString("owner"), extras
-                .getString("name"), extras.getString("sha")).resp;
+        String path = extras.getString(Extra.EXPLORER_PATH);
+        String source;
+        if (null == path || 0 == path.length()) {
+            source = new GitHubAPI().object.raw(extras.getString("owner"),
+                    extras.getString("name"), extras.getString("sha")).resp;
+        } else {
+            try {
+                BufferedReader br = new BufferedReader(new FileReader(path));
+                StringBuilder sb = new StringBuilder();
+                String str;
+                while ((str = br.readLine()) != null) {
+                    sb.append(str + "\n");
+                }
+                source = sb.toString();
+            } catch (IOException e) {
+                e.printStackTrace();
+                source = "";
+            }
+        }
         StringBuilder sb = new StringBuilder();
         try {
             BufferedReader br = null;
@@ -86,12 +105,17 @@ public class CodeViewActivity extends BaseAsyncActivity {
         } catch (IOException e) {
             html = null;
         }
+        try{
         if (null == source || null == html) {
             html = getResources().getString(R.string.failed_to_retrieve_the_information);
         } else {
             html = html.replaceFirst("@title", extras.getString("fileName"));
             html = html.replaceFirst("@source", CommonHelper.escapeSign(source));
             LogEx.d(TAG, source);
+        }
+        }catch(Exception e){
+            e.printStackTrace();
+            html = "";
         }
 
         return html;

@@ -38,6 +38,7 @@ public class StartActivity extends Activity {
         iconCache.putDrawable("dir_l", resources.getDrawable(R.drawable.dir_l));
         iconCache.putDrawable("dir_t", resources.getDrawable(R.drawable.dir_t));
         iconCache.putDrawable("dir", resources.getDrawable(R.drawable.dir));
+        iconCache.putDrawable("ex_dir", resources.getDrawable(R.drawable.ex_dir));
 
         iconCache.putDrawable("type_c", resources.getDrawable(R.drawable.type_c));
         iconCache.putDrawable("type_cpp", resources.getDrawable(R.drawable.type_cpp));

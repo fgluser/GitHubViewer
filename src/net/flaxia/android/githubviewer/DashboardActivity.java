@@ -1,11 +1,16 @@
 package net.flaxia.android.githubviewer;
 
+import java.io.File;
+
 import net.flaxia.android.githubviewer.util.CommonHelper;
+import net.flaxia.android.githubviewer.util.Configuration;
 import net.flaxia.android.githubviewer.util.Extra;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -44,5 +49,15 @@ public class DashboardActivity extends Activity {
 
     public void onConfigureButton(View view) {
         startActivity(new Intent(getApplicationContext(), ConfigureActivity.class));
+    }
+
+    public void onLocalDriveButton(View view) {
+        final SharedPreferences prefs = PreferenceManager
+                .getDefaultSharedPreferences(getApplicationContext());
+        final File targetDir = new File(prefs.getString(ConfigureActivity.SAVE_DIR,
+                Configuration.DEFAULT_SAVE_PATH));
+        targetDir.mkdirs();
+        startActivity(new Intent(getApplicationContext(), LocalExplorerActivity.class).putExtra(
+                Extra.EXPLORER_PATH, targetDir.getAbsolutePath()));
     }
 }

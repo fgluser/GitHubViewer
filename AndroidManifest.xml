@@ -30,5 +30,7 @@
             android:label="@string/app_name" />
         <activity android:name=".ConfigureActivity"
             android:label="@string/app_name" />
+        <activity android:name=".LocalExplorerActivity"
+            android:label="@string/app_name" />
     </application>
 </manifest>
