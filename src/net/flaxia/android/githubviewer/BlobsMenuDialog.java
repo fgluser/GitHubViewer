@@ -84,7 +84,7 @@ public class BlobsMenuDialog extends Dialog {
         handler.post(new Runnable() {
             @Override
             public void run() {
-                mLoadingDialog = new LoadingDialog(getOwnerActivity());
+                mLoadingDialog = new LoadingDialog(getOwnerActivity(), R.string.downloading);
             }
         });
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());

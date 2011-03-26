@@ -42,4 +42,5 @@
     <string name="directory_location_to_store">Directory location to store</string>
     <string name="could_not_find_file_to_download">Could not find file to download.</string>
     <string name="unzipping">Unzipping</string>
+    <string name="downloading">Downloading</string>
 </resources>
