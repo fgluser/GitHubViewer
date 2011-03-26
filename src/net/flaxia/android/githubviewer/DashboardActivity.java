@@ -57,6 +57,11 @@ public class DashboardActivity extends Activity {
         final File targetDir = new File(prefs.getString(ConfigureActivity.SAVE_DIR,
                 Configuration.DEFAULT_SAVE_PATH));
         targetDir.mkdirs();
+        if (!targetDir.canRead()) {
+            Toast.makeText(getApplicationContext(), R.string.could_not_load_external_memory,
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
         startActivity(new Intent(getApplicationContext(), LocalExplorerActivity.class).putExtra(
                 Extra.EXPLORER_PATH, targetDir.getAbsolutePath()));
     }

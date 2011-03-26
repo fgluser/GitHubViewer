@@ -71,7 +71,17 @@ public class BlobsMenuDialog extends Dialog {
                     boookmarkNow();
                     break;
                 case 2: // Download
-                    downloadAndUnZip();
+                    final SharedPreferences prefs = PreferenceManager
+                            .getDefaultSharedPreferences(getContext());
+                    final File targetDir = new File(prefs.getString(ConfigureActivity.SAVE_DIR,
+                            Configuration.DEFAULT_SAVE_PATH));
+                    targetDir.mkdirs();
+                    if (targetDir.canWrite()) {
+                        downloadAndUnZip();
+                    } else {
+                        Toast.makeText(getContext(), R.string.could_not_write_to_external_memory,
+                                Toast.LENGTH_SHORT).show();
+                    }
                     break;
                 }
                 BlobsMenuDialog.this.dismiss();

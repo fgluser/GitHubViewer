@@ -43,4 +43,6 @@
     <string name="could_not_find_file_to_download">Could not find file to download.</string>
     <string name="unzipping">Unzipping</string>
     <string name="downloading">Downloading</string>
+    <string name="could_not_load_external_memory">Could not load external memory.</string>
+    <string name="could_not_write_to_external_memory">Could not write to external memory.</string>
 </resources>
