@@ -20,8 +20,7 @@ public class DirectoryListDialog extends Activity implements DialogInterface.OnC
 
     @Override
     public void onClick(DialogInterface dialog, int which) {
-        if ((mDirectoryList == null) || (mListenner == null)) {
-        } else {
+        if ((null != mDirectoryList) && (null != mListenner)) {
             File file = mDirectoryList.get(which);
             show(file.getAbsolutePath(), file.getPath());
         }
@@ -46,6 +45,7 @@ public class DirectoryListDialog extends Activity implements DialogInterface.OnC
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext);
                 alertDialogBuilder.setTitle(title);
                 alertDialogBuilder.setItems(viewList.toArray(new String[0]), this);
+                // 自身のContextではgetStringが失敗する
                 alertDialogBuilder.setPositiveButton(mContext.getString(R.string.ok),
                         new DialogInterface.OnClickListener() {
                             @Override
@@ -54,6 +54,7 @@ public class DirectoryListDialog extends Activity implements DialogInterface.OnC
                                 mListenner.onClickFileList(path);
                             }
                         });
+                // 自身のContextではgetStringが失敗する
                 alertDialogBuilder.setNegativeButton(mContext.getString(R.string.cancel),
                         new DialogInterface.OnClickListener() {
                             @Override
