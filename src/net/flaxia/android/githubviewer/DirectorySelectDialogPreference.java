@@ -2,7 +2,7 @@ package net.flaxia.android.githubviewer;
 
 import java.io.File;
 
-import net.flaxia.android.githubviewer.DirectoryListDialog.onDirectoryListDialogListener;
+import net.flaxia.android.githubviewer.DirectorySelectDialog.onDirectoryListDialogListener;
 import net.flaxia.android.githubviewer.util.Configuration;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -12,7 +12,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 public class DirectorySelectDialogPreference extends DialogPreference implements
-        DirectoryListDialog.onDirectoryListDialogListener {
+        DirectorySelectDialog.onDirectoryListDialogListener {
 
     public DirectorySelectDialogPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -32,7 +32,7 @@ public class DirectorySelectDialogPreference extends DialogPreference implements
     @Override
     protected void onClick() {
         File externalStorage = Environment.getExternalStorageDirectory();
-        DirectoryListDialog dlg = new DirectoryListDialog(getContext());
+        DirectorySelectDialog dlg = new DirectorySelectDialog(getContext());
         dlg.setOnFileListDialogListener((onDirectoryListDialogListener) this);
         dlg.show(externalStorage.getAbsolutePath(), externalStorage.getPath());
     }

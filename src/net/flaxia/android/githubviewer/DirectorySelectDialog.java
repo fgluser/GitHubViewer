@@ -8,12 +8,12 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 
-public class DirectoryListDialog extends Activity implements DialogInterface.OnClickListener {
+public class DirectorySelectDialog extends Activity implements DialogInterface.OnClickListener {
     private Context mContext;
     private ArrayList<File> mDirectoryList;
     private onDirectoryListDialogListener mListenner;
 
-    public DirectoryListDialog(Context context) {
+    public DirectorySelectDialog(Context context) {
         mContext = context;
         mDirectoryList = new ArrayList<File>();
     }
