@@ -108,7 +108,8 @@ public class BlobsMenuDialog extends Dialog {
                     + mRefs.getName() + "/zipball/" + mRefs.getKey());
             new Thread(new Runnable() {
                 public void run() {
-                    Downloader.start(url, new File(targetDir + "/" + mRefs.getKey() + ".zip"));
+                    File zipFile = new File(targetDir + "/" + mRefs.getKey() + ".zip");
+                    Downloader.start(url, zipFile);
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
@@ -118,6 +119,7 @@ public class BlobsMenuDialog extends Dialog {
                         }
                     });
                     unzip(targetPath);
+                    zipFile.delete();
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
