@@ -54,6 +54,9 @@ public class CodeViewActivity extends BaseAsyncActivity {
         super.onRestoreInstanceState(savedInstanceState);
     }
 
+    /**
+     * WebViewの初期化
+     */
     private void initWebView() {
         mWebView = (WebView) findViewById(R.id.webview);
         mWebView.getSettings().setJavaScriptEnabled(true);
@@ -89,7 +92,11 @@ public class CodeViewActivity extends BaseAsyncActivity {
         });
     }
 
-    public String createHtml() {
+    /**
+     * 表示するHTMLを生成する
+     * @return
+     */
+    private String createHtml() {
         String html;
         Bundle extras = getIntent().getExtras();
         String path = extras.getString(Extra.EXPLORER_PATH);
