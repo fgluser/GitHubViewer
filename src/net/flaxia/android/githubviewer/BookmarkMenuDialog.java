@@ -20,7 +20,7 @@ public class BookmarkMenuDialog extends Dialog {
         super(bookmarkActivity);
         mBookmarkActivity = bookmarkActivity;
         mBookmark = bookmark;
-        setContentView(R.layout.dialog_bookmark_menu);
+        setContentView(R.layout.dialog_menu);
         setTitle("Menu");
         initAdapter();
     }

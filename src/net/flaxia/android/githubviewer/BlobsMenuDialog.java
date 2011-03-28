@@ -38,7 +38,7 @@ public class BlobsMenuDialog extends Dialog {
     public BlobsMenuDialog(Context context, Refs refs) {
         super(context);
         mRefs = refs;
-        setContentView(R.layout.dialog_blobs_menu);
+        setContentView(R.layout.dialog_menu);
         setTitle("Menu");
         initAdapter();
     }
