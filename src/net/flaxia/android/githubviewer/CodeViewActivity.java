@@ -19,15 +19,39 @@ import android.webkit.WebViewClient;
 
 public class CodeViewActivity extends BaseAsyncActivity {
     private static final String TAG = CodeViewActivity.class.getSimpleName();
+    private static final String HTML = "html";
     protected WebView mWebView;
     private LoadingDialog mRenderingDialog;
+    private String mHtml;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_code_view);
         initWebView();
-        doAsyncTask();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (null == mHtml) {
+            doAsyncTask();
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(HTML, mHtml);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        if (null != savedInstanceState && null != savedInstanceState.getString(HTML)) {
+            mHtml = savedInstanceState.getString(HTML);
+            mWebView.loadDataWithBaseURL("about:blank", mHtml, "text/html", "utf-8", null);
+        }
+        super.onRestoreInstanceState(savedInstanceState);
     }
 
     private void initWebView() {
@@ -55,12 +79,12 @@ public class CodeViewActivity extends BaseAsyncActivity {
 
     @Override
     protected void executeAsyncTask(String... parameters) {
-        final String html = createHtml();
+        mHtml = createHtml();
         mHandler.post(new Runnable() {
             @Override
             public void run() {
                 mLoadingDialog.dismiss();
-                mWebView.loadDataWithBaseURL("about:blank", html, "text/html", "utf-8", null);
+                mWebView.loadDataWithBaseURL("about:blank", mHtml, "text/html", "utf-8", null);
             }
         });
     }
@@ -105,15 +129,15 @@ public class CodeViewActivity extends BaseAsyncActivity {
         } catch (IOException e) {
             html = null;
         }
-        try{
-        if (null == source || null == html) {
-            html = getResources().getString(R.string.failed_to_retrieve_the_information);
-        } else {
-            html = html.replaceFirst("@title", extras.getString("fileName"));
-            html = html.replaceFirst("@source", CommonHelper.escapeSign(source));
-            LogEx.d(TAG, source);
-        }
-        }catch(Exception e){
+        try {
+            if (null == source || null == html) {
+                html = getResources().getString(R.string.failed_to_retrieve_the_information);
+            } else {
+                html = html.replaceFirst("@title", extras.getString("fileName"));
+                html = html.replaceFirst("@source", CommonHelper.escapeSign(source));
+                LogEx.d(TAG, source);
+            }
+        } catch (Exception e) {
             e.printStackTrace();
             html = "";
         }
