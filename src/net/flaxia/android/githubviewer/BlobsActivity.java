@@ -1,6 +1,5 @@
 package net.flaxia.android.githubviewer;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeMap;
 
@@ -28,33 +27,63 @@ import android.widget.Toast;
 
 public class BlobsActivity extends BaseAsyncActivity {
     private static final String TAG = BlobsActivity.class.getSimpleName();
+    private static final String ADAPTER = "adapter";
+    private static final String TREE = "tree";
     private TreeAdapter mSpinnerAdapter;
     private Tree mTree;
     private ListView mListView;
+    private Refs mRefs;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_blobs);
-        Refs refs = (Refs) getIntent().getExtras().getSerializable(Extra.REFS);
-        String owner = refs.getOwner();
-        String name = refs.getName();
-        String hash = (null == refs.getHash()) ? "master" : refs.getHash();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (null == mRefs) {
+            mRefs = (Refs) getIntent().getExtras().getSerializable(Extra.REFS);
+        }
+        String owner = mRefs.getOwner();
+        String name = mRefs.getName();
         setTitle(owner + " / " + name);
-        initSpinnerAdapter();
-        doAsyncTask(owner, name, hash);
+        if (null == mSpinnerAdapter) {
+            initSpinnerAdapter();
+            mSpinnerAdapter.add(new KeyValuePair("/", 0));
+            String hash = (null == mRefs.getHash()) ? "master" : mRefs.getHash();
+            doAsyncTask(owner, name, hash);
+        } else {
+            ((Spinner) findViewById(R.id.spinner)).setAdapter(mSpinnerAdapter);
+        }
         initListView();
         initSpinner();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable(Extra.REFS, mRefs);
+        outState.putSerializable(TREE, mTree);
+        outState.putSerializable(ADAPTER, mSpinnerAdapter.getList().toArray(new KeyValuePair[0]));
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        mRefs = (Refs) savedInstanceState.getSerializable(Extra.REFS);
+        mTree = (Tree) savedInstanceState.getSerializable(TREE);
+        initSpinnerAdapter();
+        mSpinnerAdapter.setList((KeyValuePair[]) savedInstanceState.getSerializable(ADAPTER));
     }
 
     /**
      * スピナーアダプターの初期化
      */
     private void initSpinnerAdapter() {
-        mSpinnerAdapter = new TreeAdapter(BlobsActivity.this, android.R.layout.simple_spinner_item,
-                new ArrayList<KeyValuePair>());
+        mSpinnerAdapter = new TreeAdapter(BlobsActivity.this, android.R.layout.simple_spinner_item);
         mSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
-        mSpinnerAdapter.add(new KeyValuePair("/", 0));
     }
 
     /**
@@ -67,9 +96,8 @@ public class BlobsActivity extends BaseAsyncActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 KeyValuePair keyValuePair = (KeyValuePair) ((ListView) parent)
                         .getItemAtPosition(position);
-                Refs refs = (Refs) getIntent().getExtras().getSerializable(Extra.REFS);
-                String owner = refs.getOwner();
-                String name = refs.getName();
+                String owner = mRefs.getOwner();
+                String name = mRefs.getName();
                 Intent intent = new Intent(getApplicationContext(), CodeViewActivity.class);
                 intent.putExtra("name", name);
                 intent.putExtra("owner", owner);
