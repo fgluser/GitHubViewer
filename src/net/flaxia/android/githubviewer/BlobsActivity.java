@@ -53,8 +53,8 @@ public class BlobsActivity extends BaseAsyncActivity {
     private void initSpinnerAdapter() {
         mSpinnerAdapter = new TreeAdapter(BlobsActivity.this, android.R.layout.simple_spinner_item,
                 new ArrayList<KeyValuePair>());
-        mSpinnerAdapter.add(new KeyValuePair("/", 0));
         mSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+        mSpinnerAdapter.add(new KeyValuePair("/", 0));
     }
 
     /**

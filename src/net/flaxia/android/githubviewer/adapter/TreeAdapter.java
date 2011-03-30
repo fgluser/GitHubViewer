@@ -10,7 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class TreeAdapter extends KeyValuePairAdapter {
+public class TreeAdapter extends BaseListAdapter<KeyValuePair> {
+    private static final long serialVersionUID = 6839294306238712811L;
 
     public TreeAdapter(Context context, int textViewResourceId,
             ArrayList<KeyValuePair> keyValuePairs) {
@@ -19,7 +20,7 @@ public class TreeAdapter extends KeyValuePairAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View view = (null == convertView) ? mInflater.inflate(mLayout, null) : convertView;
+        View view = super.getView(position, convertView, parent);
         ((TextView) view.findViewById(android.R.id.text1)).setText(getItem(position).getKey());
         return view;
     }
