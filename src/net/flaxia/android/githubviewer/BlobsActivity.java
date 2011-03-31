@@ -96,11 +96,9 @@ public class BlobsActivity extends BaseAsyncActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 KeyValuePair keyValuePair = (KeyValuePair) ((ListView) parent)
                         .getItemAtPosition(position);
-                String owner = mRefs.getOwner();
-                String name = mRefs.getName();
                 Intent intent = new Intent(getApplicationContext(), CodeViewActivity.class);
-                intent.putExtra("name", name);
-                intent.putExtra("owner", owner);
+                intent.putExtra("name", mRefs.getName());
+                intent.putExtra("owner", mRefs.getOwner());
                 intent.putExtra("sha", keyValuePair.getValue());
                 intent.putExtra("fileName", keyValuePair.getKey());
                 startActivity(intent);
