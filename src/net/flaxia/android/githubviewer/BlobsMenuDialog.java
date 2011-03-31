@@ -17,7 +17,6 @@ import net.flaxia.android.githubviewer.model.Refs;
 import net.flaxia.android.githubviewer.util.BookmarkSQliteOpenHelper;
 import net.flaxia.android.githubviewer.util.CommonHelper;
 import net.flaxia.android.githubviewer.util.Configuration;
-import net.flaxia.android.githubviewer.util.Downloader;
 import net.flaxia.android.githubviewer.util.Extra;
 import android.app.Dialog;
 import android.content.Context;
@@ -109,7 +108,19 @@ public class BlobsMenuDialog extends Dialog {
             new Thread(new Runnable() {
                 public void run() {
                     File zipFile = new File(targetDir + "/" + mRefs.getKey() + ".zip");
-                    Downloader.start(url, zipFile);
+                    try {
+                        CommonHelper.download(url, zipFile);
+                    } catch (IOException e) {
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                mLoadingDialog.dismiss();
+                                Toast.makeText(getOwnerActivity(), R.string.download_failed,
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        return;
+                    }
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
