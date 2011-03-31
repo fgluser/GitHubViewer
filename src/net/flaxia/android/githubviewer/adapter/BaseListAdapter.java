@@ -1,7 +1,7 @@
 package net.flaxia.android.githubviewer.adapter;
 
-import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import android.content.Context;
@@ -11,15 +11,18 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-public class BaseListAdapter<T> extends BaseAdapter implements Serializable {
-    private static final long serialVersionUID = 8665941921519121895L;
-    private List<T> mObjects;
-    private LayoutInflater mInflater;
-    private int mResource;
-    private int mDropDownResource;
+abstract class BaseListAdapter<T> extends BaseAdapter {
+    protected List<T> mObjects;
+    protected LayoutInflater mInflater;
+    protected int mResource;
+    protected int mDropDownResource;
 
     public BaseListAdapter(Context context, int textViewResourceId) {
         this(context, textViewResourceId, new ArrayList<T>());
+    }
+
+    public BaseListAdapter(Context context, int textViewResourceId, T[] objects) {
+        this(context, textViewResourceId, Arrays.asList(objects));
     }
 
     public BaseListAdapter(Context context, int textViewResourceId, List<T> objects) {
@@ -68,5 +71,9 @@ public class BaseListAdapter<T> extends BaseAdapter implements Serializable {
     public void add(T object) {
         mObjects.add(object);
         notifyDataSetChanged();
+    }
+    
+    public void clear(){
+        mObjects.clear();
     }
 }
