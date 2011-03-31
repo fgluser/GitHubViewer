@@ -1,10 +1,7 @@
 package net.flaxia.android.githubviewer.model;
 
-import java.io.Serializable;
 
-
-public class KeyValuePair implements Serializable{
-    private static final long serialVersionUID = 7670948433091747935L;
+public class KeyValuePair {
     private String mKey;
     private String mValue;
 

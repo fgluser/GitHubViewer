@@ -1,13 +1,11 @@
 package net.flaxia.android.githubviewer.model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeMap;
 
 
-public class Tree implements Serializable{
-    private static final long serialVersionUID = -5682281994785815796L;
+public class Tree {
     private TreeMap<String, Tree> mChildTree;
     private ArrayList<KeyValuePair> mChildBlob;
 

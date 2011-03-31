@@ -1,5 +1,7 @@
 package net.flaxia.android.githubviewer.adapter;
 
+import java.util.ArrayList;
+
 import net.flaxia.android.githubviewer.model.KeyValuePair;
 import net.flaxia.android.githubviewer.util.IconCache;
 import android.content.Context;
@@ -9,8 +11,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 public class TreeAdapter extends BaseListAdapter<KeyValuePair> {
-    public TreeAdapter(Context context, int textViewResourceId) {
-        super(context, textViewResourceId);
+    private static final long serialVersionUID = 6839294306238712811L;
+
+    public TreeAdapter(Context context, int textViewResourceId,
+            ArrayList<KeyValuePair> keyValuePairs) {
+        super(context, textViewResourceId, keyValuePairs);
     }
 
     @Override
