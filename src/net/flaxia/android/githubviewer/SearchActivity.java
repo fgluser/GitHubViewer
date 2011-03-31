@@ -25,18 +25,41 @@ import android.widget.Toast;
 
 public class SearchActivity extends BaseAsyncActivity {
     private static final String TAG = SearchActivity.class.getSimpleName();
-
+    private static final String REPOSITORIE = "repositorie";
     private ListView mListView;
+    private Repositorie[] mRepositories;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setSoftInputMode(LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         setContentView(R.layout.activity_search);
-        String q = getIntent().getExtras().getString(Extra.Q);
-        ((EditText) findViewById(R.id.q)).setText(q);
         initListView();
-        doAsyncTask(q);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (null == mRepositories) {
+            String q = getIntent().getExtras().getString(Extra.Q);
+            ((EditText) findViewById(R.id.q)).setText(q);
+            doAsyncTask(q);
+        } else {
+            mListView.setAdapter(new RepositorieAdapter(this, android.R.layout.simple_list_item_2,
+                    mRepositories));
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable(REPOSITORIE, mRepositories);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        mRepositories = (Repositorie[]) savedInstanceState.getSerializable(REPOSITORIE);
     }
 
     private void initListView() {
@@ -82,9 +105,9 @@ public class SearchActivity extends BaseAsyncActivity {
     @Override
     protected void executeAsyncTask(String... parameters) {
         String resultJson = executeSearch(parameters[0]);
-        final Repositorie[] repositories = (null == resultJson) ? null : parseJson(resultJson);
+        mRepositories = (null == resultJson) ? null : parseJson(resultJson);
         Runnable runnable;
-        if (null == repositories) {
+        if (null == mRepositories) {
             runnable = new Runnable() {
                 @Override
                 public void run() {
@@ -99,7 +122,7 @@ public class SearchActivity extends BaseAsyncActivity {
                 public void run() {
                     dismissDialog();
                     mListView.setAdapter(new RepositorieAdapter(SearchActivity.this,
-                            android.R.layout.simple_list_item_2, repositories));
+                            android.R.layout.simple_list_item_2, mRepositories));
                 }
             };
         }
