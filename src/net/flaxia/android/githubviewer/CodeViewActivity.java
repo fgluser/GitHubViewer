@@ -19,39 +19,15 @@ import android.webkit.WebViewClient;
 
 public class CodeViewActivity extends BaseAsyncActivity {
     private static final String TAG = CodeViewActivity.class.getSimpleName();
-    private static final String HTML = "html";
     protected WebView mWebView;
     private LoadingDialog mRenderingDialog;
-    private String mHtml;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_code_view);
         initWebView();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (null == mHtml) {
-            doAsyncTask();
-        }
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putString(HTML, mHtml);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        if (null != savedInstanceState && null != savedInstanceState.getString(HTML)) {
-            mHtml = savedInstanceState.getString(HTML);
-            mWebView.loadDataWithBaseURL("about:blank", mHtml, "text/html", "utf-8", null);
-        }
-        super.onRestoreInstanceState(savedInstanceState);
+        doAsyncTask();
     }
 
     /**
@@ -82,18 +58,19 @@ public class CodeViewActivity extends BaseAsyncActivity {
 
     @Override
     protected void executeAsyncTask(String... parameters) {
-        mHtml = createHtml();
+        final String html = createHtml();
         mHandler.post(new Runnable() {
             @Override
             public void run() {
                 mLoadingDialog.dismiss();
-                mWebView.loadDataWithBaseURL("about:blank", mHtml, "text/html", "utf-8", null);
+                mWebView.loadDataWithBaseURL("about:blank", html, "text/html", "utf-8", null);
             }
         });
     }
 
     /**
      * 表示するHTMLを生成する
+     * 
      * @return
      */
     private String createHtml() {
