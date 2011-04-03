@@ -2,12 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="wrap_content" android:layout_width="fill_parent"
     android:gravity="center_vertical">
+    <ImageView android:layout_height="wrap_content"
+        android:layout_width="wrap_content" android:src="@drawable/icon"
+        android:layout_marginLeft="5px" />
     <EditText android:layout_height="fill_parent"
         android:layout_width="wrap_content" android:id="@+id/q"
         android:hint="@string/search_word" android:layout_weight="1"
-        android:singleLine="true" />
+        android:singleLine="true" android:layout_marginLeft="5px"
+        android:layout_marginRight="5px" />
     <ImageButton android:layout_width="wrap_content"
         android:layout_height="wrap_content" android:onClick="onSearchButton"
-        android:src="@drawable/search" android:layout_marginLeft="5px"
-        android:layout_marginRight="5px" />
+        android:src="@drawable/search" android:layout_marginRight="5px" />
 </LinearLayout>
