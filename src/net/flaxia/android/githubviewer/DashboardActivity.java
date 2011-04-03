@@ -2,23 +2,22 @@ package net.flaxia.android.githubviewer;
 
 import java.io.File;
 
-import net.flaxia.android.githubviewer.util.CommonHelper;
 import net.flaxia.android.githubviewer.util.Configuration;
 import net.flaxia.android.githubviewer.util.Extra;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
-import android.widget.EditText;
+import android.view.WindowManager.LayoutParams;
 import android.widget.Toast;
 
 public class DashboardActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setSoftInputMode(LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         setContentView(R.layout.activity_dashbord);
     }
 
@@ -28,15 +27,11 @@ public class DashboardActivity extends Activity {
      * @param view
      */
     public void onSearchButton(View view) {
-        Context context = getApplicationContext();
-        String q = ((EditText) findViewById(R.id.q)).getText().toString();
-        if (CommonHelper.isEmpty(q)) {
-            Toast.makeText(context, R.string.search_word_is_empty, Toast.LENGTH_LONG).show();
-            return;
-        }
-        Intent intent = new Intent(context, SearchActivity.class);
-        intent.putExtra(Extra.Q, q);
-        startActivity(intent);
+        startActivity(new Intent(getApplicationContext(), SearchActivity.class));
+    }
+    
+    public void onUserSearchButton(View view){
+        startActivity(new Intent(getApplicationContext(), UserSearchActivity.class));
     }
 
     public void onInformationButton(View view) {

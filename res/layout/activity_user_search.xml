@@ -2,15 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="fill_parent"
     android:layout_height="fill_parent">
-    <EditText android:layout_height="wrap_content"
-        android:layout_width="fill_parent" android:id="@+id/q"
-        android:hint="@string/search_word"
-        android:singleLine="true" android:layout_marginLeft="5px"
-        android:layout_marginRight="5px" />
     <LinearLayout android:layout_height="wrap_content"
         android:layout_width="fill_parent" android:gravity="center_vertical">
         <EditText android:layout_height="fill_parent"
-            android:layout_width="wrap_content" android:id="@+id/language"
+            android:layout_width="wrap_content" android:id="@+id/q"
             android:hint="@string/option_language_example" android:layout_weight="1"
             android:singleLine="true" android:layout_marginLeft="5px"
             android:layout_marginRight="5px" />
@@ -18,6 +13,6 @@
             android:layout_height="wrap_content" android:onClick="onSearchButton"
             android:src="@drawable/search" android:layout_marginRight="5px" />
     </LinearLayout>
-    <ListView android:id="@+id/repositorie"
+    <ListView android:id="@+id/user"
         android:layout_height="fill_parent" android:layout_width="fill_parent" />
 </LinearLayout>

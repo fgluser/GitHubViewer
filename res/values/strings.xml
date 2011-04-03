@@ -46,4 +46,6 @@
     <string name="could_not_load_external_memory">Could not load external memory.</string>
     <string name="could_not_write_to_external_memory">Could not write to external memory.</string>
     <string name="download_failed">Download failed.</string>
+    <string name="keyword_search">Keyword Search</string>
+    <string name="option_language_example">Option Language (C Java ...)</string>
 </resources>

@@ -5,6 +5,7 @@ import net.flaxia.android.githubviewer.model.Refs;
 import net.flaxia.android.githubviewer.model.Repositorie;
 import net.flaxia.android.githubviewer.util.Extra;
 import net.flaxia.android.githubviewer.util.LogEx;
+import net.flaxia.android.githubviewer.util.RepositoryEx;
 
 import org.idlesoft.libraries.ghapi.GitHubAPI;
 import org.idlesoft.libraries.ghapi.APIAbstract.Response;
@@ -16,7 +17,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.WindowManager.LayoutParams;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -31,12 +31,8 @@ public class SearchActivity extends BaseAsyncActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setSoftInputMode(LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         setContentView(R.layout.activity_search);
-        String q = getIntent().getExtras().getString(Extra.Q);
-        ((EditText) findViewById(R.id.q)).setText(q);
         initListView();
-        doAsyncTask(q);
     }
 
     private void initListView() {
@@ -76,12 +72,14 @@ public class SearchActivity extends BaseAsyncActivity {
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
 
         String q = ((EditText) findViewById(R.id.q)).getText().toString();
-        doAsyncTask(q);
+        String language = ((EditText) findViewById(R.id.language)).getText().toString();
+
+        doAsyncTask(q, language);
     }
 
     @Override
     protected void executeAsyncTask(String... parameters) {
-        String resultJson = executeSearch(parameters[0]);
+        String resultJson = executeSearch(parameters[0], parameters[1]);
         final Repositorie[] repositories = (null == resultJson) ? null : parseJson(resultJson);
         Runnable runnable;
         if (null == repositories) {
@@ -112,10 +110,11 @@ public class SearchActivity extends BaseAsyncActivity {
      * @param q
      * @return
      */
-    private String executeSearch(String q) {
+    private String executeSearch(String q, String language) {
         GitHubAPI github = new GitHubAPI();
         github.goStealth();
-        Response response = github.repo.search(q);
+        RepositoryEx repositoryEx = new RepositoryEx(github);
+        Response response = repositoryEx.search(q, language);
         LogEx.d(TAG, response.url);
         return response.resp;
     }
