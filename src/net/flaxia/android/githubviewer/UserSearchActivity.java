@@ -2,6 +2,7 @@ package net.flaxia.android.githubviewer;
 
 import net.flaxia.android.githubviewer.adapter.UserAdapter;
 import net.flaxia.android.githubviewer.model.User;
+import net.flaxia.android.githubviewer.util.Extra;
 import net.flaxia.android.githubviewer.util.LogEx;
 
 import org.idlesoft.libraries.ghapi.GitHubAPI;
@@ -11,9 +12,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -32,22 +35,14 @@ public class UserSearchActivity extends BaseAsyncActivity {
 
     private void initListView() {
         mListView = (ListView) findViewById(R.id.user);
-
-        // mListView.setOnItemClickListener(new
-        // AdapterView.OnItemClickListener() {
-        // @Override
-        // public void onItemClick(AdapterView<?> parent, View view, int
-        // position, long id) {
-        // Repositorie repositorie = ((RepositorieAdapter) ((ListView)
-        // parent).getAdapter())
-        // .getItem(position);
-        // Refs refs = new Refs(repositorie.get(Repositorie.OWNER), repositorie
-        // .get(Repositorie.NAME), "master", "master");
-        // startActivity(new Intent(getApplicationContext(),
-        // BlobsActivity.class).putExtra(
-        // Extra.REFS, refs));
-        // }
-        // });
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                User user = ((UserAdapter) ((ListView) parent).getAdapter()).getItem(position);
+                startActivity(new Intent(getApplicationContext(), UserRepositoryActivity.class).putExtra(
+                        Extra.USERNAME, user.get(User.USERNAME)));
+            }
+        });
     }
 
     /**
