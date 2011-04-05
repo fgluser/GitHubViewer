@@ -5,7 +5,7 @@
 <meta http-equiv="Cache-Control" content="no-cache" />
 <meta name="format-detection" content="telephone=no" />
 <meta name="format-detection" content="email=no" />
-<link href="file:///android_asset/src/prettify.css" type="text/css" rel="stylesheet" />
+<link href="file:///android_asset/src/@theme.css" type="text/css" rel="stylesheet" />
 <script type="text/javascript" src="file:///android_asset/src/prettify.js" />
 <title>@$title</title>
 </head>

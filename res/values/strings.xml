@@ -49,4 +49,16 @@
     <string name="keyword_search">Keyword Search</string>
     <string name="option_language_example">Option Language (C Java ...)</string>
     <string name="username">Username</string>
+    <string name="code_theme">Code Theme</string>
+    <string name="select_code_theme">Select code theme</string>
+    <string-array name="code_themes">
+        <item>default</item>
+        <item>desert</item>
+        <item>sunburst</item>
+    </string-array>
+    <string-array name="code_theme_values">
+        <item>default</item>
+        <item>desert</item>
+        <item>sunburst</item>
+    </string-array>
 </resources>

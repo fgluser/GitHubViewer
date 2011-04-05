@@ -13,6 +13,7 @@ import org.idlesoft.libraries.ghapi.GitHubAPI;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -119,6 +120,10 @@ public class CodeViewActivity extends BaseAsyncActivity {
             } else {
                 html = html.replaceFirst("@title", extras.getString("fileName"));
                 html = html.replaceFirst("@source", CommonHelper.escapeSign(source));
+                String theme = PreferenceManager.getDefaultSharedPreferences(
+                        getApplicationContext()).getString(ConfigureActivity.CODE_THEME, "default");
+                html = html.replaceFirst("@theme", theme);
+                LogEx.d(TAG, theme);
                 LogEx.d(TAG, source);
             }
         } catch (Exception e) {

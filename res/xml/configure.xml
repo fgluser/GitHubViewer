@@ -2,4 +2,8 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <net.flaxia.android.githubviewer.DirectorySelectDialogPreference
         android:key="saveDir" android:title="@string/directory_location_to_store" />
+    <ListPreference android:key="codeTheme"
+        android:title="@string/code_theme" android:dialogTitle="@string/select_code_theme"
+        android:entries="@array/code_themes" android:entryValues="@array/code_theme_values"
+        android:defaultValue="default" />
 </PreferenceScreen>
