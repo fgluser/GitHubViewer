@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="fill_parent"
-    android:layout_height="wrap_content" android:gravity="center"
-    android:layout_weight="1">
-    <Button android:layout_width="wrap_content"
-        android:layout_height="wrap_content" android:drawableTop="@drawable/information"
-        android:text="@string/information" android:onClick="onInformationButton" />
+    android:layout_height="wrap_content" android:layout_weight="1">
+    <FrameLayout android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+        <LinearLayout android:layout_width="fill_parent"
+            android:layout_height="fill_parent" android:gravity="center">
+            <ImageButton android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:src="@drawable/information"
+                android:onClick="onInformationButton" />
+        </LinearLayout>
+        <LinearLayout android:layout_width="fill_parent"
+            android:layout_height="fill_parent" android:gravity="center|bottom"
+            android:layout_marginBottom="10dip">
+            <TextView android:background="#33000000"
+                android:textColor="#FFFFFF" android:paddingLeft="5dip"
+                android:paddingRight="5dip" android:layout_width="fill_parent"
+                android:gravity="center" android:layout_height="wrap_content"
+                android:text="@string/information" />
+        </LinearLayout>
+    </FrameLayout>
 </LinearLayout>

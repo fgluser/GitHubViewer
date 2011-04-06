@@ -6,10 +6,14 @@
         android:layout_width="fill_parent" android:layout_height="fill_parent">
         <include layout="@layout/partial_search" />
         <LinearLayout android:orientation="horizontal"
-            android:layout_width="fill_parent" android:layout_height="fill_parent"
-            android:gravity="center_vertical">
+            android:layout_weight="1" android:layout_width="fill_parent"
+            android:layout_height="wrap_content" android:gravity="center_vertical">
             <include layout="@layout/partial_bookmark" />
             <include layout="@layout/partial_local_drive" />
+        </LinearLayout>
+        <LinearLayout android:orientation="horizontal"
+            android:layout_weight="1" android:layout_width="fill_parent"
+            android:layout_height="wrap_content" android:gravity="center_vertical">
             <include layout="@layout/partial_configure" />
             <include layout="@layout/partial_information" />
         </LinearLayout>
