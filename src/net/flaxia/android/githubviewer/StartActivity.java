@@ -2,8 +2,11 @@ package net.flaxia.android.githubviewer;
 
 import net.flaxia.android.githubviewer.util.BookmarkSQliteOpenHelper;
 import net.flaxia.android.githubviewer.util.Configuration;
+import net.flaxia.android.githubviewer.util.Extra;
 import net.flaxia.android.githubviewer.util.IconCache;
 import android.app.Activity;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -16,14 +19,29 @@ public class StartActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
     }
-    
+
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
         Configuration.getInstance().isDebuggable = isDebuggable();
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.cancel(0);
         new BookmarkSQliteOpenHelper(getApplicationContext()).getReadableDatabase().close();
         initIcons();
-        startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
+        Intent intent = getIntent();
+        if (null != intent.getExtras()) {
+            switch (intent.getExtras().getInt(Extra.ACTIVITY, 0)) {
+            case Extra.LOCAL_EXPLORER_ACTIVITY:
+                intent.setClass(getApplicationContext(), LocalExplorerActivity.class);
+                break;
+            default:
+                intent.setClass(getApplicationContext(), DashboardActivity.class);
+                break;
+            }
+        } else {
+            intent=new Intent(getApplicationContext(), DashboardActivity.class);
+        }
+        startActivity(intent);
         finish();
     }
 

@@ -61,4 +61,8 @@
         <item>desert</item>
         <item>sunburst</item>
     </string-array>
+    <string name="start_download">Start download</string>
+    <string name="start_unzip">Start unzip</string>
+    <string name="unzip_failed">Unzip failed.</string>
+    <string name="download_is_complete">Download is complete.</string>
 </resources>

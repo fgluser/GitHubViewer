@@ -1,16 +1,6 @@
 package net.flaxia.android.githubviewer;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Enumeration;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipException;
-import java.util.zip.ZipFile;
 
 import net.flaxia.android.githubviewer.model.Bookmark;
 import net.flaxia.android.githubviewer.model.Refs;
@@ -22,7 +12,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.AdapterView;
@@ -72,11 +61,20 @@ public class BlobsMenuDialog extends Dialog {
                 case 2: // Download
                     final SharedPreferences prefs = PreferenceManager
                             .getDefaultSharedPreferences(getContext());
-                    final File targetDir = new File(prefs.getString(ConfigureActivity.SAVE_DIR,
-                            Configuration.DEFAULT_SAVE_PATH));
+                    String targetDirPath = prefs.getString(ConfigureActivity.SAVE_DIR,
+                            Configuration.DEFAULT_SAVE_PATH);
+                    final File targetDir = new File(targetDirPath);
                     targetDir.mkdirs();
                     if (targetDir.canWrite()) {
-                        downloadAndUnZip();
+                        Intent intent = new Intent(getContext(), DownloadService.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.putExtra(DownloadService.SAVE_PATH, targetDirPath + "/"
+                                + mRefs.getOwner() + "/" + mRefs.getName() + "/" + mRefs.getKey()
+                                + ".zip");
+                        intent.putExtra(DownloadService.DOWNLOAD_URL, "https://github.com/"
+                                + mRefs.getOwner() + "/" + mRefs.getName() + "/zipball/"
+                                + mRefs.getKey());
+                        getContext().startService(intent);
                     } else {
                         Toast.makeText(getContext(), R.string.could_not_write_to_external_memory,
                                 Toast.LENGTH_SHORT).show();
@@ -86,112 +84,6 @@ public class BlobsMenuDialog extends Dialog {
                 BlobsMenuDialog.this.dismiss();
             }
         });
-    }
-
-    private void downloadAndUnZip() {
-        final Handler handler = new Handler();
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                mLoadingDialog = new LoadingDialog(getOwnerActivity(), R.string.downloading);
-            }
-        });
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-        final File targetDir = new File(prefs.getString(ConfigureActivity.SAVE_DIR,
-                Configuration.DEFAULT_SAVE_PATH)
-                + "/" + mRefs.getOwner() + "/" + mRefs.getName());
-        targetDir.mkdirs();
-        try {
-            final String targetPath = targetDir.getAbsolutePath();
-            final URL url = new URL("https://github.com/" + mRefs.getOwner() + "/"
-                    + mRefs.getName() + "/zipball/" + mRefs.getKey());
-            new Thread(new Runnable() {
-                public void run() {
-                    File zipFile = new File(targetDir + "/" + mRefs.getKey() + ".zip");
-                    try {
-                        CommonHelper.download(url, zipFile);
-                    } catch (IOException e) {
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                mLoadingDialog.dismiss();
-                                Toast.makeText(getOwnerActivity(), R.string.download_failed,
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                        return;
-                    }
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            mLoadingDialog.dismiss();
-                            mLoadingDialog = new LoadingDialog(getOwnerActivity(),
-                                    R.string.unzipping);
-                        }
-                    });
-                    unzip(targetPath);
-                    zipFile.delete();
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            new Handler().post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    mLoadingDialog.dismiss();
-                                }
-                            });
-                        }
-                    });
-                }
-            }).start();
-
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-            mLoadingDialog.dismiss();
-            Toast.makeText(getContext(), R.string.could_not_find_file_to_download,
-                    Toast.LENGTH_SHORT).show();
-            return;
-        }
-    }
-
-    private void unzip(final String outPath) {
-        File outDir = new File(outPath + "/" + mRefs.getKey());
-        if (!outDir.exists()) {
-            outDir.mkdirs();
-        }
-        BufferedInputStream bin = null;
-        BufferedOutputStream bout = null;
-        try {
-            ZipFile zipFile = new ZipFile(outPath + "/" + mRefs.getKey() + ".zip");
-            Enumeration<? extends ZipEntry> entries = zipFile.entries();
-            while (entries.hasMoreElements()) {
-                ZipEntry entry = entries.nextElement();
-                File outFile = new File(outDir, entry.getName());
-                if (entry.isDirectory()) {
-                    outFile.mkdir();
-                } else {
-                    bin = new BufferedInputStream(zipFile.getInputStream(entry));
-                    bout = new BufferedOutputStream(new FileOutputStream(outFile));
-                    int bytedata = 0;
-                    while ((bytedata = bin.read()) != -1) {
-                        bout.write(bytedata);
-                    }
-                    bout.flush();
-                }
-            }
-        } catch (ZipException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (bin != null)
-                    bin.close();
-                if (bout != null)
-                    bout.close();
-            } catch (IOException e) {
-            }
-        }
     }
 
     private void boookmarkNow() {

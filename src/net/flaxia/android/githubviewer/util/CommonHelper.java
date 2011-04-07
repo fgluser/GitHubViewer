@@ -50,7 +50,7 @@ public class CommonHelper {
                 + calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE) + ":"
                 + calendar.get(Calendar.SECOND);
     }
-    
+
     public static void download(URL url, File uri) throws IOException {
         URLConnection conn = url.openConnection();
         InputStream in = conn.getInputStream();
@@ -63,5 +63,14 @@ public class CommonHelper {
 
         out.close();
         in.close();
-}
+    }
+
+    public static String removeExtension(String path) {
+        int dot = path.lastIndexOf(".");
+        if (-1 == dot || 0 == dot || dot <= path.lastIndexOf("/") + 1) {
+            return path;
+        } else {
+            return path.substring(0, dot);
+        }
+    }
 }

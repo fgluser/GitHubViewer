@@ -7,4 +7,6 @@ public interface Extra {
     public static final String EXPLORER_PATH = "Explorer";
     public static final String Q = "q";
     public static final String USERNAME = "username";
+    public static final String ACTIVITY = "activity";
+    public static final int LOCAL_EXPLORER_ACTIVITY = 1;
 }
