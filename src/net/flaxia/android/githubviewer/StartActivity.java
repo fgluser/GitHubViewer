@@ -25,7 +25,7 @@ public class StartActivity extends Activity {
         super.onResume();
         Configuration.getInstance().isDebuggable = isDebuggable();
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.cancel(0);
+        notificationManager.cancelAll();
         new BookmarkSQliteOpenHelper(getApplicationContext()).getReadableDatabase().close();
         initIcons();
         Intent intent = getIntent();

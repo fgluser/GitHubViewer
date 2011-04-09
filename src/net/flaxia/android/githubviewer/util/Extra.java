@@ -9,4 +9,5 @@ public interface Extra {
     public static final String USERNAME = "username";
     public static final String ACTIVITY = "activity";
     public static final int LOCAL_EXPLORER_ACTIVITY = 1;
+    public static final String REQUEST_CODE = "requestCode";
 }

@@ -26,51 +26,54 @@ import android.os.IBinder;
 public class DownloadService extends Service {
     public static final String SAVE_PATH = "zipPath";
     public static final String DOWNLOAD_URL = "downloadUrl";
+    private static int REQUEST_CODE = 0;
 
     @Override
     public void onStart(final Intent intent, int startId) {
         new Thread(new Runnable() {
             public void run() {
-                notification(PendingIntent.getActivity(getApplicationContext(), 0, new Intent(
-                        getApplicationContext(), StartActivity.class), 0), R.string.start_download,
-                        R.string.downloading);
+                Intent notificationIntent = new Intent(getApplicationContext(), StartActivity.class);
+                notificationIntent.putExtra(Extra.REQUEST_CODE, REQUEST_CODE);
+                notification(PendingIntent.getActivity(getApplicationContext(), REQUEST_CODE,
+                        notificationIntent, 0), R.string.start_download, R.string.downloading);
                 Bundle extras = intent.getExtras();
                 File target = new File(extras.getString(SAVE_PATH));
                 target.getParentFile().mkdirs();
                 try {
                     CommonHelper.download(new URL(extras.getString(DOWNLOAD_URL)), target);
                 } catch (MalformedURLException e) {
-                    notification(PendingIntent.getActivity(getApplicationContext(), 0, new Intent(
-                            getApplicationContext(), StartActivity.class), PendingIntent.FLAG_UPDATE_CURRENT),
+                    notification(PendingIntent.getActivity(getApplicationContext(), REQUEST_CODE,
+                            notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT),
                             R.string.download_failed);
                     e.printStackTrace();
                     return;
                 } catch (IOException e) {
-                    notification(PendingIntent.getActivity(getApplicationContext(), 0, new Intent(
-                            getApplicationContext(), StartActivity.class), PendingIntent.FLAG_UPDATE_CURRENT),
+                    notification(PendingIntent.getActivity(getApplicationContext(), REQUEST_CODE,
+                            notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT),
                             R.string.download_failed);
                     e.printStackTrace();
                     return;
                 }
-                notification(PendingIntent.getActivity(getApplicationContext(), 0, new Intent(
-                        getApplicationContext(), StartActivity.class), PendingIntent.FLAG_UPDATE_CURRENT), R.string.start_unzip,
-                        R.string.unzipping);
+                notification(PendingIntent.getActivity(getApplicationContext(), REQUEST_CODE,
+                        notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT),
+                        R.string.start_unzip, R.string.unzipping);
                 if (!unzip(target.getAbsolutePath())) {
-                    notification(PendingIntent.getActivity(getApplicationContext(), 0, new Intent(
-                            getApplicationContext(), StartActivity.class), PendingIntent.FLAG_UPDATE_CURRENT),
+                    notification(PendingIntent.getActivity(getApplicationContext(), REQUEST_CODE,
+                            notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT),
                             R.string.unzip_failed);
                     return;
                 }
                 target.delete();
 
-                notification(PendingIntent.getActivity(getApplicationContext(), 0, new Intent(
-                        getApplicationContext(), StartActivity.class).putExtra(Extra.ACTIVITY,
-                        Extra.LOCAL_EXPLORER_ACTIVITY).putExtra(Extra.EXPLORER_PATH,
-                        CommonHelper.removeExtension(target.getAbsolutePath()) + "/"),
-                        PendingIntent.FLAG_UPDATE_CURRENT), R.string.download_is_complete);
+                notificationIntent.putExtra(Extra.ACTIVITY, Extra.LOCAL_EXPLORER_ACTIVITY);
+                notificationIntent.putExtra(Extra.EXPLORER_PATH, CommonHelper
+                        .removeExtension(target.getAbsolutePath())
+                        + "/");
+                notification(PendingIntent.getActivity(getApplicationContext(), REQUEST_CODE,
+                        notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT),
+                        R.string.download_is_complete);
             }
         }).start();
-
     }
 
     private void notification(PendingIntent pendingIntent, int notificationMessage) {
