@@ -6,7 +6,7 @@
         android:layout_width="wrap_content" android:src="@drawable/icon2"
         android:layout_marginLeft="5px" />
     <EditText android:layout_height="fill_parent"
-        android:layout_width="wrap_content" android:id="@+id/q"
+        android:layout_width="0dip" android:id="@+id/q"
         android:hint="@string/keyword_search" android:layout_weight="1"
         android:singleLine="true" android:layout_marginLeft="5px"
         android:layout_marginRight="5px" android:onClick="onSearchButton" />
