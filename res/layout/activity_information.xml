@@ -4,7 +4,7 @@
     android:fillViewport="true">
     <LinearLayout android:layout_width="fill_parent"
         android:layout_height="wrap_content" android:orientation="vertical">
-        <TextView android:text="GitHubViewer Ver 1.2.0"
+        <TextView android:text="GitHubViewer Ver 1.2.2"
             android:layout_width="wrap_content" android:layout_height="wrap_content" />
         <include layout="@layout/partial_separator" />
         <TextView android:text="開発: 成瀬基樹" android:layout_width="wrap_content"
