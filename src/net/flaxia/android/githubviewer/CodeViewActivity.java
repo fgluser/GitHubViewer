@@ -112,6 +112,7 @@ public class CodeViewActivity extends BaseAsyncActivity {
             }
             html = sb.toString();
         } catch (IOException e) {
+            e.printStackTrace();
             html = null;
         }
         try {
