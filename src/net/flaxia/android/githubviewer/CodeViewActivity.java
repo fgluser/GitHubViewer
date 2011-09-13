@@ -1,3 +1,4 @@
+
 package net.flaxia.android.githubviewer;
 
 import java.io.BufferedReader;
@@ -14,12 +15,16 @@ import org.idlesoft.libraries.ghapi.GitHubAPI;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 public class CodeViewActivity extends BaseAsyncActivity {
     private static final String TAG = CodeViewActivity.class.getSimpleName();
+    private static final int MENU_COPY = Menu.FIRST + 1;
     protected WebView mWebView;
     private LoadingDialog mRenderingDialog;
 
@@ -53,6 +58,7 @@ public class CodeViewActivity extends BaseAsyncActivity {
                     mRenderingDialog.dismiss();
                 }
                 mWebView.clearCache(true);
+
             }
         });
     }
@@ -134,4 +140,30 @@ public class CodeViewActivity extends BaseAsyncActivity {
 
         return html;
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        menu.add(Menu.NONE, MENU_COPY, Menu.NONE, R.string.copy).setIcon(R.drawable.copy);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        switch (item.getItemId()) {
+            case MENU_COPY:
+                copyText();
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+        return true;
+    }
+
+    private void copyText() {
+        final KeyEvent keyEvent = new KeyEvent(0, 0, KeyEvent.ACTION_DOWN,
+                KeyEvent.KEYCODE_SHIFT_LEFT, 0, 0);
+        keyEvent.dispatch(mWebView);
+    }
+
 }

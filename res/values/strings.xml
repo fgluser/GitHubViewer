@@ -65,4 +65,5 @@
     <string name="start_unzip">Start unzip</string>
     <string name="unzip_failed">Unzip failed.</string>
     <string name="download_is_complete">Download is complete.</string>
+    <string name="copy">Copy</string>
 </resources>
