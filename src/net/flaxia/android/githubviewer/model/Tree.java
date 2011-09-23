@@ -1,13 +1,13 @@
+
 package net.flaxia.android.githubviewer.model;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeMap;
 
-
 public class Tree {
-    private TreeMap<String, Tree> mChildTree;
-    private ArrayList<KeyValuePair> mChildBlob;
+    private final TreeMap<String, Tree> mChildTree;
+    private final ArrayList<KeyValuePair> mChildBlob;
 
     public Tree() {
         mChildTree = new TreeMap<String, Tree>();
@@ -18,15 +18,15 @@ public class Tree {
         return mChildTree.keySet().iterator();
     }
 
-    public void addBlob(KeyValuePair kvp) {
+    public void addBlob(final KeyValuePair kvp) {
         mChildBlob.add(kvp);
     }
 
-    public Tree getTree(String key) {
+    public Tree getTree(final String key) {
         return mChildTree.get(key);
     }
 
-    public void putTree(String key, Tree value) {
+    public void putTree(final String key, final Tree value) {
         mChildTree.put(key, value);
     }
 

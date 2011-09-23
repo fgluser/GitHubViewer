@@ -1,28 +1,28 @@
-package net.flaxia.android.githubviewer.model;
 
+package net.flaxia.android.githubviewer.model;
 
 public class KeyValuePair {
     private String mKey;
     private String mValue;
 
-    public KeyValuePair(String key, String value) {
+    public KeyValuePair(final String key, final String value) {
         setKey(key);
         setValue(value);
     }
 
-    public KeyValuePair(String key, int value) {
+    public KeyValuePair(final String key, final int value) {
         this(key, String.valueOf(value));
     }
 
-    public void setKey(String key) {
+    public void setKey(final String key) {
         mKey = key;
     }
 
-    public void setValue(String value) {
+    public void setValue(final String value) {
         mValue = value;
     }
 
-    public void setValue(int value) {
+    public void setValue(final int value) {
         setValue(String.valueOf(value));
     }
 

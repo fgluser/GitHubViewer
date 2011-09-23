@@ -1,3 +1,4 @@
+
 package net.flaxia.android.githubviewer.adapter;
 
 import java.util.ArrayList;
@@ -12,16 +13,16 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 public class KeyValuePairAdapter extends BaseListAdapter<KeyValuePair> {
-    public KeyValuePairAdapter(Context context, int textViewResourceId,
-            ArrayList<KeyValuePair> keyValuePairs) {
+    public KeyValuePairAdapter(final Context context, final int textViewResourceId,
+            final ArrayList<KeyValuePair> keyValuePairs) {
         super(context, textViewResourceId, keyValuePairs);
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        View view = super.getView(position, convertView, parent);
-        String fileName = getItem(position).getKey();
-        TextView textView = (TextView) view.findViewById(android.R.id.text1);
+    public View getView(final int position, final View convertView, final ViewGroup parent) {
+        final View view = super.getView(position, convertView, parent);
+        final String fileName = getItem(position).getKey();
+        final TextView textView = (TextView) view.findViewById(android.R.id.text1);
 
         textView.setText(fileName);
 

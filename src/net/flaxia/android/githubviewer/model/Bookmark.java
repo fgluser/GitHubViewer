@@ -1,3 +1,4 @@
+
 package net.flaxia.android.githubviewer.model;
 
 import java.io.Serializable;
@@ -11,7 +12,8 @@ public class Bookmark implements Serializable {
     private String mHash;
     private String mNote;
 
-    public Bookmark(long id, String owner, String name, String tree, String hash, String note) {
+    public Bookmark(final long id, final String owner, final String name, final String tree,
+            final String hash, final String note) {
         mId = id;
         mOwner = owner;
         mName = name;
@@ -20,7 +22,8 @@ public class Bookmark implements Serializable {
         mNote = note;
     }
 
-    public Bookmark(String owner, String name, String tree, String hash, String note) {
+    public Bookmark(final String owner, final String name, final String tree, final String hash,
+            final String note) {
         this(0, owner, name, tree, hash, note);
     }
 
@@ -28,7 +31,7 @@ public class Bookmark implements Serializable {
         return mId;
     }
 
-    public void setId(long Id) {
+    public void setId(final long Id) {
         mId = Id;
     }
 
@@ -36,7 +39,7 @@ public class Bookmark implements Serializable {
         return mOwner;
     }
 
-    public void setOwner(String owner) {
+    public void setOwner(final String owner) {
         mOwner = owner;
     }
 
@@ -44,7 +47,7 @@ public class Bookmark implements Serializable {
         return mName;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         mName = name;
     }
 
@@ -52,7 +55,7 @@ public class Bookmark implements Serializable {
         return mTree;
     }
 
-    public void setTree(String tree) {
+    public void setTree(final String tree) {
         mTree = tree;
     }
 
@@ -60,7 +63,7 @@ public class Bookmark implements Serializable {
         return mHash;
     }
 
-    public void setHash(String hash) {
+    public void setHash(final String hash) {
         mHash = hash;
     }
 
@@ -68,7 +71,7 @@ public class Bookmark implements Serializable {
         return mNote;
     }
 
-    public void setNote(String note) {
+    public void setNote(final String note) {
         mNote = note;
     }
 

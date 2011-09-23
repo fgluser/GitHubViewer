@@ -1,3 +1,4 @@
+
 package net.flaxia.android.githubviewer;
 
 import java.util.Iterator;
@@ -25,10 +26,10 @@ public class RepositorieInfoActivity extends BaseAsyncActivity {
     private Spinner mTagsSpinner;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_repositorie_info);
-        Repositorie repositorie = (Repositorie) getIntent().getExtras().getSerializable(
+        final Repositorie repositorie = (Repositorie) getIntent().getExtras().getSerializable(
                 Extra.REPOSITORIE);
         initSpinners();
         initInformation();
@@ -49,25 +50,28 @@ public class RepositorieInfoActivity extends BaseAsyncActivity {
     }
 
     private AdapterView.OnItemSelectedListener createOnItemSelectedListener() {
-        AdapterView.OnItemSelectedListener listener = new AdapterView.OnItemSelectedListener() {
+        final AdapterView.OnItemSelectedListener listener = new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemSelected(final AdapterView<?> parent, final View view,
+                    final int position, final long id) {
                 if (0 == position) {
                     return;
                 }
-                Repositorie repositorie = (Repositorie) getIntent().getExtras().getSerializable(
-                        Extra.REPOSITORIE);
-                KeyValuePair keyValuePair = (KeyValuePair) ((Spinner) parent).getAdapter().getItem(
-                        position);
-                Intent intent = new Intent(getApplicationContext(), BlobsActivity.class);
-                Refs refs = new Refs(repositorie.get(Repositorie.OWNER), repositorie
+                final Repositorie repositorie = (Repositorie) getIntent().getExtras()
+                        .getSerializable(
+                                Extra.REPOSITORIE);
+                final KeyValuePair keyValuePair = (KeyValuePair) ((Spinner) parent).getAdapter()
+                        .getItem(
+                                position);
+                final Intent intent = new Intent(getApplicationContext(), BlobsActivity.class);
+                final Refs refs = new Refs(repositorie.get(Repositorie.OWNER), repositorie
                         .get(Repositorie.NAME), keyValuePair.getKey(), keyValuePair.getValue());
                 intent.putExtra(Extra.REFS, refs);
                 startActivity(intent);
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> arg0) {
+            public void onNothingSelected(final AdapterView<?> arg0) {
             }
         };
 
@@ -78,7 +82,7 @@ public class RepositorieInfoActivity extends BaseAsyncActivity {
      * 初期化処理
      */
     private void initInformation() {
-        Repositorie repositorie = (Repositorie) getIntent().getExtras().getSerializable(
+        final Repositorie repositorie = (Repositorie) getIntent().getExtras().getSerializable(
                 Extra.REPOSITORIE);
         ((TextView) findViewById(R.id.owner_repositorie)).setText(repositorie
                 .get(Repositorie.OWNER)
@@ -107,10 +111,10 @@ public class RepositorieInfoActivity extends BaseAsyncActivity {
             runnable = new Runnable() {
                 @Override
                 public void run() {
-                    BranchesTagsAdapter branchesAdapter = new BranchesTagsAdapter(
+                    final BranchesTagsAdapter branchesAdapter = new BranchesTagsAdapter(
                             RepositorieInfoActivity.this, android.R.layout.simple_spinner_item);
                     branchesAdapter.add(new KeyValuePair(getString(R.string.branches), null));
-                    for (KeyValuePair branche : branches) {
+                    for (final KeyValuePair branche : branches) {
                         branchesAdapter.add(branche);
                     }
                     mBranchesSpinner.setAdapter(branchesAdapter);
@@ -139,10 +143,10 @@ public class RepositorieInfoActivity extends BaseAsyncActivity {
             runnable = new Runnable() {
                 @Override
                 public void run() {
-                    BranchesTagsAdapter tagsAdapter = new BranchesTagsAdapter(
+                    final BranchesTagsAdapter tagsAdapter = new BranchesTagsAdapter(
                             RepositorieInfoActivity.this, android.R.layout.simple_spinner_item);
                     tagsAdapter.add(new KeyValuePair(getText(R.string.tags).toString(), null));
-                    for (KeyValuePair tag : tags) {
+                    for (final KeyValuePair tag : tags) {
                         tagsAdapter.add(tag);
                     }
                     mTagsSpinner.setAdapter(tagsAdapter);
@@ -153,7 +157,7 @@ public class RepositorieInfoActivity extends BaseAsyncActivity {
     }
 
     @Override
-    protected void executeAsyncTask(String... parameters) {
+    protected void executeAsyncTask(final String... parameters) {
         final KeyValuePair[] tags = executeGetTags(parameters[0], parameters[1]);
         final KeyValuePair[] branches = executeGetBranches(parameters[0], parameters[1]);
 
@@ -175,16 +179,16 @@ public class RepositorieInfoActivity extends BaseAsyncActivity {
      * @param name
      * @return
      */
-    private KeyValuePair[] executeGetTags(String owner, String name) {
-        GitHubAPI ghapi = new GitHubAPI();
+    private KeyValuePair[] executeGetTags(final String owner, final String name) {
+        final GitHubAPI ghapi = new GitHubAPI();
         ghapi.goStealth();
-        String json = ghapi.repo.tags(owner, name).resp;
+        final String json = ghapi.repo.tags(owner, name).resp;
         if (null == json) {
             return null;
         }
         try {
             return jsonToKeyValuePairs(new JSONObject(json).getJSONObject("tags"));
-        } catch (JSONException e) {
+        } catch (final JSONException e) {
             e.printStackTrace();
             return null;
         }
@@ -197,16 +201,16 @@ public class RepositorieInfoActivity extends BaseAsyncActivity {
      * @param name
      * @return
      */
-    private KeyValuePair[] executeGetBranches(String owner, String name) {
-        GitHubAPI ghapi = new GitHubAPI();
+    private KeyValuePair[] executeGetBranches(final String owner, final String name) {
+        final GitHubAPI ghapi = new GitHubAPI();
         ghapi.goStealth();
-        String json = ghapi.repo.branches(owner, name).resp;
+        final String json = ghapi.repo.branches(owner, name).resp;
         if (null == json) {
             return null;
         }
         try {
             return jsonToKeyValuePairs(new JSONObject(json).getJSONObject("branches"));
-        } catch (JSONException e) {
+        } catch (final JSONException e) {
             e.printStackTrace();
             return null;
         }
@@ -218,16 +222,16 @@ public class RepositorieInfoActivity extends BaseAsyncActivity {
      * @param jsonObject
      * @return
      */
-    private KeyValuePair[] jsonToKeyValuePairs(JSONObject jsonObject) {
-        int size = jsonObject.length();
-        KeyValuePair[] keyValuePairs = new KeyValuePair[size];
+    private KeyValuePair[] jsonToKeyValuePairs(final JSONObject jsonObject) {
+        final int size = jsonObject.length();
+        final KeyValuePair[] keyValuePairs = new KeyValuePair[size];
         int i = 0;
-        for (Iterator<?> iterator = jsonObject.keys(); iterator.hasNext();) {
-            String key = (String) iterator.next();
+        for (final Iterator<?> iterator = jsonObject.keys(); iterator.hasNext();) {
+            final String key = (String) iterator.next();
             try {
                 keyValuePairs[i] = new KeyValuePair(key, jsonObject.getString(key));
                 i++;
-            } catch (JSONException e) {
+            } catch (final JSONException e) {
                 e.printStackTrace();
                 continue;
             }

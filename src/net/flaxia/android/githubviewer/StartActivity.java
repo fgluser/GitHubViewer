@@ -1,3 +1,4 @@
+
 package net.flaxia.android.githubviewer;
 
 import net.flaxia.android.githubviewer.util.BookmarkSQliteOpenHelper;
@@ -15,7 +16,7 @@ import android.os.Bundle;
 
 public class StartActivity extends Activity {
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
     }
@@ -24,22 +25,22 @@ public class StartActivity extends Activity {
     protected void onResume() {
         super.onResume();
         Configuration.getInstance().isDebuggable = isDebuggable();
-        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        final NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancelAll();
         new BookmarkSQliteOpenHelper(getApplicationContext()).getReadableDatabase().close();
         initIcons();
         Intent intent = getIntent();
         if (null != intent.getExtras()) {
             switch (intent.getExtras().getInt(Extra.ACTIVITY, 0)) {
-            case Extra.LOCAL_EXPLORER_ACTIVITY:
-                intent.setClass(getApplicationContext(), LocalExplorerActivity.class);
-                break;
-            default:
-                intent.setClass(getApplicationContext(), DashboardActivity.class);
-                break;
+                case Extra.LOCAL_EXPLORER_ACTIVITY:
+                    intent.setClass(getApplicationContext(), LocalExplorerActivity.class);
+                    break;
+                default:
+                    intent.setClass(getApplicationContext(), DashboardActivity.class);
+                    break;
             }
         } else {
-            intent=new Intent(getApplicationContext(), DashboardActivity.class);
+            intent = new Intent(getApplicationContext(), DashboardActivity.class);
         }
         startActivity(intent);
         finish();
@@ -49,8 +50,8 @@ public class StartActivity extends Activity {
      * 別クラスがリソースにアクセスできるクラスとは限らないめ，ここで予め読み込んでおく
      */
     private void initIcons() {
-        IconCache iconCache = IconCache.getInstance();
-        Resources resources = getResources();
+        final IconCache iconCache = IconCache.getInstance();
+        final Resources resources = getResources();
         iconCache.putDrawable("dir_blank", resources.getDrawable(R.drawable.dir_blank));
         iconCache.putDrawable("dir_i", resources.getDrawable(R.drawable.dir_i));
         iconCache.putDrawable("dir_l", resources.getDrawable(R.drawable.dir_l));
@@ -82,9 +83,10 @@ public class StartActivity extends Activity {
      */
     private boolean isDebuggable() {
         try {
-            ApplicationInfo ai = getPackageManager().getApplicationInfo(getPackageName(), 0);
+            final ApplicationInfo ai = getPackageManager().getApplicationInfo(getPackageName(), 0);
+
             return ((ai.flags & ApplicationInfo.FLAG_DEBUGGABLE) == ApplicationInfo.FLAG_DEBUGGABLE);
-        } catch (NameNotFoundException e) {
+        } catch (final NameNotFoundException e) {
             return false;
         }
     }

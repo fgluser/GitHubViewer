@@ -29,7 +29,7 @@ public class CodeViewActivity extends BaseAsyncActivity {
     private LoadingDialog mRenderingDialog;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_code_view);
         initWebView();
@@ -46,13 +46,13 @@ public class CodeViewActivity extends BaseAsyncActivity {
         mWebView.getSettings().setBuiltInZoomControls(true);
         mWebView.setWebViewClient(new WebViewClient() {
             @Override
-            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            public void onPageStarted(final WebView view, final String url, final Bitmap favicon) {
                 mRenderingDialog = new LoadingDialog(CodeViewActivity.this, R.string.rendering);
                 super.onPageStarted(view, url, favicon);
             }
 
             @Override
-            public void onPageFinished(WebView view, String url) {
+            public void onPageFinished(final WebView view, final String url) {
                 super.onPageFinished(view, url);
                 if (null != mRenderingDialog && mRenderingDialog.isShowing()) {
                     mRenderingDialog.dismiss();
@@ -64,7 +64,7 @@ public class CodeViewActivity extends BaseAsyncActivity {
     }
 
     @Override
-    protected void executeAsyncTask(String... parameters) {
+    protected void executeAsyncTask(final String... parameters) {
         final String html = createHtml();
         mHandler.post(new Runnable() {
             @Override
@@ -82,27 +82,27 @@ public class CodeViewActivity extends BaseAsyncActivity {
      */
     private String createHtml() {
         String html;
-        Bundle extras = getIntent().getExtras();
-        String path = extras.getString(Extra.EXPLORER_PATH);
+        final Bundle extras = getIntent().getExtras();
+        final String path = extras.getString(Extra.EXPLORER_PATH);
         String source;
         if (null == path || 0 == path.length()) {
             source = new GitHubAPI().object.raw(extras.getString("owner"),
                     extras.getString("name"), extras.getString("sha")).resp;
         } else {
             try {
-                BufferedReader br = new BufferedReader(new FileReader(path));
-                StringBuilder sb = new StringBuilder();
+                final BufferedReader br = new BufferedReader(new FileReader(path));
+                final StringBuilder sb = new StringBuilder();
                 String str;
                 while ((str = br.readLine()) != null) {
                     sb.append(str + "\n");
                 }
                 source = sb.toString();
-            } catch (IOException e) {
+            } catch (final IOException e) {
                 e.printStackTrace();
                 source = "";
             }
         }
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
         try {
             BufferedReader br = null;
             try {
@@ -117,7 +117,7 @@ public class CodeViewActivity extends BaseAsyncActivity {
                 }
             }
             html = sb.toString();
-        } catch (IOException e) {
+        } catch (final IOException e) {
             e.printStackTrace();
             html = null;
         }
@@ -127,13 +127,13 @@ public class CodeViewActivity extends BaseAsyncActivity {
             } else {
                 html = html.replaceFirst("@title", extras.getString("fileName"));
                 html = html.replaceFirst("@source", CommonHelper.escapeSign(source));
-                String theme = PreferenceManager.getDefaultSharedPreferences(
+                final String theme = PreferenceManager.getDefaultSharedPreferences(
                         getApplicationContext()).getString(ConfigureActivity.CODE_THEME, "default");
                 html = html.replaceFirst("@theme", theme);
                 LogEx.d(TAG, theme);
                 LogEx.d(TAG, source);
             }
-        } catch (Exception e) {
+        } catch (final Exception e) {
             e.printStackTrace();
             html = "";
         }

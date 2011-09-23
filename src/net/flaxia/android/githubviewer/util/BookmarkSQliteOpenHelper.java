@@ -1,3 +1,4 @@
+
 package net.flaxia.android.githubviewer.util;
 
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ public class BookmarkSQliteOpenHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "gitHubViewer.db";
     private static final int DB_VERSION = 1;
     private static final String TABLE_BOOKMARK = "bookmark";
-    public static final String COLUMN_ID = "_id";
+    private static final String COLUMN_ID = "_id";
     private static final String COLUMN_OWNER = "owner";
     private static final String COLUMN_NAME = "name";
     private static final String COLUMN_TREE = "tree";
@@ -22,13 +23,13 @@ public class BookmarkSQliteOpenHelper extends SQLiteOpenHelper {
 
     public static final long FAIL = -1;
 
-    public BookmarkSQliteOpenHelper(Context context) {
+    public BookmarkSQliteOpenHelper(final Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
-        String sql = "CREATE TABLE IF NOT EXISTS " + TABLE_BOOKMARK + " (" + COLUMN_ID
+    public void onCreate(final SQLiteDatabase db) {
+        final String sql = "CREATE TABLE IF NOT EXISTS " + TABLE_BOOKMARK + " (" + COLUMN_ID
                 + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_OWNER + " TEXT NOT NULL, "
                 + COLUMN_NAME + " TEXT NOT NULL, " + COLUMN_TREE + " TEXT NOT NULL, " + COLUMN_HASH
                 + " TEXT NOT NULL, " + COLUMN_NOTE + " TEXT)";
@@ -36,7 +37,7 @@ public class BookmarkSQliteOpenHelper extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    public void onUpgrade(final SQLiteDatabase db, final int oldVersion, final int newVersion) {
     }
 
     /**
@@ -49,15 +50,16 @@ public class BookmarkSQliteOpenHelper extends SQLiteOpenHelper {
      * @param memo
      * @return
      */
-    public long insert(String owner, String name, String tree, String hash, String note) {
+    public long insert(final String owner, final String name, final String tree, final String hash,
+            final String note) {
         long id = FAIL;
-        ContentValues contentValues = createContentValues(owner, name, tree, hash, note);
-        SQLiteDatabase db = getWritableDatabase();
+        final ContentValues contentValues = createContentValues(owner, name, tree, hash, note);
+        final SQLiteDatabase db = getWritableDatabase();
         try {
             db.beginTransaction();
             id = db.insert(TABLE_BOOKMARK, null, contentValues);
             db.setTransactionSuccessful();
-        } catch (Exception e) {
+        } catch (final Exception e) {
             e.printStackTrace();
         } finally {
             db.endTransaction();
@@ -65,15 +67,16 @@ public class BookmarkSQliteOpenHelper extends SQLiteOpenHelper {
         return id;
     }
 
-    public int update(long id, String owner, String name, String tree, String hash, String note) {
-        ContentValues contentValues = createContentValues(owner, name, tree, hash, note);
-        SQLiteDatabase db = getWritableDatabase();
+    public int update(final long id, final String owner, final String name, final String tree,
+            final String hash, final String note) {
+        final ContentValues contentValues = createContentValues(owner, name, tree, hash, note);
+        final SQLiteDatabase db = getWritableDatabase();
         int result = 0;
         try {
             db.beginTransaction();
             result = db.update(TABLE_BOOKMARK, contentValues, COLUMN_ID + " = " + id, null);
             db.setTransactionSuccessful();
-        } catch (Exception e) {
+        } catch (final Exception e) {
             e.printStackTrace();
         } finally {
             db.endTransaction();
@@ -82,16 +85,19 @@ public class BookmarkSQliteOpenHelper extends SQLiteOpenHelper {
     }
 
     public Bookmark[] select() {
-        ArrayList<Bookmark> bookmarks = new ArrayList<Bookmark>();
-        String[] selects = { COLUMN_ID, COLUMN_OWNER, COLUMN_NAME, COLUMN_TREE, COLUMN_HASH,
-                COLUMN_NOTE };
-        SQLiteDatabase db = getReadableDatabase();
+        final ArrayList<Bookmark> bookmarks = new ArrayList<Bookmark>();
+        final String[] selects = {
+                COLUMN_ID, COLUMN_OWNER, COLUMN_NAME, COLUMN_TREE, COLUMN_HASH,
+                COLUMN_NOTE
+        };
+        final SQLiteDatabase db = getReadableDatabase();
         try {
-            Cursor cursor = db.query(TABLE_BOOKMARK, selects, null, null, null, null, null);
+            final Cursor cursor = db.query(TABLE_BOOKMARK, selects, null, null, null, null, null);
             while (cursor.moveToNext()) {
-                Bookmark bookmark = new Bookmark(cursor.getLong(0), cursor.getString(1), cursor
-                        .getString(2), cursor.getString(3), cursor.getString(4), cursor
-                        .getString(5));
+                final Bookmark bookmark = new Bookmark(cursor.getLong(0), cursor.getString(1),
+                        cursor
+                                .getString(2), cursor.getString(3), cursor.getString(4), cursor
+                                .getString(5));
                 bookmarks.add(bookmark);
             }
         } finally {
@@ -101,9 +107,9 @@ public class BookmarkSQliteOpenHelper extends SQLiteOpenHelper {
         return bookmarks.toArray(new Bookmark[0]);
     }
 
-    public int delete(long id) {
+    public int delete(final long id) {
         int result = 0;
-        SQLiteDatabase db = getWritableDatabase();
+        final SQLiteDatabase db = getWritableDatabase();
         try {
             db.beginTransaction();
             result = db.delete(TABLE_BOOKMARK, COLUMN_ID + " = " + id, null);
@@ -116,9 +122,10 @@ public class BookmarkSQliteOpenHelper extends SQLiteOpenHelper {
         return result;
     }
 
-    private ContentValues createContentValues(String owner, String name, String tree, String hash,
+    private ContentValues createContentValues(final String owner, final String name,
+            final String tree, final String hash,
             String note) {
-        ContentValues contentValues = new ContentValues();
+        final ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_OWNER, owner);
         contentValues.put(COLUMN_NAME, name);
         contentValues.put(COLUMN_TREE, tree);

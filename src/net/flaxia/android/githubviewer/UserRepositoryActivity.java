@@ -1,3 +1,4 @@
+
 package net.flaxia.android.githubviewer;
 
 import net.flaxia.android.githubviewer.adapter.RepositorieAdapter;
@@ -25,7 +26,7 @@ public class UserRepositoryActivity extends BaseAsyncActivity {
     private ListView mListView;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_repository);
         initListView();
@@ -37,10 +38,12 @@ public class UserRepositoryActivity extends BaseAsyncActivity {
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Repositorie repositorie = ((RepositorieAdapter) ((ListView) parent).getAdapter())
+            public void onItemClick(final AdapterView<?> parent, final View view,
+                    final int position, final long id) {
+                final Repositorie repositorie = ((RepositorieAdapter) ((ListView) parent)
+                        .getAdapter())
                         .getItem(position);
-                Refs refs = new Refs(repositorie.get(Repositorie.OWNER), repositorie
+                final Refs refs = new Refs(repositorie.get(Repositorie.OWNER), repositorie
                         .get(Repositorie.NAME), "master", "master");
                 startActivity(new Intent(getApplicationContext(), BlobsActivity.class).putExtra(
                         Extra.REFS, refs));
@@ -49,21 +52,24 @@ public class UserRepositoryActivity extends BaseAsyncActivity {
 
         mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Repositorie repositorie = ((RepositorieAdapter) ((ListView) parent).getAdapter())
+            public boolean onItemLongClick(final AdapterView<?> parent, final View view,
+                    final int position, final long id) {
+                final Repositorie repositorie = ((RepositorieAdapter) ((ListView) parent)
+                        .getAdapter())
                         .getItem(position);
                 startActivity(new Intent(getApplicationContext(), RepositorieInfoActivity.class)
                         .putExtra(Extra.REPOSITORIE, repositorie));
+
                 return false;
             }
         });
     }
 
     @Override
-    protected void executeAsyncTask(String... parameters) {
-        String resultJson = executeSearch(parameters[0]);
+    protected void executeAsyncTask(final String... parameters) {
+        final String resultJson = executeSearch(parameters[0]);
         final Repositorie[] repositories = (null == resultJson) ? null : parseJson(resultJson);
-        Runnable runnable;
+        final Runnable runnable;
         if (null == repositories) {
             runnable = new Runnable() {
                 @Override
@@ -92,30 +98,32 @@ public class UserRepositoryActivity extends BaseAsyncActivity {
      * @param q
      * @return
      */
-    private String executeSearch(String username) {
-        GitHubAPI github = new GitHubAPI();
+    private String executeSearch(final String username) {
+        final GitHubAPI github = new GitHubAPI();
         github.goStealth();
-        Response response = github.user.watching(username);
+        final Response response = github.user.watching(username);
         LogEx.d(TAG, response.url);
+
         return response.resp;
     }
 
     /**
-     * 
      * @param json
      * @return
      */
-    private Repositorie[] parseJson(String json) {
+    private Repositorie[] parseJson(final String json) {
         try {
-            JSONArray jsons = (JSONArray) new JSONObject(json).getJSONArray("repositories");
-            int size = jsons.length();
-            Repositorie[] repositories = new Repositorie[size];
+            final JSONArray jsons = (JSONArray) new JSONObject(json).getJSONArray("repositories");
+            final int size = jsons.length();
+            final Repositorie[] repositories = new Repositorie[size];
             for (int i = 0; i < size; i++) {
                 repositories[i] = new Repositorie(jsons.getJSONObject(i));
             }
+
             return repositories;
-        } catch (JSONException e) {
+        } catch (final JSONException e) {
             e.printStackTrace();
+
             return null;
         }
     }

@@ -1,3 +1,4 @@
+
 package net.flaxia.android.githubviewer.adapter;
 
 import java.util.ArrayList;
@@ -11,28 +12,29 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 public class TreeAdapter extends BaseListAdapter<KeyValuePair> {
-    public TreeAdapter(Context context, int textViewResourceId,
-            ArrayList<KeyValuePair> keyValuePairs) {
+    public TreeAdapter(final Context context, final int textViewResourceId,
+            final ArrayList<KeyValuePair> keyValuePairs) {
         super(context, textViewResourceId, keyValuePairs);
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        View view = super.getView(position, convertView, parent);
+    public View getView(final int position, final View convertView, final ViewGroup parent) {
+        final View view = super.getView(position, convertView, parent);
         ((TextView) view.findViewById(android.R.id.text1)).setText(getItem(position).getKey());
+
         return view;
     }
 
     @Override
-    public View getDropDownView(int position, View convertView, ViewGroup parent) {
-        View view = super.getDropDownView(position, convertView, parent);
-        int level = Integer.parseInt(getItem(position).getValue());
-        StringBuilder sb = new StringBuilder();
+    public View getDropDownView(final int position, final View convertView, final ViewGroup parent) {
+        final View view = super.getDropDownView(position, convertView, parent);
+        final int level = Integer.parseInt(getItem(position).getValue());
+        final StringBuilder sb = new StringBuilder();
 
         for (int i = 1; i < level; i++) {
             boolean flag = true;
             for (int j = position + 1, size = getCount(); j < size; j++) {
-                int value = Integer.parseInt(getItem(j).getValue());
+                final int value = Integer.parseInt(getItem(j).getValue());
                 if (value == i) {
                     sb.append("<img src=\"dir_i\">");
                     flag = false;
@@ -51,7 +53,7 @@ public class TreeAdapter extends BaseListAdapter<KeyValuePair> {
 
         boolean flag = true;
         for (int i = position + 1, size = getCount(); i < size; i++) {
-            int value = Integer.parseInt(getItem(i).getValue());
+            final int value = Integer.parseInt(getItem(i).getValue());
             if (value == level) {
                 sb.append("<img src=\"dir_t\">");
                 flag = false;

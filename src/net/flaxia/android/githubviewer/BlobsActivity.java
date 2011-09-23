@@ -1,3 +1,4 @@
+
 package net.flaxia.android.githubviewer;
 
 import java.util.ArrayList;
@@ -33,13 +34,13 @@ public class BlobsActivity extends BaseAsyncActivity {
     private ListView mListView;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_blobs);
-        Refs refs = (Refs) getIntent().getExtras().getSerializable(Extra.REFS);
-        String owner = refs.getOwner();
-        String name = refs.getName();
-        String hash = (null == refs.getHash()) ? "master" : refs.getHash();
+        final Refs refs = (Refs) getIntent().getExtras().getSerializable(Extra.REFS);
+        final String owner = refs.getOwner();
+        final String name = refs.getName();
+        final String hash = (null == refs.getHash()) ? "master" : refs.getHash();
         setTitle(owner + " / " + name);
         initSpinnerAdapter();
         doAsyncTask(owner, name, hash);
@@ -65,12 +66,12 @@ public class BlobsActivity extends BaseAsyncActivity {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                KeyValuePair keyValuePair = (KeyValuePair) ((ListView) parent)
+                final KeyValuePair keyValuePair = (KeyValuePair) ((ListView) parent)
                         .getItemAtPosition(position);
-                Refs refs = (Refs) getIntent().getExtras().getSerializable(Extra.REFS);
-                String owner = refs.getOwner();
-                String name = refs.getName();
-                Intent intent = new Intent(getApplicationContext(), CodeViewActivity.class);
+                final Refs refs = (Refs) getIntent().getExtras().getSerializable(Extra.REFS);
+                final String owner = refs.getOwner();
+                final String name = refs.getName();
+                final Intent intent = new Intent(getApplicationContext(), CodeViewActivity.class);
                 intent.putExtra("name", name);
                 intent.putExtra("owner", owner);
                 intent.putExtra("sha", keyValuePair.getValue());
@@ -98,13 +99,13 @@ public class BlobsActivity extends BaseAsyncActivity {
 
     @Override
     protected void executeAsyncTask(final String... parameters) {
-        Response response = executeListBlobs(parameters[0], parameters[1], parameters[2]);
+        final Response response = executeListBlobs(parameters[0], parameters[1], parameters[2]);
         if (null == response) {
             faild(R.string.out_of_memory_error);
             return;
         }
         LogEx.d(TAG, response.resp);
-        TreeMap<String, String> treeMap = parseJson(response.resp);
+        final TreeMap<String, String> treeMap = parseJson(response.resp);
 
         if (null == treeMap) {
             faild(R.string.could_not_get_the_results);
@@ -113,7 +114,7 @@ public class BlobsActivity extends BaseAsyncActivity {
 
         mTree = new Tree();
         for (Iterator<?> iterator = treeMap.keySet().iterator(); iterator.hasNext();) {
-            String key = (String) iterator.next();
+            final String key = (String) iterator.next();
             LogEx.d(TAG, key + ", " + treeMap.get(key));
             makeTree(mTree, key, treeMap.get(key), 1);
         }
@@ -131,21 +132,23 @@ public class BlobsActivity extends BaseAsyncActivity {
      * Spinnerの初期化
      */
     private void initSpinner() {
-        Spinner spinner = (Spinner) findViewById(R.id.spinner);
+        final Spinner spinner = (Spinner) findViewById(R.id.spinner);
         spinner.setPrompt(getText(R.string.tree_list));
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Spinner spinner = (Spinner) parent;
-                int level = Integer.parseInt(((KeyValuePair) spinner.getItemAtPosition(position))
+            public void onItemSelected(final AdapterView<?> parent, final View view,
+                    final int position, final long id) {
+                final Spinner spinner = (Spinner) parent;
+                final int level = Integer.parseInt(((KeyValuePair) spinner
+                        .getItemAtPosition(position))
                         .getValue());
-                Tree tree = searchTree(level, position);
+                final Tree tree = searchTree(level, position);
                 mListView.setAdapter(new KeyValuePairAdapter(getApplicationContext(),
                         android.R.layout.simple_list_item_1, tree.getBlobList()));
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> arg0) {
+            public void onNothingSelected(final AdapterView<?> arg0) {
             }
         });
     }
@@ -157,7 +160,7 @@ public class BlobsActivity extends BaseAsyncActivity {
      * @param position
      * @return
      */
-    private Tree searchTree(int level, int position) {
+    private Tree searchTree(final int level, int position) {
         String key = mSpinnerAdapter.getItem(position).getKey();
         if (0 == level) {
             return mTree;
@@ -174,16 +177,14 @@ public class BlobsActivity extends BaseAsyncActivity {
      * 
      * @param parent
      * @param key
-     * @param value
-     *            ハッシュ値
-     * @param level
-     *            階層の深さ
+     * @param value ハッシュ値
+     * @param level 階層の深さ
      */
-    private void makeTree(Tree parent, String key, String value, int level) {
+    private void makeTree(final Tree parent, final String key, final String value, int level) {
         if (-1 == key.indexOf("/")) {
             parent.addBlob(new KeyValuePair(key, value));
         } else {
-            String childKey = key.substring(0, key.indexOf("/"));
+            final String childKey = key.substring(0, key.indexOf("/"));
             Tree tree = parent.getTree(childKey);
             if (null == tree) {
                 tree = new Tree();
@@ -202,8 +203,8 @@ public class BlobsActivity extends BaseAsyncActivity {
      * @param treeSha
      * @return
      */
-    private Response executeListBlobs(String owner, String name, String treeSha) {
-        GitHubAPI ghapi = new GitHubAPI();
+    private Response executeListBlobs(final String owner, final String name, final String treeSha) {
+        final GitHubAPI ghapi = new GitHubAPI();
         ghapi.goStealth();
         try {
             return ghapi.object.list_blobs(owner, name, treeSha);
@@ -218,24 +219,24 @@ public class BlobsActivity extends BaseAsyncActivity {
      * @param json
      * @return
      */
-    private TreeMap<String, String> parseJson(String json) {
-        TreeMap<String, String> treeMap = new TreeMap<String, String>();
+    private TreeMap<String, String> parseJson(final String json) {
+        final TreeMap<String, String> treeMap = new TreeMap<String, String>();
         try {
-            JSONObject jsonObject = new JSONObject(json).getJSONObject("blobs");
+            final JSONObject jsonObject = new JSONObject(json).getJSONObject("blobs");
             for (Iterator<?> iterator = jsonObject.keys(); iterator.hasNext();) {
-                String key = (String) iterator.next();
+                final String key = (String) iterator.next();
                 treeMap.put(key, jsonObject.getString(key));
             }
-        } catch (JSONException e) {
+        } catch (final JSONException e) {
             e.printStackTrace();
             return null;
         }
         return treeMap;
     }
 
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
+    public boolean onKeyDown(final int keyCode, final KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_MENU) {
-            BlobsMenuDialog blobsMenuDialog = new BlobsMenuDialog(this, (Refs) getIntent()
+            final BlobsMenuDialog blobsMenuDialog = new BlobsMenuDialog(this, (Refs) getIntent()
                     .getExtras().getSerializable(Extra.REFS));
             blobsMenuDialog.setOwnerActivity(this);
             blobsMenuDialog.show();

@@ -1,3 +1,4 @@
+
 package net.flaxia.android.githubviewer;
 
 import java.io.File;
@@ -15,7 +16,7 @@ import android.widget.Toast;
 
 public class DashboardActivity extends Activity {
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setSoftInputMode(LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         setContentView(R.layout.activity_dashbord);
@@ -26,27 +27,27 @@ public class DashboardActivity extends Activity {
      * 
      * @param view
      */
-    public void onSearchButton(View view) {
+    public void onSearchButton(final View view) {
         startActivity(new Intent(getApplicationContext(), SearchActivity.class));
     }
-    
-    public void onUserSearchButton(View view){
+
+    public void onUserSearchButton(final View view) {
         startActivity(new Intent(getApplicationContext(), UserSearchActivity.class));
     }
 
-    public void onInformationButton(View view) {
+    public void onInformationButton(final View view) {
         startActivity(new Intent(getApplicationContext(), InformationActivity.class));
     }
 
-    public void onBookmarkButton(View view) {
+    public void onBookmarkButton(final View view) {
         startActivity(new Intent(getApplicationContext(), BookmarkActivity.class));
     }
 
-    public void onConfigureButton(View view) {
+    public void onConfigureButton(final View view) {
         startActivity(new Intent(getApplicationContext(), ConfigureActivity.class));
     }
 
-    public void onLocalDriveButton(View view) {
+    public void onLocalDriveButton(final View view) {
         final SharedPreferences prefs = PreferenceManager
                 .getDefaultSharedPreferences(getApplicationContext());
         final File targetDir = new File(prefs.getString(ConfigureActivity.SAVE_DIR,

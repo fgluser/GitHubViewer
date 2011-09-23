@@ -1,3 +1,4 @@
+
 package net.flaxia.android.githubviewer.util;
 
 import java.io.File;
@@ -15,7 +16,7 @@ public class CommonHelper {
      * @param string
      * @return
      */
-    public static boolean isEmpty(String string) {
+    public static boolean isEmpty(final String string) {
         if (null == string || !string.matches(".*\\S+.*")) {
             return true;
         }
@@ -28,18 +29,18 @@ public class CommonHelper {
      * @param fileName
      * @return
      */
-    public static String getSuffix(String fileName) {
+    public static String getSuffix(final String fileName) {
         if (null == fileName || 0 == fileName.length())
             return null;
 
-        int point = fileName.lastIndexOf(".");
+        final int point = fileName.lastIndexOf(".");
         if (point != -1) {
             return fileName.substring(point + 1);
         }
         return fileName;
     }
 
-    public static String escapeSign(String source) {
+    public static String escapeSign(final String source) {
         return source.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
     }
 
@@ -51,11 +52,11 @@ public class CommonHelper {
                 + calendar.get(Calendar.SECOND);
     }
 
-    public static void download(URL url, File uri) throws IOException {
-        URLConnection conn = url.openConnection();
-        InputStream in = conn.getInputStream();
-        FileOutputStream out = new FileOutputStream(uri, false);
-        byte buf[] = new byte[1024];
+    public static void download(final URL url, final File uri) throws IOException {
+        final URLConnection conn = url.openConnection();
+        final InputStream in = conn.getInputStream();
+        final FileOutputStream out = new FileOutputStream(uri, false);
+        final byte buf[] = new byte[1024];
         int len;
         while ((len = in.read(buf)) != -1) {
             out.write(buf, 0, len);
@@ -65,8 +66,8 @@ public class CommonHelper {
         in.close();
     }
 
-    public static String removeExtension(String path) {
-        int dot = path.lastIndexOf(".");
+    public static String removeExtension(final String path) {
+        final int dot = path.lastIndexOf(".");
         if (-1 == dot || 0 == dot || dot <= path.lastIndexOf("/") + 1) {
             return path;
         } else {

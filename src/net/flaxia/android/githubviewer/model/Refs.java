@@ -1,3 +1,4 @@
+
 package net.flaxia.android.githubviewer.model;
 
 import java.io.Serializable;
@@ -9,7 +10,7 @@ public class Refs implements Serializable {
     private String mKey;
     private String mHash;
 
-    public Refs(String owner, String name, String key, String hash) {
+    public Refs(final String owner, final String name, final String key, final String hash) {
         mOwner = owner;
         mName = name;
         mKey = key;
@@ -20,7 +21,7 @@ public class Refs implements Serializable {
         return mOwner;
     }
 
-    public void setOwner(String owner) {
+    public void setOwner(final String owner) {
         mOwner = owner;
     }
 
@@ -28,7 +29,7 @@ public class Refs implements Serializable {
         return mName;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         mName = name;
     }
 
@@ -36,7 +37,7 @@ public class Refs implements Serializable {
         return mKey;
     }
 
-    public void setKey(String key) {
+    public void setKey(final String key) {
         mKey = key;
     }
 
@@ -44,7 +45,7 @@ public class Refs implements Serializable {
         return mHash;
     }
 
-    public void setHash(String hash) {
+    public void setHash(final String hash) {
         mHash = hash;
     }
 }

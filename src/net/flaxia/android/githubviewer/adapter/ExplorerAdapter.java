@@ -1,3 +1,4 @@
+
 package net.flaxia.android.githubviewer.adapter;
 
 import net.flaxia.android.githubviewer.util.CommonHelper;
@@ -9,15 +10,16 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 public class ExplorerAdapter extends BaseListAdapter<String> {
-    public ExplorerAdapter(Context context, int textViewResourceId, String[] objects) {
+    public ExplorerAdapter(final Context context, final int textViewResourceId,
+            final String[] objects) {
         super(context, textViewResourceId, objects);
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        View view = super.getView(position, convertView, parent);
-        String fileName = getItem(position);
-        TextView textView = (TextView) view.findViewById(android.R.id.text1);
+    public View getView(final int position, final View convertView, final ViewGroup parent) {
+        final View view = super.getView(position, convertView, parent);
+        final String fileName = getItem(position);
+        final TextView textView = (TextView) view.findViewById(android.R.id.text1);
         textView.setText(" " + fileName);
         Drawable drawable;
         if (fileName.contains("/")) {

@@ -1,3 +1,4 @@
+
 package net.flaxia.android.githubviewer;
 
 import java.io.BufferedInputStream;
@@ -29,25 +30,26 @@ public class DownloadService extends Service {
     private static int REQUEST_CODE = 0;
 
     @Override
-    public void onStart(final Intent intent, int startId) {
+    public void onStart(final Intent intent, final int startId) {
         new Thread(new Runnable() {
             public void run() {
-                Intent notificationIntent = new Intent(getApplicationContext(), StartActivity.class);
+                final Intent notificationIntent = new Intent(getApplicationContext(),
+                        StartActivity.class);
                 notificationIntent.putExtra(Extra.REQUEST_CODE, REQUEST_CODE);
                 notification(PendingIntent.getActivity(getApplicationContext(), REQUEST_CODE,
                         notificationIntent, 0), R.string.start_download, R.string.downloading);
-                Bundle extras = intent.getExtras();
-                File target = new File(extras.getString(SAVE_PATH));
+                final Bundle extras = intent.getExtras();
+                final File target = new File(extras.getString(SAVE_PATH));
                 target.getParentFile().mkdirs();
                 try {
                     CommonHelper.download(new URL(extras.getString(DOWNLOAD_URL)), target);
-                } catch (MalformedURLException e) {
+                } catch (final MalformedURLException e) {
                     notification(PendingIntent.getActivity(getApplicationContext(), REQUEST_CODE,
                             notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT),
                             R.string.download_failed);
                     e.printStackTrace();
                     return;
-                } catch (IOException e) {
+                } catch (final IOException e) {
                     notification(PendingIntent.getActivity(getApplicationContext(), REQUEST_CODE,
                             notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT),
                             R.string.download_failed);
@@ -76,13 +78,14 @@ public class DownloadService extends Service {
         }).start();
     }
 
-    private void notification(PendingIntent pendingIntent, int notificationMessage) {
+    private void notification(final PendingIntent pendingIntent, final int notificationMessage) {
         notification(pendingIntent, notificationMessage, notificationMessage);
     }
 
-    private void notification(PendingIntent pendingIntent, int notificationMessage, int message) {
-        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        Notification notification = new Notification(R.drawable.icon,
+    private void notification(final PendingIntent pendingIntent, final int notificationMessage,
+            final int message) {
+        final NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        final Notification notification = new Notification(R.drawable.icon,
                 getString(notificationMessage), System.currentTimeMillis());
         notification.setLatestEventInfo(getApplicationContext(), getString(R.string.app_name),
                 getString(message), pendingIntent);
@@ -91,18 +94,18 @@ public class DownloadService extends Service {
 
     private boolean unzip(final String zipPath) {
         boolean flag = true;
-        File outDir = new File(CommonHelper.removeExtension(zipPath));
+        final File outDir = new File(CommonHelper.removeExtension(zipPath));
         if (!outDir.exists()) {
             outDir.mkdirs();
         }
         BufferedInputStream bin = null;
         BufferedOutputStream bout = null;
         try {
-            ZipFile zipFile = new ZipFile(zipPath);
-            Enumeration<? extends ZipEntry> entries = zipFile.entries();
+            final ZipFile zipFile = new ZipFile(zipPath);
+            final Enumeration<? extends ZipEntry> entries = zipFile.entries();
             while (entries.hasMoreElements()) {
-                ZipEntry entry = entries.nextElement();
-                File outFile = new File(outDir, entry.getName());
+                final ZipEntry entry = entries.nextElement();
+                final File outFile = new File(outDir, entry.getName());
                 if (entry.isDirectory()) {
                     outFile.mkdir();
                 } else {
@@ -115,10 +118,10 @@ public class DownloadService extends Service {
                     bout.flush();
                 }
             }
-        } catch (ZipException e) {
+        } catch (final ZipException e) {
             flag = false;
             e.printStackTrace();
-        } catch (IOException e) {
+        } catch (final IOException e) {
             flag = false;
             e.printStackTrace();
         } finally {
@@ -127,7 +130,7 @@ public class DownloadService extends Service {
                     bin.close();
                 if (bout != null)
                     bout.close();
-            } catch (IOException e) {
+            } catch (final IOException e) {
                 flag = false;
                 e.printStackTrace();
             }
@@ -137,7 +140,7 @@ public class DownloadService extends Service {
     }
 
     @Override
-    public IBinder onBind(Intent intent) {
+    public IBinder onBind(final Intent intent) {
         // TODO Auto-generated method stub
         return null;
     }

@@ -6,7 +6,7 @@ public class User extends Base {
     private static final long serialVersionUID = 5636317037796900464L;
     public static final String USERNAME = "username";
 
-    public User(JSONObject json) {
+    public User(final JSONObject json) {
         super(json);
     }
 }

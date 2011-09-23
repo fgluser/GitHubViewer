@@ -1,3 +1,4 @@
+
 package net.flaxia.android.githubviewer;
 
 import net.flaxia.android.githubviewer.adapter.UserAdapter;
@@ -27,7 +28,7 @@ public class UserSearchActivity extends BaseAsyncActivity {
     private ListView mListView;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_search);
         initListView();
@@ -37,10 +38,13 @@ public class UserSearchActivity extends BaseAsyncActivity {
         mListView = (ListView) findViewById(R.id.user);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                User user = ((UserAdapter) ((ListView) parent).getAdapter()).getItem(position);
-                startActivity(new Intent(getApplicationContext(), UserRepositoryActivity.class).putExtra(
-                        Extra.USERNAME, user.get(User.USERNAME)));
+            public void onItemClick(final AdapterView<?> parent, final View view,
+                    final int position, final long id) {
+                final User user = ((UserAdapter) ((ListView) parent).getAdapter())
+                        .getItem(position);
+                startActivity(new Intent(getApplicationContext(), UserRepositoryActivity.class)
+                        .putExtra(
+                                Extra.USERNAME, user.get(User.USERNAME)));
             }
         });
     }
@@ -50,19 +54,19 @@ public class UserSearchActivity extends BaseAsyncActivity {
      * 
      * @param view
      */
-    public void onSearchButton(View view) {
-        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+    public void onSearchButton(final View view) {
+        final InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
 
-        String q = ((EditText) findViewById(R.id.q)).getText().toString();
+        final String q = ((EditText) findViewById(R.id.q)).getText().toString();
         doAsyncTask(q);
     }
 
     @Override
-    protected void executeAsyncTask(String... parameters) {
-        String resultJson = executeSearch(parameters[0]);
+    protected void executeAsyncTask(final String... parameters) {
+        final String resultJson = executeSearch(parameters[0]);
         final User[] users = (null == resultJson) ? null : parseJson(resultJson);
-        Runnable runnable;
+        final Runnable runnable;
         if (null == users) {
             runnable = new Runnable() {
                 @Override
@@ -91,30 +95,31 @@ public class UserSearchActivity extends BaseAsyncActivity {
      * @param q
      * @return
      */
-    private String executeSearch(String q) {
-        GitHubAPI github = new GitHubAPI();
+    private String executeSearch(final String q) {
+        final GitHubAPI github = new GitHubAPI();
         github.goStealth();
-        Response response = github.user.search(q);
+        final Response response = github.user.search(q);
         LogEx.d(TAG, response.url);
+
         return response.resp;
     }
 
     /**
-     * 
      * @param json
      * @return
      */
-    private User[] parseJson(String json) {
+    private User[] parseJson(final String json) {
         try {
-            JSONArray jsons = (JSONArray) new JSONObject(json).getJSONArray("users");
-            int size = jsons.length();
-            User[] users = new User[size];
+            final JSONArray jsons = (JSONArray) new JSONObject(json).getJSONArray("users");
+            final int size = jsons.length();
+            final User[] users = new User[size];
             for (int i = 0; i < size; i++) {
                 users[i] = new User(jsons.getJSONObject(i));
             }
             return users;
-        } catch (JSONException e) {
+        } catch (final JSONException e) {
             e.printStackTrace();
+
             return null;
         }
     }

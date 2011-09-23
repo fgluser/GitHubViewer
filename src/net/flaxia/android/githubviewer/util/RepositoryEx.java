@@ -1,3 +1,4 @@
+
 package net.flaxia.android.githubviewer.util;
 
 import org.idlesoft.libraries.ghapi.GitHubAPI;
@@ -8,7 +9,7 @@ public class RepositoryEx extends Repository {
         super(a);
     }
 
-    public Response search(String query, String language) {
+    public Response search(final String query, final String language) {
         return HTTPGet("https://github.com/api/v2/json/repos/search/" + encode(query)
                 + "?language=" + encode(language));
     }

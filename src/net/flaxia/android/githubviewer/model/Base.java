@@ -1,3 +1,4 @@
+
 package net.flaxia.android.githubviewer.model;
 
 import java.io.Serializable;
@@ -7,24 +8,24 @@ import java.util.Iterator;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public abstract class Base implements Serializable  {
+public abstract class Base implements Serializable {
     private static final long serialVersionUID = 2055969764075589189L;
-    protected HashMap<String, String> mHashMap;
+    protected final HashMap<String, String> mHashMap;
 
-    public Base(JSONObject json) {
+    public Base(final JSONObject json) {
         mHashMap = new HashMap<String, String>();
-        for (Iterator<?> iterator = json.keys(); iterator.hasNext();) {
-            String key = (String) iterator.next();
+        for (final Iterator<?> iterator = json.keys(); iterator.hasNext();) {
+            final String key = (String) iterator.next();
             try {
                 mHashMap.put(key, json.getString(key));
-            } catch (JSONException e) {
+            } catch (final JSONException e) {
                 e.printStackTrace();
                 continue;
             }
         }
     }
 
-    public String get(String key) {
+    public String get(final String key) {
         return mHashMap.get(key);
     }
 }

@@ -1,3 +1,4 @@
+
 package net.flaxia.android.githubviewer;
 
 import android.content.SharedPreferences;
@@ -12,7 +13,7 @@ public class ConfigureActivity extends PreferenceActivity implements
     public static final String CODE_THEME = "codeTheme";
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.configure);
         ((ListPreference) findPreference(CODE_THEME)).setSummary(getPreferenceScreen()
@@ -33,7 +34,8 @@ public class ConfigureActivity extends PreferenceActivity implements
     }
 
     @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+    public void onSharedPreferenceChanged(final SharedPreferences sharedPreferences,
+            final String key) {
         if (key.equals(CODE_THEME)) {
             ((ListPreference) findPreference(CODE_THEME)).setSummary(sharedPreferences.getString(
                     key, "default"));

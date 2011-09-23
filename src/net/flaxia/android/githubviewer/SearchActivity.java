@@ -1,3 +1,4 @@
+
 package net.flaxia.android.githubviewer;
 
 import net.flaxia.android.githubviewer.adapter.RepositorieAdapter;
@@ -29,7 +30,7 @@ public class SearchActivity extends BaseAsyncActivity {
     private ListView mListView;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         initListView();
@@ -40,10 +41,12 @@ public class SearchActivity extends BaseAsyncActivity {
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Repositorie repositorie = ((RepositorieAdapter) ((ListView) parent).getAdapter())
+            public void onItemClick(final AdapterView<?> parent, final View view,
+                    final int position, final long id) {
+                final Repositorie repositorie = ((RepositorieAdapter) ((ListView) parent)
+                        .getAdapter())
                         .getItem(position);
-                Refs refs = new Refs(repositorie.get(Repositorie.OWNER), repositorie
+                final Refs refs = new Refs(repositorie.get(Repositorie.OWNER), repositorie
                         .get(Repositorie.NAME), "master", "master");
                 startActivity(new Intent(getApplicationContext(), BlobsActivity.class).putExtra(
                         Extra.REFS, refs));
@@ -52,8 +55,10 @@ public class SearchActivity extends BaseAsyncActivity {
 
         mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Repositorie repositorie = ((RepositorieAdapter) ((ListView) parent).getAdapter())
+            public boolean onItemLongClick(final AdapterView<?> parent, final View view,
+                    final int position, final long id) {
+                final Repositorie repositorie = ((RepositorieAdapter) ((ListView) parent)
+                        .getAdapter())
                         .getItem(position);
                 startActivity(new Intent(getApplicationContext(), RepositorieInfoActivity.class)
                         .putExtra(Extra.REPOSITORIE, repositorie));
@@ -67,19 +72,19 @@ public class SearchActivity extends BaseAsyncActivity {
      * 
      * @param view
      */
-    public void onSearchButton(View view) {
-        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+    public void onSearchButton(final View view) {
+        final InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
 
-        String q = ((EditText) findViewById(R.id.q)).getText().toString();
-        String language = ((EditText) findViewById(R.id.language)).getText().toString();
+        final String q = ((EditText) findViewById(R.id.q)).getText().toString();
+        final String language = ((EditText) findViewById(R.id.language)).getText().toString();
 
         doAsyncTask(q, language);
     }
 
     @Override
-    protected void executeAsyncTask(String... parameters) {
-        String resultJson = executeSearch(parameters[0], parameters[1]);
+    protected void executeAsyncTask(final String... parameters) {
+        final String resultJson = executeSearch(parameters[0], parameters[1]);
         final Repositorie[] repositories = (null == resultJson) ? null : parseJson(resultJson);
         Runnable runnable;
         if (null == repositories) {
@@ -110,31 +115,32 @@ public class SearchActivity extends BaseAsyncActivity {
      * @param q
      * @return
      */
-    private String executeSearch(String q, String language) {
-        GitHubAPI github = new GitHubAPI();
+    private String executeSearch(final String q, final String language) {
+        final GitHubAPI github = new GitHubAPI();
         github.goStealth();
-        RepositoryEx repositoryEx = new RepositoryEx(github);
-        Response response = repositoryEx.search(q, language);
+        final RepositoryEx repositoryEx = new RepositoryEx(github);
+        final Response response = repositoryEx.search(q, language);
         LogEx.d(TAG, response.url);
+
         return response.resp;
     }
 
     /**
-     * 
      * @param json
      * @return
      */
-    private Repositorie[] parseJson(String json) {
+    private Repositorie[] parseJson(final String json) {
         try {
-            JSONArray jsons = (JSONArray) new JSONObject(json).getJSONArray("repositories");
-            int size = jsons.length();
-            Repositorie[] repositories = new Repositorie[size];
+            final JSONArray jsons = (JSONArray) new JSONObject(json).getJSONArray("repositories");
+            final int size = jsons.length();
+            final Repositorie[] repositories = new Repositorie[size];
             for (int i = 0; i < size; i++) {
                 repositories[i] = new Repositorie(jsons.getJSONObject(i));
             }
             return repositories;
-        } catch (JSONException e) {
+        } catch (final JSONException e) {
             e.printStackTrace();
+
             return null;
         }
     }

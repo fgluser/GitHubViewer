@@ -9,7 +9,7 @@ public class Repositorie extends Base {
     public static final String HOMEPAGE = "homepage";
     public static final String DESCRIPTION = "description";
     
-    public Repositorie(JSONObject json) {
+    public Repositorie(final JSONObject json) {
         super(json);
     }
 }

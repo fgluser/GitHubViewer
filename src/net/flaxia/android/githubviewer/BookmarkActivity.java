@@ -1,3 +1,4 @@
+
 package net.flaxia.android.githubviewer;
 
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ import android.widget.ListView;
 
 public class BookmarkActivity extends ListActivity {
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setListAdapter(new BookmarkAdapter(getApplicationContext(),
                 android.R.layout.simple_list_item_2, new ArrayList<Bookmark>()));
@@ -26,9 +27,10 @@ public class BookmarkActivity extends ListActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        BookmarkSQliteOpenHelper bookmarkDb = new BookmarkSQliteOpenHelper(getApplicationContext());
-        BookmarkAdapter adapter = (BookmarkAdapter) getListAdapter();
-        Bookmark[] bookmarks = bookmarkDb.select();
+        final BookmarkSQliteOpenHelper bookmarkDb = new BookmarkSQliteOpenHelper(
+                getApplicationContext());
+        final BookmarkAdapter adapter = (BookmarkAdapter) getListAdapter();
+        final Bookmark[] bookmarks = bookmarkDb.select();
         for (Bookmark bookmark : bookmarks) {
             adapter.add(bookmark);
         }
@@ -43,11 +45,14 @@ public class BookmarkActivity extends ListActivity {
     private void initListenner() {
         getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Bookmark bookmark = (Bookmark) ((ListView) parent).getItemAtPosition(position);
-                Refs refs = new Refs(bookmark.getOwner(), bookmark.getName(), bookmark.getTree(),
+            public void onItemClick(final AdapterView<?> parent, final View view,
+                    final int position, final long id) {
+                final Bookmark bookmark = (Bookmark) ((ListView) parent)
+                        .getItemAtPosition(position);
+                final Refs refs = new Refs(bookmark.getOwner(), bookmark.getName(), bookmark
+                        .getTree(),
                         bookmark.getHash());
-                Intent intent = new Intent(getApplicationContext(), BlobsActivity.class);
+                final Intent intent = new Intent(getApplicationContext(), BlobsActivity.class);
                 intent.putExtra(Extra.REFS, refs);
                 startActivity(intent);
                 finish();
@@ -56,8 +61,10 @@ public class BookmarkActivity extends ListActivity {
 
         getListView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Bookmark bookmark = (Bookmark) ((ListView) parent).getItemAtPosition(position);
+            public boolean onItemLongClick(final AdapterView<?> parent, final View view,
+                    final int position, final long id) {
+                final Bookmark bookmark = (Bookmark) ((ListView) parent)
+                        .getItemAtPosition(position);
                 new BookmarkMenuDialog(BookmarkActivity.this, bookmark).show();
                 return false;
             }
