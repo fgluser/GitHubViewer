@@ -1,10 +1,12 @@
+
 package net.flaxia.android.githubviewer;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.Handler;
 
 public abstract class BaseAsyncActivity extends Activity {
-    protected LoadingDialog mLoadingDialog;
+    protected ProgressDialog mProgressDialog;
     protected Handler mHandler;
 
     @Override
@@ -36,7 +38,8 @@ public abstract class BaseAsyncActivity extends Activity {
      * 別スレッドで処理を行う前処理
      */
     protected void asyncReady() {
-        mLoadingDialog = new LoadingDialog(this);
+        mProgressDialog = ProgressDialog.show(this, null, getString(R.string.now_loading), true,
+                true);
     }
 
     /**
@@ -52,8 +55,8 @@ public abstract class BaseAsyncActivity extends Activity {
      * ダイアログが有効化を確認してから閉じる
      */
     protected void dismissDialog() {
-        if (null != mLoadingDialog && mLoadingDialog.isShowing()) {
-            mLoadingDialog.dismiss();
+        if (null != mProgressDialog && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
         }
     }
 }

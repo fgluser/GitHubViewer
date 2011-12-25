@@ -90,7 +90,7 @@ public class BlobsActivity extends BaseAsyncActivity {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                mLoadingDialog.dismiss();
+                mProgressDialog.dismiss();
                 Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
                 BlobsActivity.this.finish();
             }
@@ -121,7 +121,7 @@ public class BlobsActivity extends BaseAsyncActivity {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                mLoadingDialog.dismiss();
+                mProgressDialog.dismiss();
                 ((Spinner) findViewById(R.id.spinner)).setAdapter(mSpinnerAdapter);
             }
         });

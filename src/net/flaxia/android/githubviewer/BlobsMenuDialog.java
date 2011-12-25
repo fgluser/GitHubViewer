@@ -10,6 +10,7 @@ import net.flaxia.android.githubviewer.util.CommonHelper;
 import net.flaxia.android.githubviewer.util.Configuration;
 import net.flaxia.android.githubviewer.util.Extra;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -21,7 +22,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 public class BlobsMenuDialog extends Dialog {
-    protected LoadingDialog mLoadingDialog;
+    protected ProgressDialog mProgressDialog;
     private Refs mRefs;
 
     public BlobsMenuDialog(final Context context, final Refs refs) {
@@ -120,8 +121,8 @@ public class BlobsMenuDialog extends Dialog {
      * ダイアログが有効化を確認してから閉じる
      */
     protected void dismissDialog() {
-        if (null != mLoadingDialog && mLoadingDialog.isShowing()) {
-            mLoadingDialog.dismiss();
+        if (null != mProgressDialog && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
         }
     }
 }

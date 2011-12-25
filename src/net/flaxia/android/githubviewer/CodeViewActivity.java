@@ -12,6 +12,7 @@ import net.flaxia.android.githubviewer.util.LogEx;
 
 import org.idlesoft.libraries.ghapi.GitHubAPI;
 
+import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -26,7 +27,7 @@ public class CodeViewActivity extends BaseAsyncActivity {
     private static final String TAG = CodeViewActivity.class.getSimpleName();
     private static final int MENU_COPY = Menu.FIRST + 1;
     protected WebView mWebView;
-    private LoadingDialog mRenderingDialog;
+    private ProgressDialog mRenderingDialog;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -47,7 +48,8 @@ public class CodeViewActivity extends BaseAsyncActivity {
         mWebView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageStarted(final WebView view, final String url, final Bitmap favicon) {
-                mRenderingDialog = new LoadingDialog(CodeViewActivity.this, R.string.rendering);
+                mRenderingDialog = ProgressDialog.show(CodeViewActivity.this, null,
+                        getString(R.string.rendering), true, true);
                 super.onPageStarted(view, url, favicon);
             }
 
@@ -69,7 +71,7 @@ public class CodeViewActivity extends BaseAsyncActivity {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                mLoadingDialog.dismiss();
+                mProgressDialog.dismiss();
                 mWebView.loadDataWithBaseURL("about:blank", html, "text/html", "utf-8", null);
             }
         });
