@@ -26,16 +26,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="HomeActivity"/>
-        <activity
-            android:name=".UserSearchActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:theme="@android:style/Theme.Black.NoTitleBar" />
-        <activity
-            android:name=".UserRepositoryActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:label="@string/app_name" />
+        <activity android:name="HomeActivity" />
         <activity
             android:name=".BlobsActivity"
             android:configChanges="orientation|keyboardHidden"
@@ -50,8 +41,7 @@
             android:label="@string/app_name" />
         <activity
             android:name=".RepositorieInfoActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:label="@string/app_name" />
+            android:configChanges="orientation|keyboardHidden" />
         <activity
             android:name="BookmarkEditActivity"
             android:label="@string/app_name" />

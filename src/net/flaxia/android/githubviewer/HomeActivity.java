@@ -67,7 +67,7 @@ public class HomeActivity extends BaseMenuActivity implements LoaderCallbacks<Re
         setContentView(R.layout.activity_home);
 
         final LayoutInflater layoutInflater = getLayoutInflater();
-        mSearchView = layoutInflater.inflate(R.layout.activity_search, null);
+        mSearchView = layoutInflater.inflate(R.layout.search, null);
         mSearchResultListView = (ListView) mSearchView.findViewById(R.id.repositorie);
         mBookmarkListView = new ListView(getBaseContext());
         final View localView = layoutInflater.inflate(R.layout.local, null);
