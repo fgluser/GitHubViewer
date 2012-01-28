@@ -33,7 +33,7 @@ public class StartActivity extends Activity {
         if (null != intent.getExtras()) {
             switch (intent.getExtras().getInt(Extra.ACTIVITY, 0)) {
                 case Extra.LOCAL_EXPLORER_ACTIVITY:
-                    intent.setClass(getApplicationContext(), LocalExplorerActivity.class);
+                 //   intent.setClass(getApplicationContext(), LocalExplorerActivity.class);
                     break;
                 default:
                     intent.setClass(getApplicationContext(), HomeActivity.class);

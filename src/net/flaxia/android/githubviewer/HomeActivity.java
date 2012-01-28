@@ -1,15 +1,20 @@
 
 package net.flaxia.android.githubviewer;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 import net.flaxia.android.githubviewer.adapter.BookmarkAdapter;
+import net.flaxia.android.githubviewer.adapter.ExplorerAdapter;
 import net.flaxia.android.githubviewer.adapter.RepositorieAdapter;
 import net.flaxia.android.githubviewer.model.Bookmark;
 import net.flaxia.android.githubviewer.model.Refs;
 import net.flaxia.android.githubviewer.model.Repositorie;
 import net.flaxia.android.githubviewer.util.BookmarkSQliteOpenHelper;
+import net.flaxia.android.githubviewer.util.Configuration;
 import net.flaxia.android.githubviewer.util.Extra;
 
 import org.idlesoft.libraries.ghapi.APIAbstract.Response;
@@ -24,7 +29,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
@@ -35,7 +42,10 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.viewpagerindicator.TabPageIndicator;
 
@@ -44,6 +54,7 @@ public class HomeActivity extends FragmentActivity implements
     private View mSearchView;
     private ListView mSearchResultListView;
     private ListView mBookmarkListView;
+    private TextView mFilePathTextView;
     private ListView mLocalListView;
     private ProgressDialog mProgressDialog;
 
@@ -56,21 +67,110 @@ public class HomeActivity extends FragmentActivity implements
         mSearchView = layoutInflater.inflate(R.layout.activity_search, null);
         mSearchResultListView = (ListView) mSearchView.findViewById(R.id.repositorie);
         mBookmarkListView = new ListView(getBaseContext());
-        mLocalListView = new ListView(getBaseContext());
+        final View localView = layoutInflater.inflate(R.layout.local, null);
+        mFilePathTextView = (TextView) localView.findViewById(R.id.file_path);
+        mLocalListView = (ListView) localView.findViewById(R.id.file_list);
         final View[] views = new View[] {
-                mSearchView, mBookmarkListView, mLocalListView,
+                mSearchView, mBookmarkListView, localView,
         };
         final String[] titles = new String[] {
                 "Search", "Bookmark", "Local"
         };
+
+        initSearchResultListView();
+        initBookmarkListView();
+        initLocalListListener();
+        initLocal();
 
         final HomePagerAdapter adapter = new HomePagerAdapter(titles, Arrays.asList(views));
         final ViewPager pager = (ViewPager) findViewById(R.id.pager);
         final TabPageIndicator indicator = (TabPageIndicator) findViewById(R.id.indicator);
         pager.setAdapter(adapter);
         indicator.setViewPager(pager);
-        initSearchResultListView();
-        initBookmarkListView();
+    }
+
+    private String initFilePath() {
+        if (0 == mFilePathTextView.getText().length()) {
+            final SharedPreferences prefs = PreferenceManager
+                    .getDefaultSharedPreferences(getApplicationContext());
+            final File targetDir = new File(prefs.getString(ConfigureActivity.SAVE_DIR,
+                    Configuration.DEFAULT_SAVE_PATH));
+            targetDir.mkdirs();
+            mFilePathTextView.setText(targetDir.getPath());
+        }
+        return mFilePathTextView.getText().toString();
+    }
+
+    private void initLocalListListener() {
+        mLocalListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(final AdapterView<?> parent, final View view,
+                    final int position, final long id) {
+                final ListAdapter listAdapter = mLocalListView.getAdapter();
+                final String select = (String) listAdapter.getItem(position);
+                if (select.equals("..")) {
+                    final File file = new File(mFilePathTextView.getText().toString());
+                    mFilePathTextView.setText(file.getParent());
+                    initLocal();
+                } else {
+                    final File file = new File(mFilePathTextView.getText().toString() + "/"
+                            + select);
+                    if (file.isDirectory()) {
+                        if (file.canRead()) {
+                            mFilePathTextView.setText(file.getAbsolutePath());
+                            initLocal();
+                        } else {
+                            Toast.makeText(getBaseContext(),
+                                    getString(R.string.could_not_read_to_external_storage),
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    } else {
+                        final Intent intent = new Intent(getBaseContext(), CodeViewActivity.class);
+                        intent.putExtra(Extra.EXPLORER_PATH, file.getAbsolutePath());
+                        startActivity(intent);
+                    }
+                }
+            }
+        });
+    }
+
+    private void initLocal() {
+        final String filePath = initFilePath();
+        final File[] files = getSortedFiles(filePath);
+        final List<String> list = new ArrayList<String>();
+        if (!filePath.equals("/")) {
+            list.add("..");
+        }
+        for (final File file : files) {
+            list.add(file.isDirectory() ? file.getName() + "/" : file.getName());
+        }
+        mLocalListView.setAdapter(new ExplorerAdapter(getBaseContext(),
+                android.R.layout.simple_list_item_1, list));
+    }
+
+    private File[] getSortedFiles(final String path) {
+        final File[] source = new File(path).listFiles();
+        final ArrayList<File> dirList = new ArrayList<File>();
+        final ArrayList<File> fileList = new ArrayList<File>();
+
+        for (final File file : source) {
+            if (file.isDirectory()) {
+                dirList.add(file);
+            } else {
+                fileList.add(file);
+            }
+        }
+        final File[] dirs = dirList.toArray(new File[0]);
+        final File[] files = fileList.toArray(new File[0]);
+
+        Arrays.sort(dirs, new FileSort());
+        Arrays.sort(files, new FileSort());
+
+        final File[] sorted = new File[dirs.length + files.length];
+        System.arraycopy(dirs, 0, sorted, 0, dirs.length);
+        System.arraycopy(files, 0, sorted, dirs.length, files.length);
+
+        return sorted;
     }
 
     public void initBookmark() {
@@ -90,8 +190,7 @@ public class HomeActivity extends FragmentActivity implements
                 final Bookmark bookmark = (Bookmark) ((ListView) parent)
                         .getItemAtPosition(position);
                 final Refs refs = new Refs(bookmark.getOwner(), bookmark.getName(), bookmark
-                        .getTree(),
-                        bookmark.getHash());
+                        .getTree(), bookmark.getHash());
                 final Intent intent = new Intent(getApplicationContext(), BlobsActivity.class);
                 intent.putExtra(Extra.REFS, refs);
                 startActivity(intent);
@@ -147,8 +246,7 @@ public class HomeActivity extends FragmentActivity implements
             public void onItemClick(final AdapterView<?> parent, final View view,
                     final int position, final long id) {
                 final Repositorie repositorie = ((RepositorieAdapter) ((ListView) parent)
-                        .getAdapter())
-                        .getItem(position);
+                        .getAdapter()).getItem(position);
                 final Refs refs = new Refs(repositorie.get(Repositorie.OWNER), repositorie
                         .get(Repositorie.NAME), "master", "master");
                 startActivity(new Intent(getApplicationContext(), BlobsActivity.class).putExtra(
@@ -161,8 +259,7 @@ public class HomeActivity extends FragmentActivity implements
             public boolean onItemLongClick(final AdapterView<?> parent, final View view,
                     final int position, final long id) {
                 final Repositorie repositorie = ((RepositorieAdapter) ((ListView) parent)
-                        .getAdapter())
-                        .getItem(position);
+                        .getAdapter()).getItem(position);
                 startActivity(new Intent(getApplicationContext(), RepositorieInfoActivity.class)
                         .putExtra(Extra.REPOSITORIE, repositorie));
                 return false;
@@ -210,4 +307,9 @@ public class HomeActivity extends FragmentActivity implements
     public void onLoaderReset(final Loader<RepositorieAdapter> loader) {
     }
 
+    static class FileSort implements Comparator<File> {
+        public int compare(final File file1, final File file2) {
+            return file1.getName().compareTo(file2.getName());
+        }
+    }
 }

@@ -1,6 +1,8 @@
 
 package net.flaxia.android.githubviewer.adapter;
 
+import java.util.List;
+
 import net.flaxia.android.githubviewer.util.CommonHelper;
 import net.flaxia.android.githubviewer.util.IconCache;
 import android.content.Context;
@@ -11,9 +13,11 @@ import android.widget.TextView;
 
 public class ExplorerAdapter extends BaseListAdapter<String> {
     public ExplorerAdapter(final Context context, final int textViewResourceId,
-            final String[] objects) {
+            final List<String> objects) {
         super(context, textViewResourceId, objects);
     }
+    
+    
 
     @Override
     public View getView(final int position, final View convertView, final ViewGroup parent) {

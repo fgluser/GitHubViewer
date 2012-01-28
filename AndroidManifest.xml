@@ -61,9 +61,6 @@
         <activity
             android:name=".ConfigureActivity"
             android:label="@string/app_name" />
-        <activity
-            android:name=".LocalExplorerActivity"
-            android:label="@string/app_name" />
 
         <service
             android:name=".DownloadService"
