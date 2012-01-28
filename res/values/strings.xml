@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">GitHub Viewer</string>
     <string name="search_word">Search Word</string>
     <string name="search_word_is_empty">Search word is empty.</string>
@@ -20,11 +21,13 @@
     <string name="would_you_like_to_which">Would you like to which?</string>
     <string name="tree_list">Tree List</string>
     <string name="initializing">Initializing</string>
+
     <string-array name="blobs_menu_dialog">
         <item>Add Bookmark</item>
         <item>Bookmark now</item>
         <item>Download</item>
     </string-array>
+
     <string name="added_to_your_bookmarks">Added to your bookmarks.</string>
     <string name="failed_to_edit_a_bookmark">Failed to edit a bookmark.</string>
     <string name="name">Name</string>
@@ -34,23 +37,27 @@
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="succeed_to_edit_a_bookmark">Succeed to edit a bookmark.</string>
+
     <string-array name="bookmark_menu_dialog">
         <item>Open</item>
         <item>Edit</item>
         <item>Delete</item>
     </string-array>
+
     <string name="directory_location_to_store">Directory location to store</string>
     <string name="could_not_find_file_to_download">Could not find file to download.</string>
     <string name="unzipping">Unzipping</string>
     <string name="downloading">Downloading</string>
     <string name="could_not_load_external_memory">Could not load external memory.</string>
     <string name="could_not_write_to_external_memory">Could not write to external memory.</string>
+    <string name="could_not_read_to_external_storage">Could not read to external storage.</string>
     <string name="download_failed">Download failed.</string>
     <string name="keyword_search">Keyword Search</string>
     <string name="option_language_example">Option Language (C Java ...)</string>
     <string name="username">Username</string>
     <string name="code_theme">Code Theme</string>
     <string name="select_code_theme">Select code theme</string>
+
     <string-array name="code_themes">
         <item>default</item>
         <item>desert</item>
@@ -61,9 +68,11 @@
         <item>desert</item>
         <item>sunburst</item>
     </string-array>
+
     <string name="start_download">Start download</string>
     <string name="start_unzip">Start unzip</string>
     <string name="unzip_failed">Unzip failed.</string>
     <string name="download_is_complete">Download is complete.</string>
     <string name="copy">Copy</string>
+
 </resources>

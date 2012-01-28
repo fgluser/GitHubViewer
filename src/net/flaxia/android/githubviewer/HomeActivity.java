@@ -21,6 +21,8 @@ import org.json.JSONObject;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -170,7 +172,13 @@ public class HomeActivity extends FragmentActivity implements
 
     @Override
     public Loader<RepositorieAdapter> onCreateLoader(final int id, final Bundle bundle) {
-        mProgressDialog = ProgressDialog.show(this, "hoge", "piyo");
+        mProgressDialog = ProgressDialog.show(this, null, getString(R.string.now_loading), true,
+                true, new OnCancelListener() {
+                    @Override
+                    public void onCancel(final DialogInterface dialog) {
+                        getSupportLoaderManager().destroyLoader(0);
+                    }
+                });
         final AsyncTaskLoader<RepositorieAdapter> asyncTaskLoader = new AsyncTaskLoader<RepositorieAdapter>(
                 getBaseContext()) {
             @Override
