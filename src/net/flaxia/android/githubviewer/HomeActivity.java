@@ -37,6 +37,8 @@ import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -50,6 +52,8 @@ import com.viewpagerindicator.TabPageIndicator;
 
 public class HomeActivity extends BaseActivity implements
         LoaderManager.LoaderCallbacks<RepositorieAdapter> {
+    private static final int MENU_PREFERENCE = 0;
+    private static final int MENU_INFORMATION = 1;
     private View mSearchView;
     private ListView mSearchResultListView;
     private ListView mBookmarkListView;
@@ -310,5 +314,32 @@ public class HomeActivity extends BaseActivity implements
         public int compare(final File file1, final File file2) {
             return file1.getName().compareTo(file2.getName());
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        menu.add(Menu.NONE, MENU_PREFERENCE, Menu.NONE, R.string.preference).setIcon(
+                android.R.drawable.ic_menu_preferences);
+        menu.add(Menu.NONE, MENU_INFORMATION, Menu.NONE, R.string.information).setIcon(
+                android.R.drawable.ic_menu_info_details);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        final Intent intent = new Intent();
+        switch (item.getItemId()) {
+            case MENU_PREFERENCE:
+                intent.setClass(getBaseContext(), ConfigureActivity.class);
+                break;
+            case MENU_INFORMATION:
+            default:
+                intent.setClass(getBaseContext(), InformationActivity.class);
+                break;
+        }
+        startActivity(intent);
+
+        return super.onOptionsItemSelected(item);
     }
 }

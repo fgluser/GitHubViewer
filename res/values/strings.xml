@@ -74,5 +74,6 @@
     <string name="unzip_failed">Unzip failed.</string>
     <string name="download_is_complete">Download is complete.</string>
     <string name="copy">Copy</string>
+    <string name="preference">Preference</string>
 
 </resources>

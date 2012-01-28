@@ -3,7 +3,6 @@ package net.flaxia.android.githubviewer;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
@@ -34,7 +33,7 @@ abstract class BaseActivity extends FragmentActivity {
     }
 
     public void onMenuButton(final View view) {
-        onKeyDown(KeyEvent.KEYCODE_MENU, new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MENU));
+        openOptionsMenu();
     }
 
 }
