@@ -100,6 +100,7 @@ public class BookmarkSQliteOpenHelper extends SQLiteOpenHelper {
                                 .getString(5));
                 bookmarks.add(bookmark);
             }
+            cursor.close();
         } finally {
             db.close();
         }
