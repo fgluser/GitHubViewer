@@ -85,7 +85,7 @@ public class DownloadService extends Service {
     private void notification(final PendingIntent pendingIntent, final int notificationMessage,
             final int message) {
         final NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        final Notification notification = new Notification(R.drawable.icon,
+        final Notification notification = new Notification(R.drawable.ic_launcher,
                 getString(notificationMessage), System.currentTimeMillis());
         notification.setLatestEventInfo(getApplicationContext(), getString(R.string.app_name),
                 getString(message), pendingIntent);
