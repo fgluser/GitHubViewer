@@ -11,15 +11,20 @@ import net.flaxia.android.githubviewer.model.KeyValuePair;
 import net.flaxia.android.githubviewer.model.Refs;
 import net.flaxia.android.githubviewer.model.Tree;
 import net.flaxia.android.githubviewer.util.Extra;
-import net.flaxia.android.githubviewer.util.LogEx;
 
 import org.idlesoft.libraries.ghapi.APIAbstract.Response;
 import org.idlesoft.libraries.ghapi.GitHubAPI;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager.LoaderCallbacks;
+import android.support.v4.content.AsyncTaskLoader;
+import android.support.v4.content.Loader;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -27,11 +32,11 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-public class BlobsActivity extends BaseAsyncActivity {
-    private static final String TAG = BlobsActivity.class.getSimpleName();
+public class BlobsActivity extends BaseActivity implements LoaderCallbacks<String> {
     private TreeAdapter mSpinnerAdapter;
     private Tree mTree;
     private ListView mListView;
+    private ProgressDialog mProgressDialog;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -43,7 +48,11 @@ public class BlobsActivity extends BaseAsyncActivity {
         final String hash = (null == refs.getHash()) ? "master" : refs.getHash();
         setTitle(owner + " / " + name);
         initSpinnerAdapter();
-        doAsyncTask(owner, name, hash);
+        final Bundle bundle = new Bundle();
+        bundle.putString("owner", owner);
+        bundle.putString("name", name);
+        bundle.putString("hash", hash);
+        getSupportLoaderManager().initLoader(0, bundle, this);
         initListView();
         initSpinner();
     }
@@ -79,53 +88,6 @@ public class BlobsActivity extends BaseAsyncActivity {
                 startActivity(intent);
             }
         });
-    }
-
-    /**
-     * 処理に失敗した場合のトースト表示
-     * 
-     * @param message
-     */
-    private void faild(final int message) {
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                mProgressDialog.dismiss();
-                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-                BlobsActivity.this.finish();
-            }
-        });
-    }
-
-    @Override
-    protected void executeAsyncTask(final String... parameters) {
-        final Response response = executeListBlobs(parameters[0], parameters[1], parameters[2]);
-        if (null == response) {
-            faild(R.string.out_of_memory_error);
-            return;
-        }
-        LogEx.d(TAG, response.resp);
-        final TreeMap<String, String> treeMap = parseJson(response.resp);
-
-        if (null == treeMap) {
-            faild(R.string.could_not_get_the_results);
-            return;
-        }
-
-        mTree = new Tree();
-        for (Iterator<?> iterator = treeMap.keySet().iterator(); iterator.hasNext();) {
-            final String key = (String) iterator.next();
-            LogEx.d(TAG, key + ", " + treeMap.get(key));
-            makeTree(mTree, key, treeMap.get(key), 1);
-        }
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                mProgressDialog.dismiss();
-                ((Spinner) findViewById(R.id.spinner)).setAdapter(mSpinnerAdapter);
-            }
-        });
-
     }
 
     /**
@@ -242,5 +204,57 @@ public class BlobsActivity extends BaseAsyncActivity {
             blobsMenuDialog.show();
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public Loader<String> onCreateLoader(final int id, final Bundle args) {
+        mProgressDialog = ProgressDialog.show(this, null, getString(R.string.now_loading), true,
+                true, new OnCancelListener() {
+                    @Override
+                    public void onCancel(final DialogInterface dialog) {
+                        getSupportLoaderManager().destroyLoader(0);
+                        finish();
+                    }
+                });
+        final AsyncTaskLoader<String> asyncTaskLoader = new AsyncTaskLoader<String>(
+                getBaseContext()) {
+            @Override
+            public String loadInBackground() {
+                final Response response = executeListBlobs(args.getString("owner"),
+                        args.getString("name"), args.getString("hash"));
+                if (null == response) {
+                    return getString(R.string.out_of_memory_error);
+                }
+                final TreeMap<String, String> treeMap = parseJson(response.resp);
+                if (null == treeMap) {
+                    return getString(R.string.could_not_get_the_results);
+                }
+                mTree = new Tree();
+                for (Iterator<String> iterator = treeMap.keySet().iterator(); iterator.hasNext();) {
+                    final String key = iterator.next();
+                    makeTree(mTree, key, treeMap.get(key), 1);
+                }
+
+                return null;
+            }
+        };
+        asyncTaskLoader.forceLoad();
+
+        return asyncTaskLoader;
+    }
+
+    @Override
+    public void onLoadFinished(final Loader<String> arg0, final String arg1) {
+        mProgressDialog.dismiss();
+        if (null == arg1) {
+            ((Spinner) findViewById(R.id.spinner)).setAdapter(mSpinnerAdapter);
+        } else {
+            Toast.makeText(getApplicationContext(), arg1, Toast.LENGTH_SHORT).show();
+            finish();
+        }
+    }
+
+    @Override
+    public void onLoaderReset(final Loader<String> arg0) {
     }
 }

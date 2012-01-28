@@ -32,6 +32,10 @@ abstract class BaseActivity extends FragmentActivity {
     @Override
     public void setTitle(final CharSequence title) {
         super.setTitle(title);
+        if (null == mTitle) {
+            getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, getTitleBarLayoutId());
+            mTitle = (TextView) findViewById(R.id.title);
+        }
         mTitle.setText(title);
     }
 }
