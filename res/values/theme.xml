@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="theme" parent="@style/Theme.PageIndicatorDefaults">
+        <item name="android:windowTitleSize">45dip</item>
+    </style>
+
+</resources>

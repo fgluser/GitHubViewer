@@ -32,7 +32,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
@@ -49,7 +48,7 @@ import android.widget.Toast;
 
 import com.viewpagerindicator.TabPageIndicator;
 
-public class HomeActivity extends FragmentActivity implements
+public class HomeActivity extends BaseActivity implements
         LoaderManager.LoaderCallbacks<RepositorieAdapter> {
     private View mSearchView;
     private ListView mSearchResultListView;
