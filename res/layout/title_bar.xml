@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:background="@android:drawable/ic_menu_preferences"
+        android:background="@android:drawable/ic_menu_more"
         android:onClick="onMenuButton" />
 
 </RelativeLayout>
