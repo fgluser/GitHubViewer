@@ -63,7 +63,7 @@ public class StartActivity extends Activity {
         iconCache.putDrawable("type_cpp", resources.getDrawable(R.drawable.type_cpp));
         iconCache.putDrawable("type_css", resources.getDrawable(R.drawable.type_css));
         iconCache.putDrawable("type_h", resources.getDrawable(R.drawable.type_h));
-        iconCache.putDrawable("type_htm", resources.getDrawable(R.drawable.type_htm));
+        iconCache.putDrawable("type_htm", resources.getDrawable(R.drawable.type_html));
         iconCache.putDrawable("type_html", resources.getDrawable(R.drawable.type_html));
         iconCache.putDrawable("type_java", resources.getDrawable(R.drawable.type_java));
         iconCache.putDrawable("type_js", resources.getDrawable(R.drawable.type_js));

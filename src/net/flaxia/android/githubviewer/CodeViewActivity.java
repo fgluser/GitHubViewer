@@ -13,6 +13,7 @@ import net.flaxia.android.githubviewer.util.LogEx;
 import org.idlesoft.libraries.ghapi.GitHubAPI;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -34,7 +35,12 @@ public class CodeViewActivity extends BaseAsyncActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_code_view);
         initWebView();
-        doAsyncTask();
+        final String url = getIntent().getStringExtra(Intent.EXTRA_TITLE);
+        if (null == url || 0 == url.length()) {
+            doAsyncTask();
+        } else {
+            mWebView.loadUrl(url);
+        }
     }
 
     /**

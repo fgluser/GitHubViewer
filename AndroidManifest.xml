@@ -29,9 +29,6 @@
         <activity
             android:name="HomeActivity"/>
         <activity
-            android:name="DashboardActivity"
-            android:theme="@android:style/Theme.Black.NoTitleBar" />
-        <activity
             android:name=".UserSearchActivity"
             android:configChanges="orientation|keyboardHidden"
             android:theme="@android:style/Theme.Black.NoTitleBar" />

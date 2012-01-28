@@ -1,34 +1,139 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent" android:layout_height="fill_parent"
-    android:fillViewport="true">
-    <LinearLayout android:layout_width="fill_parent"
-        android:layout_height="wrap_content" android:orientation="vertical">
-        <TextView android:text="GitHubViewer Ver 1.3.0"
-            android:layout_width="wrap_content" android:layout_height="wrap_content" />
-        <include layout="@layout/partial_separator" />
-        <TextView android:text="開発: 成瀬基樹" android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <include layout="@layout/partial_separator" />
-        <TextView android:text="Twitter @lgfuser https://twitter.com/#!/lgfuser"
-            android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:autoLink="web" />
-        <include layout="@layout/partial_separator" />
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
         <TextView
-            android:text="本ソフトウェアでは，以下のライブラリ，アイコンを一部改変，またはそのまま利用しています．\n
-* ghapi\n
-https://github.com/eddieringle/ghapi\n
-* Open Icon Library\n
-http://openiconlibrary.sourceforge.net/\n
-* google-code-prettify\n
-http://code.google.com/p/google-code-prettify/"
-            android:layout_width="wrap_content" android:layout_height="wrap_content" />
-        <include layout="@layout/partial_separator" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="アプリケーションについて"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
         <TextView
-            android:text="成瀬基樹は，貴方，その他第三者が本ソフトウェアに関連して，直接的，あるいは間接的に被ったいかなる損害に対しても，賠償などの一切の責任を負わず，かつ，貴方はこれに対して成瀬基樹を免責するものとします．"
-            android:layout_width="wrap_content" android:layout_height="wrap_content" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="GitHubViewer Ver 1.3.0" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Copyrights 2011-2012 成瀬基樹" />
+
         <include layout="@layout/partial_separator" />
-        <TextView android:text="Copyrights 2011 成瀬基樹"
-            android:layout_width="wrap_content" android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="開発者について"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="成瀬基樹" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autoLink="web"
+            android:text="Twitter @lgfuser https://twitter.com/#!/lgfuser" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autoLink="email"
+            android:text="Email fgluser@gmail.com" />
+
+        <include layout="@layout/partial_separator" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ライセンスについて"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Apache License Version 2.0のライブラリを利用しています．" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ghapi"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autoLink="web"
+            android:text="https://github.com/eddieringle/ghapi" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="google-code-prettify"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autoLink="web"
+            android:text="http://code.google.com/p/google-code-prettify/" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Android ViewPagerIndicator"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autoLink="web"
+            android:text="https://github.com/JakeWharton/Android-ViewPagerIndicator" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="onAl"
+            android:text="ライセンスを表示する" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Creative Commons License 3.0のアイコンを使用しています．" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Open Icon Library"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autoLink="web"
+            android:text="http://openiconlibrary.sourceforge.net/" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="onCc"
+            android:text="ライセンスを表示する" />
+
+        <include layout="@layout/partial_separator" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="成瀬基樹は，貴方，その他第三者が本ソフトウェアに関連して，直接的，あるいは間接的に被ったいかなる損害に対しても，賠償などの一切の責任を負わず，かつ，貴方はこれに対して成瀬基樹を免責するものとします．" />
     </LinearLayout>
+
 </ScrollView>
