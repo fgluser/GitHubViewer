@@ -36,6 +36,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -88,6 +89,20 @@ public class HomeActivity extends BaseActivity implements
         final HomePagerAdapter adapter = new HomePagerAdapter(titles, Arrays.asList(views));
         final ViewPager pager = (ViewPager) findViewById(R.id.pager);
         final TabPageIndicator indicator = (TabPageIndicator) findViewById(R.id.indicator);
+        indicator.setOnPageChangeListener(new OnPageChangeListener() {
+            public void onPageSelected(final int arg0) {
+            }
+
+            @Override
+            public void onPageScrolled(final int arg0, final float arg1, final int arg2) {
+                final InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(pager.getWindowToken(), 0);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(final int arg0) {
+            }
+        });
         pager.setAdapter(adapter);
         indicator.setViewPager(pager);
     }
