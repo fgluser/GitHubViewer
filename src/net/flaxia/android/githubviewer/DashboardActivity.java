@@ -22,25 +22,12 @@ public class DashboardActivity extends Activity {
         setContentView(R.layout.activity_dashbord);
     }
 
-    /**
-     * 検索ボタンを押したときの処理
-     * 
-     * @param view
-     */
-    public void onSearchButton(final View view) {
-        startActivity(new Intent(getApplicationContext(), SearchActivity.class));
-    }
-
     public void onUserSearchButton(final View view) {
         startActivity(new Intent(getApplicationContext(), UserSearchActivity.class));
     }
 
     public void onInformationButton(final View view) {
         startActivity(new Intent(getApplicationContext(), InformationActivity.class));
-    }
-
-    public void onBookmarkButton(final View view) {
-        startActivity(new Intent(getApplicationContext(), BookmarkActivity.class));
     }
 
     public void onConfigureButton(final View view) {

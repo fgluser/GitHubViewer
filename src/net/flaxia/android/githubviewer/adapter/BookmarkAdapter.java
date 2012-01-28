@@ -1,7 +1,7 @@
 
 package net.flaxia.android.githubviewer.adapter;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import net.flaxia.android.githubviewer.model.Bookmark;
 import android.content.Context;
@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 public class BookmarkAdapter extends BaseListAdapter<Bookmark> {
     public BookmarkAdapter(final Context context, final int textViewResourceId,
-            final ArrayList<Bookmark> objects) {
+            final List<Bookmark> objects) {
         super(context, textViewResourceId, objects);
     }
 

@@ -26,11 +26,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="DashboardActivity"
-            android:theme="@android:style/Theme.Black.NoTitleBar" />
+            android:name="HomeActivity"
+            android:theme="@style/Theme.PageIndicatorDefaults" />
         <activity
-            android:name=".SearchActivity"
-            android:configChanges="orientation|keyboardHidden"
+            android:name="DashboardActivity"
             android:theme="@android:style/Theme.Black.NoTitleBar" />
         <activity
             android:name=".UserSearchActivity"
@@ -58,9 +57,6 @@
             android:label="@string/app_name" />
         <activity
             android:name="BookmarkEditActivity"
-            android:label="@string/app_name" />
-        <activity
-            android:name=".BookmarkActivity"
             android:label="@string/app_name" />
         <activity
             android:name=".ConfigureActivity"

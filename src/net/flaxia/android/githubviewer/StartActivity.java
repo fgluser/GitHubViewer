@@ -36,11 +36,11 @@ public class StartActivity extends Activity {
                     intent.setClass(getApplicationContext(), LocalExplorerActivity.class);
                     break;
                 default:
-                    intent.setClass(getApplicationContext(), DashboardActivity.class);
+                    intent.setClass(getApplicationContext(), HomeActivity.class);
                     break;
             }
         } else {
-            intent = new Intent(getApplicationContext(), DashboardActivity.class);
+            intent = new Intent(getApplicationContext(), HomeActivity.class);
         }
         startActivity(intent);
         finish();

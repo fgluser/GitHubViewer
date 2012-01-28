@@ -15,11 +15,11 @@ import android.widget.ListView;
 
 public class BookmarkMenuDialog extends Dialog {
     private final Bookmark mBookmark;
-    private final BookmarkActivity mBookmarkActivity;
+    private final HomeActivity mHomeActivity;
 
-    public BookmarkMenuDialog(final BookmarkActivity bookmarkActivity, Bookmark bookmark) {
+    public BookmarkMenuDialog(final HomeActivity bookmarkActivity, Bookmark bookmark) {
         super(bookmarkActivity);
-        mBookmarkActivity = bookmarkActivity;
+        mHomeActivity = bookmarkActivity;
         mBookmark = bookmark;
         setContentView(R.layout.dialog_menu);
         setTitle("Menu");
@@ -58,8 +58,7 @@ public class BookmarkMenuDialog extends Dialog {
                     case 2: // remove
                         final BookmarkSQliteOpenHelper db = new BookmarkSQliteOpenHelper(context);
                         db.delete(mBookmark.getId());
-                        mBookmarkActivity.onPause();
-                        mBookmarkActivity.onResume();
+                        mHomeActivity.initBookmark();
                         break;
                 }
                 BookmarkMenuDialog.this.dismiss();
