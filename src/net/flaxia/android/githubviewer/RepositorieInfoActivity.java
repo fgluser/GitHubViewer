@@ -1,7 +1,9 @@
 
 package net.flaxia.android.githubviewer;
 
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import net.flaxia.android.githubviewer.adapter.BranchesTagsAdapter;
 import net.flaxia.android.githubviewer.model.KeyValuePair;
@@ -13,17 +15,25 @@ import org.idlesoft.libraries.ghapi.GitHubAPI;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager.LoaderCallbacks;
+import android.support.v4.content.AsyncTaskLoader;
+import android.support.v4.content.Loader;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class RepositorieInfoActivity extends BaseAsyncActivity {
+public class RepositorieInfoActivity extends BaseActivity implements
+        LoaderCallbacks<Map<String, KeyValuePair[]>> {
     private Spinner mBranchesSpinner;
     private Spinner mTagsSpinner;
+    private ProgressDialog mProgressDialog;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -33,7 +43,10 @@ public class RepositorieInfoActivity extends BaseAsyncActivity {
                 Extra.REPOSITORIE);
         initSpinners();
         initInformation();
-        doAsyncTask(repositorie.get(Repositorie.OWNER), repositorie.get(Repositorie.NAME));
+        final Bundle bundle = new Bundle();
+        bundle.putString("owner", repositorie.get(Repositorie.OWNER));
+        bundle.putString("name", repositorie.get(Repositorie.NAME));
+        getSupportLoaderManager().initLoader(0, bundle, this);
     }
 
     /**
@@ -84,9 +97,7 @@ public class RepositorieInfoActivity extends BaseAsyncActivity {
     private void initInformation() {
         final Repositorie repositorie = (Repositorie) getIntent().getExtras().getSerializable(
                 Extra.REPOSITORIE);
-        ((TextView) findViewById(R.id.owner_repositorie)).setText(repositorie
-                .get(Repositorie.OWNER)
-                + " / " + repositorie.get(Repositorie.NAME));
+        setTitle(repositorie.get(Repositorie.OWNER) + " / " + repositorie.get(Repositorie.NAME));
         ((TextView) findViewById(R.id.homepage)).setText(repositorie.get(Repositorie.HOMEPAGE));
         ((TextView) findViewById(R.id.description)).setText(repositorie
                 .get(Repositorie.DESCRIPTION));
@@ -97,31 +108,14 @@ public class RepositorieInfoActivity extends BaseAsyncActivity {
      * 
      * @param branches
      */
-    private void makeBranchesAdapter(final KeyValuePair[] branches) {
-        Runnable runnable;
-        if (null == branches) {
-            runnable = new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(getApplicationContext(), R.string.could_not_get_the_results,
-                            Toast.LENGTH_SHORT).show();
-                }
-            };
-        } else {
-            runnable = new Runnable() {
-                @Override
-                public void run() {
-                    final BranchesTagsAdapter branchesAdapter = new BranchesTagsAdapter(
-                            RepositorieInfoActivity.this, android.R.layout.simple_spinner_item);
-                    branchesAdapter.add(new KeyValuePair(getString(R.string.branches), null));
-                    for (final KeyValuePair branche : branches) {
-                        branchesAdapter.add(branche);
-                    }
-                    mBranchesSpinner.setAdapter(branchesAdapter);
-                }
-            };
-            mHandler.post(runnable);
+    private BranchesTagsAdapter makeBranchesAdapter(final KeyValuePair[] branches) {
+        final BranchesTagsAdapter branchesAdapter = new BranchesTagsAdapter(
+                RepositorieInfoActivity.this, android.R.layout.simple_spinner_item);
+        branchesAdapter.add(new KeyValuePair(getString(R.string.branches), null));
+        for (final KeyValuePair branche : branches) {
+            branchesAdapter.add(branche);
         }
+        return branchesAdapter;
     }
 
     /**
@@ -129,47 +123,14 @@ public class RepositorieInfoActivity extends BaseAsyncActivity {
      * 
      * @param tags
      */
-    private void makeTagsAdapter(final KeyValuePair[] tags) {
-        Runnable runnable;
-        if (null == tags) {
-            runnable = new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(getApplicationContext(), R.string.could_not_get_the_results,
-                            Toast.LENGTH_SHORT).show();
-                }
-            };
-        } else {
-            runnable = new Runnable() {
-                @Override
-                public void run() {
-                    final BranchesTagsAdapter tagsAdapter = new BranchesTagsAdapter(
-                            RepositorieInfoActivity.this, android.R.layout.simple_spinner_item);
-                    tagsAdapter.add(new KeyValuePair(getText(R.string.tags).toString(), null));
-                    for (final KeyValuePair tag : tags) {
-                        tagsAdapter.add(tag);
-                    }
-                    mTagsSpinner.setAdapter(tagsAdapter);
-                }
-            };
+    private BranchesTagsAdapter makeTagsAdapter(final KeyValuePair[] tags) {
+        final BranchesTagsAdapter tagsAdapter = new BranchesTagsAdapter(
+                RepositorieInfoActivity.this, android.R.layout.simple_spinner_item);
+        tagsAdapter.add(new KeyValuePair(getText(R.string.tags).toString(), null));
+        for (final KeyValuePair tag : tags) {
+            tagsAdapter.add(tag);
         }
-        mHandler.post(runnable);
-    }
-
-    @Override
-    protected void executeAsyncTask(final String... parameters) {
-        final KeyValuePair[] tags = executeGetTags(parameters[0], parameters[1]);
-        final KeyValuePair[] branches = executeGetBranches(parameters[0], parameters[1]);
-
-        makeBranchesAdapter(branches);
-        makeTagsAdapter(tags);
-
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                dismissDialog();
-            }
-        });
+        return tagsAdapter;
     }
 
     /**
@@ -237,5 +198,51 @@ public class RepositorieInfoActivity extends BaseAsyncActivity {
             }
         }
         return keyValuePairs;
+    }
+
+    @Override
+    public Loader<Map<String, KeyValuePair[]>> onCreateLoader(final int id, final Bundle args) {
+        mProgressDialog = ProgressDialog.show(this, null, getString(R.string.now_loading), true,
+                true, new OnCancelListener() {
+                    @Override
+                    public void onCancel(final DialogInterface dialog) {
+                        getSupportLoaderManager().destroyLoader(0);
+                    }
+                });
+        final AsyncTaskLoader<Map<String, KeyValuePair[]>> asyncTaskLoader =
+                new AsyncTaskLoader<Map<String, KeyValuePair[]>>(getBaseContext()) {
+                    @Override
+                    public Map<String, KeyValuePair[]> loadInBackground() {
+                        final Map<String, KeyValuePair[]> map = new HashMap<String, KeyValuePair[]>();
+                        final String owner = args.getString("owner");
+                        final String name = args.getString("name");
+                        map.put("tags", executeGetTags(owner, name));
+                        map.put("branches", executeGetBranches(owner, name));
+
+                        return map;
+                    }
+                };
+        asyncTaskLoader.forceLoad();
+
+        return asyncTaskLoader;
+    }
+
+    @Override
+    public void onLoadFinished(final Loader<Map<String, KeyValuePair[]>> loader,
+            final Map<String, KeyValuePair[]> map) {
+        final KeyValuePair[] tags = map.get("tags");
+        final KeyValuePair[] branches = map.get("branches");
+        if (null == branches || null == tags) {
+            Toast.makeText(getApplicationContext(), R.string.could_not_get_the_results,
+                    Toast.LENGTH_LONG).show();
+        } else {
+            mBranchesSpinner.setAdapter(makeBranchesAdapter(branches));
+            mTagsSpinner.setAdapter(makeTagsAdapter(tags));
+        }
+        mProgressDialog.dismiss();
+    }
+
+    @Override
+    public void onLoaderReset(final Loader<Map<String, KeyValuePair[]>> arg0) {
     }
 }
