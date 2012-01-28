@@ -32,7 +32,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.LoaderManager;
+import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
@@ -51,8 +51,7 @@ import android.widget.Toast;
 
 import com.viewpagerindicator.TabPageIndicator;
 
-public class HomeActivity extends BaseMenuActivity implements
-        LoaderManager.LoaderCallbacks<RepositorieAdapter> {
+public class HomeActivity extends BaseMenuActivity implements LoaderCallbacks<RepositorieAdapter> {
     private static final int MENU_PREFERENCE = 0;
     private static final int MENU_INFORMATION = 1;
     private View mSearchView;
