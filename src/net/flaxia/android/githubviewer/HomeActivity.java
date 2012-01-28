@@ -51,7 +51,7 @@ import android.widget.Toast;
 
 import com.viewpagerindicator.TabPageIndicator;
 
-public class HomeActivity extends BaseActivity implements
+public class HomeActivity extends BaseMenuActivity implements
         LoaderManager.LoaderCallbacks<RepositorieAdapter> {
     private static final int MENU_PREFERENCE = 0;
     private static final int MENU_INFORMATION = 1;

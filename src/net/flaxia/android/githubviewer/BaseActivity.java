@@ -3,7 +3,6 @@ package net.flaxia.android.githubviewer;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 
@@ -16,11 +15,15 @@ abstract class BaseActivity extends FragmentActivity {
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
     }
 
+    protected int getTitleBarLayoutId() {
+        return R.layout.title_bar;
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
         if (null == mTitle) {
-            getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_bar);
+            getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, getTitleBarLayoutId());
             mTitle = (TextView) findViewById(R.id.title);
             setTitle(getTitle());
         }
@@ -31,9 +34,4 @@ abstract class BaseActivity extends FragmentActivity {
         super.setTitle(title);
         mTitle.setText(title);
     }
-
-    public void onMenuButton(final View view) {
-        openOptionsMenu();
-    }
-
 }

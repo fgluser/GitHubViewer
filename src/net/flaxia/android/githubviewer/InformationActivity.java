@@ -1,13 +1,12 @@
 
 package net.flaxia.android.githubviewer;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 
-public class InformationActivity extends Activity {
+public class InformationActivity extends BaseActivity {
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
