@@ -232,10 +232,14 @@ public class HomeActivity extends BaseMenuActivity implements LoaderCallbacks<Re
      * @param view
      */
     public void onSearchButton(final View view) {
+        final String q = ((EditText) mSearchView.findViewById(R.id.q)).getText().toString();
+        if (0 == q.length()) {
+            Toast.makeText(getBaseContext(), R.string.search_word_is_empty, Toast.LENGTH_LONG)
+                    .show();
+            return;
+        }
         final InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
-
-        final String q = ((EditText) mSearchView.findViewById(R.id.q)).getText().toString();
         final Bundle bundle = new Bundle();
         bundle.putString("q", q);
         getSupportLoaderManager().destroyLoader(0);
