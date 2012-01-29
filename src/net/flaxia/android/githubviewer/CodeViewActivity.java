@@ -1,7 +1,10 @@
 
 package net.flaxia.android.githubviewer;
 
+import static org.idlesoft.libraries.ghapi.APIAbstract.encode;
+
 import java.io.BufferedReader;
+
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -42,12 +45,46 @@ public class CodeViewActivity extends FragmentActivity implements LoaderCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_code_view);
         initWebView();
-        final String url = getIntent().getStringExtra(Intent.EXTRA_TITLE);
-        if (null == url || 0 == url.length()) {
-            getSupportLoaderManager().initLoader(0, null, this);
+        if (getIntent().hasExtra(Intent.EXTRA_TITLE)) {
+            mWebView.loadUrl(getIntent().getStringExtra(Intent.EXTRA_TITLE));
         } else {
-            mWebView.loadUrl(url);
+            final String url = getUrl();
+            if (null == url || 0 == url.length()) {
+                getSupportLoaderManager().initLoader(0, null, this);
+            } else {
+                mWebView.loadDataWithBaseURL("about:blank", "<img src=\"" + url + "\" />",
+                        "text/html", "utf-8", null);
+            }
         }
+    }
+
+    private String getUrl() {
+        final Intent intent = getIntent();
+        final String explorerPath = getIntent().getStringExtra(Extra.EXPLORER_PATH);
+        if (null != explorerPath && isImageExtension(explorerPath)) {
+            return "file://" + explorerPath;
+        }
+        final String fileName = intent.getStringExtra("fileName");
+        if (null != fileName && isImageExtension(fileName)) {
+            return "https://github.com/api/v2/raw/blob/show/"
+                    + encode(intent.getStringExtra("owner")) + "/"
+                    + encode(intent.getStringExtra("name")) + "/"
+                    + encode(intent.getStringExtra("sha"));
+        }
+        System.out.println(4);
+        return null;
+    }
+
+    private boolean isImageExtension(final String name) {
+        final String[] imageExtensions = new String[] {
+                ".png", ".jpg", ".jpeg", ".gif",
+        };
+        for (final String imageExtension : imageExtensions) {
+            if (name.endsWith(imageExtension)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
