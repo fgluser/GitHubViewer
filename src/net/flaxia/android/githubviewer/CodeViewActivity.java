@@ -56,8 +56,11 @@ public class CodeViewActivity extends FragmentActivity implements LoaderCallback
     private void initWebView() {
         mWebView = (WebView) findViewById(R.id.webview);
         mWebView.getSettings().setJavaScriptEnabled(true);
-        mWebView.setWebChromeClient(new WebChromeClient());
         mWebView.getSettings().setBuiltInZoomControls(true);
+        mWebView.getSettings().setUseWideViewPort(true);
+        mWebView.getSettings().setLoadWithOverviewMode(true);
+        mWebView.setVerticalScrollbarOverlay(true);
+        mWebView.setWebChromeClient(new WebChromeClient());
         mWebView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageStarted(final WebView view, final String url, final Bitmap favicon) {
