@@ -62,11 +62,13 @@
         <item>default</item>
         <item>desert</item>
         <item>sunburst</item>
+        <item>sons-of-obsidian</item>
     </string-array>
     <string-array name="code_theme_values">
         <item>default</item>
         <item>desert</item>
         <item>sunburst</item>
+        <item>sons-of-obsidian</item>
     </string-array>
 
     <string name="start_download">Start download</string>
