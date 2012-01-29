@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     android:installLocation="auto"
     package="net.flaxia.android.githubviewer"
-    android:versionCode="13"
-    android:versionName="1.9.1" >
+    android:versionCode="14"
+    android:versionName="1.9.2" >
 
     <uses-sdk android:minSdkVersion="4" />
 
