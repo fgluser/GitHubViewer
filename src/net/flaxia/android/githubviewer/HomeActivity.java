@@ -238,6 +238,7 @@ public class HomeActivity extends BaseMenuActivity implements LoaderCallbacks<Re
         final String q = ((EditText) mSearchView.findViewById(R.id.q)).getText().toString();
         final Bundle bundle = new Bundle();
         bundle.putString("q", q);
+        getSupportLoaderManager().destroyLoader(0);
         getSupportLoaderManager().initLoader(0, bundle, this);
     }
 
