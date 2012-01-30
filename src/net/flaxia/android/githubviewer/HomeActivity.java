@@ -106,6 +106,12 @@ public class HomeActivity extends BaseMenuActivity implements LoaderCallbacks<Re
         indicator.setViewPager(pager);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        reloadBookmark();
+    }
+
     private String initFilePath() {
         if (0 == mFilePathTextView.getText().length()) {
             final SharedPreferences prefs = PreferenceManager
@@ -190,7 +196,7 @@ public class HomeActivity extends BaseMenuActivity implements LoaderCallbacks<Re
         return sorted;
     }
 
-    public void initBookmark() {
+    public void reloadBookmark() {
         final BookmarkSQliteOpenHelper bookmarkDb = new BookmarkSQliteOpenHelper(getBaseContext());
         final List<Bookmark> bookmarks = Arrays.asList(bookmarkDb.select());
         final BookmarkAdapter bookmarkAdapter = new BookmarkAdapter(getBaseContext(),
@@ -199,7 +205,6 @@ public class HomeActivity extends BaseMenuActivity implements LoaderCallbacks<Re
     }
 
     private void initBookmarkListView() {
-        initBookmark();
         mBookmarkListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view,

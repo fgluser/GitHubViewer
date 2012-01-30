@@ -58,7 +58,7 @@ public class BookmarkMenuDialog extends Dialog {
                     case 2: // remove
                         final BookmarkSQliteOpenHelper db = new BookmarkSQliteOpenHelper(context);
                         db.delete(mBookmark.getId());
-                        mHomeActivity.initBookmark();
+                        mHomeActivity.reloadBookmark();
                         break;
                 }
                 BookmarkMenuDialog.this.dismiss();
