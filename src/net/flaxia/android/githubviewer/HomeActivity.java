@@ -173,7 +173,7 @@ public class HomeActivity extends BaseMenuActivity implements LoaderCallbacks<Re
 
     private File[] getSortedFiles(final String path) {
         final File[] source = new File(path).listFiles();
-        if(null == source){
+        if (null == source) {
             return new File[0];
         }
         final ArrayList<File> dirList = new ArrayList<File>();
