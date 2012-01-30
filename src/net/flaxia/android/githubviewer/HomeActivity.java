@@ -315,7 +315,7 @@ public class HomeActivity extends BaseMenuActivity implements LoaderCallbacks<Re
                 final Repository repository = new Repository(github);
                 final Response response = repository.search(bundle.getString("q"));
                 final String resultJson = response.resp;
-                final Repositorie[] repositories = (null == resultJson) ? null
+                final Repositorie[] repositories = (null == resultJson) ? new Repositorie[0]
                         : parseJson(resultJson);
                 return new RepositorieAdapter(getBaseContext(),
                         android.R.layout.simple_list_item_2, repositories);
