@@ -71,7 +71,7 @@ public class CodeViewActivity extends FragmentActivity implements LoaderCallback
                     + encode(intent.getStringExtra("name")) + "/"
                     + encode(intent.getStringExtra("sha"));
         }
-        System.out.println(4);
+
         return null;
     }
 
