@@ -47,7 +47,6 @@ import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
 import com.viewpagerindicator.TabPageIndicator;
@@ -73,11 +72,12 @@ public class HomeActivity extends BaseMenuActivity implements LoaderCallbacks<Re
 
         mSearchResultListView = (ListView) mSearchView.findViewById(R.id.repositorie);
         mSearchWordTextView = (TextView) mSearchView.findViewById(R.id.q);
-        mSearchWordTextView.setOnEditorActionListener(new OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(final TextView v, final int actionId, final KeyEvent event) {
-                if (null != event && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+        mSearchWordTextView.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(final View v, final int keyCode, final KeyEvent event) {
+                if (KeyEvent.ACTION_UP == event.getAction() && KeyEvent.KEYCODE_ENTER == keyCode) {
                     onSearchButton(v);
+
+                    return true;
                 }
                 return false;
             }
