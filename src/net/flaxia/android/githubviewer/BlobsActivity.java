@@ -25,14 +25,14 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
-import android.view.KeyEvent;
+import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-public class BlobsActivity extends BaseActivity implements LoaderCallbacks<String> {
+public class BlobsActivity extends BaseMenuActivity implements LoaderCallbacks<String> {
     private TreeAdapter mSpinnerAdapter;
     private Tree mTree;
     private ListView mListView;
@@ -196,14 +196,14 @@ public class BlobsActivity extends BaseActivity implements LoaderCallbacks<Strin
         return treeMap;
     }
 
-    public boolean onKeyDown(final int keyCode, final KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_MENU) {
-            final BlobsMenuDialog blobsMenuDialog = new BlobsMenuDialog(this, (Refs) getIntent()
-                    .getExtras().getSerializable(Extra.REFS));
-            blobsMenuDialog.setOwnerActivity(this);
-            blobsMenuDialog.show();
-        }
-        return super.onKeyDown(keyCode, event);
+    @Override
+    public boolean onPrepareOptionsMenu(final Menu menu) {
+        final BlobsMenuDialog blobsMenuDialog = new BlobsMenuDialog(this, (Refs) getIntent()
+                .getExtras().getSerializable(Extra.REFS));
+        blobsMenuDialog.setOwnerActivity(this);
+        blobsMenuDialog.show();
+
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
