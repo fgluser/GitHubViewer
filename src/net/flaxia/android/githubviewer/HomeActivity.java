@@ -37,16 +37,17 @@ import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
 import com.viewpagerindicator.TabPageIndicator;
@@ -58,6 +59,7 @@ public class HomeActivity extends BaseMenuActivity implements LoaderCallbacks<Re
     private ListView mSearchResultListView;
     private ListView mBookmarkListView;
     private TextView mFilePathTextView;
+    private TextView mSearchWordTextView;
     private ListView mLocalListView;
     private ProgressDialog mProgressDialog;
 
@@ -68,7 +70,18 @@ public class HomeActivity extends BaseMenuActivity implements LoaderCallbacks<Re
 
         final LayoutInflater layoutInflater = getLayoutInflater();
         mSearchView = layoutInflater.inflate(R.layout.search, null);
+
         mSearchResultListView = (ListView) mSearchView.findViewById(R.id.repositorie);
+        mSearchWordTextView = (TextView) mSearchView.findViewById(R.id.q);
+        mSearchWordTextView.setOnEditorActionListener(new OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(final TextView v, final int actionId, final KeyEvent event) {
+                if (null != event && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+                    onSearchButton(v);
+                }
+                return false;
+            }
+        });
         mBookmarkListView = new ListView(getBaseContext());
         final View localView = layoutInflater.inflate(R.layout.local, null);
         mFilePathTextView = (TextView) localView.findViewById(R.id.file_path);
@@ -240,7 +253,7 @@ public class HomeActivity extends BaseMenuActivity implements LoaderCallbacks<Re
      * @param view
      */
     public void onSearchButton(final View view) {
-        final String q = ((EditText) mSearchView.findViewById(R.id.q)).getText().toString();
+        final String q = mSearchWordTextView.getText().toString();
         if (0 == q.length()) {
             Toast.makeText(getBaseContext(), R.string.search_word_is_empty, Toast.LENGTH_LONG)
                     .show();
