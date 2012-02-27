@@ -192,7 +192,7 @@ public class CodeViewActivity extends FragmentActivity implements LoaderCallback
                 final String key = map.keySet().iterator().next();
                 final String value = map.remove(key);
 
-                return replace(source.replaceFirst(key, value), map);
+                return replace(source.replace(key, value), map);
             }
 
             @Override
