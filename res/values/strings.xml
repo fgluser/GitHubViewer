@@ -77,5 +77,6 @@
     <string name="download_is_complete">Download is complete.</string>
     <string name="copy">Copy</string>
     <string name="preference">Preference</string>
+    <string name="version_name">1.9.8</string>
 
 </resources>
