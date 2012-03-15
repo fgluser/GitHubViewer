@@ -1,4 +1,3 @@
-
 package net.flaxia.android.githubviewer;
 
 import java.io.File;
@@ -86,12 +85,8 @@ public class HomeActivity extends BaseMenuActivity implements LoaderCallbacks<Re
         final View localView = layoutInflater.inflate(R.layout.local, null);
         mFilePathTextView = (TextView) localView.findViewById(R.id.file_path);
         mLocalListView = (ListView) localView.findViewById(R.id.file_list);
-        final View[] views = new View[] {
-                mSearchView, mBookmarkListView, localView,
-        };
-        final String[] titles = new String[] {
-                "Search", "Bookmark", "Local"
-        };
+        final View[] views = new View[] { mSearchView, mBookmarkListView, localView, };
+        final String[] titles = new String[] { "Search", "Bookmark", "Local" };
 
         initSearchResultListView();
         initBookmarkListView();
@@ -163,6 +158,7 @@ public class HomeActivity extends BaseMenuActivity implements LoaderCallbacks<Re
                     } else {
                         final Intent intent = new Intent(getBaseContext(), CodeViewActivity.class);
                         intent.putExtra(Extra.EXPLORER_PATH, file.getAbsolutePath());
+                        intent.putExtra("fileName", file.getName());
                         startActivity(intent);
                     }
                 }
@@ -370,13 +366,13 @@ public class HomeActivity extends BaseMenuActivity implements LoaderCallbacks<Re
     public boolean onOptionsItemSelected(final MenuItem item) {
         final Intent intent = new Intent();
         switch (item.getItemId()) {
-            case MENU_PREFERENCE:
-                intent.setClass(getBaseContext(), ConfigureActivity.class);
-                break;
-            case MENU_INFORMATION:
-            default:
-                intent.setClass(getBaseContext(), InformationActivity.class);
-                break;
+        case MENU_PREFERENCE:
+            intent.setClass(getBaseContext(), ConfigureActivity.class);
+            break;
+        case MENU_INFORMATION:
+        default:
+            intent.setClass(getBaseContext(), InformationActivity.class);
+            break;
         }
         startActivity(intent);
 

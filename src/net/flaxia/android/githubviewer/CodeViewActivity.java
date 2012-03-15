@@ -1,4 +1,3 @@
-
 package net.flaxia.android.githubviewer;
 
 import static org.idlesoft.libraries.ghapi.APIAbstract.encode;
@@ -76,9 +75,7 @@ public class CodeViewActivity extends FragmentActivity implements LoaderCallback
     }
 
     private boolean isImageExtension(final String name) {
-        final String[] imageExtensions = new String[] {
-                ".png", ".jpg", ".jpeg", ".gif",
-        };
+        final String[] imageExtensions = new String[] { ".png", ".jpg", ".jpeg", ".gif", };
         for (final String imageExtension : imageExtensions) {
             if (name.endsWith(imageExtension)) {
                 return true;
@@ -130,11 +127,11 @@ public class CodeViewActivity extends FragmentActivity implements LoaderCallback
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
-            case MENU_COPY:
-                copyText();
-                break;
-            default:
-                return super.onOptionsItemSelected(item);
+        case MENU_COPY:
+            copyText();
+            break;
+        default:
+            return super.onOptionsItemSelected(item);
         }
         return true;
     }
