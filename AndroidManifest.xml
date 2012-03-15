@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     android:installLocation="auto"
     package="net.flaxia.android.githubviewer"
-    android:versionCode="20"
+    android:versionCode="21"
     android:versionName="@string/version_name" >
 
     <uses-sdk android:minSdkVersion="4" />
